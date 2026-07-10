@@ -1,0 +1,39 @@
+{
+  "name": "cancel-near-completion",
+  "version": "1.0.0",
+  "seed": 1004001,
+  "description": "Scenario A / I2 cancellation point 3 (near completion) — derived from the inferbench IB-T004 cancel-mid-stream profile (inferbench@caa5074; seed kept). Mutations recorded: cancel point moved from 8 to 240 output tokens (>=93.75% of the mock's 256-token output cap, so a realized cancel is genuinely near stream completion) and request_count raised 30->200 because the mock's seeded-uniform output length (1..256) exceeds 240 tokens for only ~1/16 of requests — expected ~12 realized cancels, the rest complete ok before the trigger (honest planned-vs-realized accounting per the inferbench run log). Expected realized cancels: status=canceled with output_tokens_at_cancel=240; mock /debug/state aborts phase=mid_stream, chunks_sent>=241.",
+  "arrival_process": {
+    "type": "open-loop-poisson",
+    "rate_rps": 4
+  },
+  "input_length_distribution": {
+    "type": "uniform",
+    "min": 64,
+    "max": 256
+  },
+  "output_length_distribution": {
+    "type": "constant",
+    "value": 256
+  },
+  "prefix_sharing": {
+    "ratio": 0
+  },
+  "cancellation": {
+    "rate": 1.0,
+    "point": {
+      "trigger": "output-tokens",
+      "distribution": {
+        "type": "constant",
+        "value": 240
+      }
+    }
+  },
+  "slow_client": {
+    "fraction": 0
+  },
+  "stop": {
+    "request_count": 200
+  },
+  "tags": ["scenario-a", "cancellation"]
+}

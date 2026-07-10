@@ -1,0 +1,14 @@
+# OTel Collector image — Scenario A local build.
+# Intended pin was the upstream contrib distribution image
+# (docker.io/otel/opentelemetry-collector-contrib), but the egress proxy
+# denies every registry blob CDN AND GitHub release assets (deviation D-003,
+# docs/implementation-notes.md). build.sh therefore builds a minimal
+# collector with the official OpenTelemetry Collector Builder (ocb v0.156.0,
+# fetched from the allowlisted Go module proxy) from the pinned manifest
+# otelcol-builder-manifest.yaml: otlp receiver + batch processor +
+# file/debug exporters — the exact contrib components Scenario A needs.
+# Build context: scenarios/a/.build.
+FROM scratch
+COPY otelcol-scenario-a /otelcol-scenario-a
+EXPOSE 4318
+ENTRYPOINT ["/otelcol-scenario-a"]

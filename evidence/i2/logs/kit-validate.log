@@ -1,0 +1,52 @@
+== raw-event: runs/chat-short/events.jsonl
+PASS  /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/chat-short/events.jsonl  [raw-event]
+
+validate: 1/1 file(s) valid against 'raw-event'
+== benchmark-run: runs/chat-short/manifest.json
+PASS  /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/chat-short/manifest.json  [benchmark-run]
+
+validate: 1/1 file(s) valid against 'benchmark-run'
+== raw-event: runs/concurrency-100/events.jsonl
+PASS  /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/concurrency-100/events.jsonl  [raw-event]
+
+validate: 1/1 file(s) valid against 'raw-event'
+== benchmark-run: runs/concurrency-100/manifest.json
+PASS  /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/concurrency-100/manifest.json  [benchmark-run]
+
+validate: 1/1 file(s) valid against 'benchmark-run'
+== raw-event: runs/cancel-pre-first-token/events.jsonl
+PASS  /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/cancel-pre-first-token/events.jsonl  [raw-event]
+
+validate: 1/1 file(s) valid against 'raw-event'
+== benchmark-run: runs/cancel-pre-first-token/manifest.json
+PASS  /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/cancel-pre-first-token/manifest.json  [benchmark-run]
+
+validate: 1/1 file(s) valid against 'benchmark-run'
+== raw-event: runs/cancel-mid-stream/events.jsonl
+PASS  /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/cancel-mid-stream/events.jsonl  [raw-event]
+
+validate: 1/1 file(s) valid against 'raw-event'
+== benchmark-run: runs/cancel-mid-stream/manifest.json
+PASS  /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/cancel-mid-stream/manifest.json  [benchmark-run]
+
+validate: 1/1 file(s) valid against 'benchmark-run'
+== raw-event: runs/cancel-near-completion/events.jsonl
+PASS  /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/cancel-near-completion/events.jsonl  [raw-event]
+
+validate: 1/1 file(s) valid against 'raw-event'
+== benchmark-run: runs/cancel-near-completion/manifest.json
+PASS  /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/cancel-near-completion/manifest.json  [benchmark-run]
+
+validate: 1/1 file(s) valid against 'benchmark-run'
+== workload: scenario-local workload files
+PASS  /home/user/inference-lab/scenarios/a/workloads/cancel-mid-stream.json  [workload]
+PASS  /home/user/inference-lab/scenarios/a/workloads/cancel-near-completion.json  [workload]
+PASS  /home/user/inference-lab/scenarios/a/workloads/cancel-pre-first-token.json  [workload]
+PASS  /home/user/inference-lab/scenarios/a/workloads/concurrency-100.json  [workload]
+PASS  /home/user/inference-lab/scenarios/a/.build/workloads/chat-short.json  [workload]
+
+validate: 5/5 file(s) valid against 'workload'
+== api.stream-event: smoke SSE transcript
+PASS  /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/raw/smoke-stream.chat-completion-stream.sse  [api.stream-event]
+
+validate: 1/1 file(s) valid against 'api.stream-event'

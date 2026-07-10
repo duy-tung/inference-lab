@@ -1,0 +1,10 @@
+== GET /healthz
+ok
+== GET /readyz
+ok
+== GET /v1/models
+{"object":"list","data":[{"id":"mock-8b","object":"model","created":1783711947,"owned_by":"infergate"}]}
+
+== POST /v1/chat/completions (non-stream)
+{"id":"chatcmpl-2bc705e2aae077e7e4ad548c","object":"chat.completion","created":1783641600,"model":"mock-8b","choices":[{"index":0,"message":{"role":"assistant","content":"hollow onyx ridge jetty umber knoll gorge jetty gorge pumice ember sierra basalt juniper ember"},"finish_reason":"stop"}],"usage":{"prompt_tokens":9,"completion_tokens":15,"total_tokens":24}}
+

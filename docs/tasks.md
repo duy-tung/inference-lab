@@ -6,7 +6,7 @@ the OSS-track execution tasks (externally paced, never on the critical path).
 | ID | Title | Complexity | Critical path | Parallel-safe | Required | Status | Evidence |
 |---|---|---|---|---|---|---|---|
 | IL-T001 | Skeleton: pins, quickstart, scenarios, logs | M | yes | no | Required | **In review** (skeleton committed 2026-07-10; awaiting user plan review) | this commit; `pins/` validator output in `docs/implementation-notes.md` |
-| IL-T002 | Scenario A + milestone I2 | M | yes | no | Required | Not started | — |
+| IL-T002 | Scenario A + milestone I2 | M | yes | no | Required | **In review** (executed 2026-07-10; evidence recorded; I2 acceptance review pending, PostgreSQL usage-write deviation D-001) | `scenarios/a/`, `evidence/i2/checklist.md` |
 | IL-T003 | Scenario B + milestone I3 | M | yes | no | Required | Not started | — |
 | IL-T004 | Scenario C + milestone I4 (GPU) | M | yes | no | Required | Not started | — |
 | IL-T005 | Scenario D + milestone I5 | M | yes | no | Required | Not started | — |
@@ -54,6 +54,12 @@ program's gateway + bench core exist.
 - **Verification:** I2 checklist executed item-by-item. Indicative: `docker compose up` in
   `scenarios/a`; `inferbench run --workload chat-short --seed 42 --target http://infergate...`.
 - **Stop condition:** I2 accepted (demonstrated + reviewed).
+- **Status (2026-07-10):** executed — `scenarios/a/{build.sh,compose.yaml,run.sh,checks.py}`
+  + evidence under `evidence/i2/` (checklist, raw events, metrics scrapes, trace export, kit
+  validation). Deviations recorded: D-001 (no PostgreSQL — IG-T007/T008 are Wave 3; usage
+  criterion not claimable, scenario re-runs when IG-T008 lands), D-002/D-003 (registry
+  egress blocked — local FROM-scratch images, ocb-built collector). Awaiting I2 acceptance
+  review.
 
 ## IL-T003 — Scenario B + milestone I3
 

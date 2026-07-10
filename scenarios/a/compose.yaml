@@ -1,0 +1,81 @@
+# Scenario A — inferbench → infergate → mock backend (+ OTel Collector).
+#
+# All images are built locally from PINNED sources (see build.sh: git archive of
+# infergate@5d69aeb; OTel Collector v0.156.0 via the official builder) — this
+# environment's egress proxy denies every container-registry blob CDN, so no
+# upstream image can be pulled (deviation D-002 in docs/implementation-notes.md).
+# Image IDs (content-addressed digests) are recorded by build.sh into
+# .build/build-info.txt and pinned in pins/pins.yaml.
+#
+# PostgreSQL is ABSENT by documented deviation D-001: infergate@5d69aeb has no
+# tenancy/usage accounting yet (IG-T007/T008, Wave 3). Scenario A v1 runs
+# without a usage store; the scenario re-runs with PostgreSQL when IG-T008
+# lands. Do not add a postgres service here before that.
+#
+# inferbench runs on the HOST (pinned build, see build.sh) against the
+# published gateway port — it is the measuring client, not part of the stack.
+
+name: scenario-a
+
+services:
+  mock-backend:
+    image: scenario-a/mock-backend:5d69aeb
+    build:
+      context: .build
+      dockerfile: ../Dockerfile.mock
+    # Deterministic mock engine: same seed/config/request => same output.
+    # 300ms TTFT / 30ms ITL gives long-ish streams (mock output length is
+    # seeded-uniform 1..min(max_tokens,256) tokens => mean stream ~4.2s),
+    # matching the IB-T004 calibration operating point.
+    command:
+      - "-addr"
+      - ":8081"
+      - "-seed"
+      - "42"
+      - "-ttft"
+      - "300ms"
+      - "-itl"
+      - "30ms"
+      - "-error-rate"
+      - "0"
+    ports:
+      - "18081:8081" # host access to /healthz and /debug/state (abort observability)
+
+  otel-collector:
+    image: scenario-a/otel-collector:0.156.0
+    build:
+      context: .build
+      dockerfile: ../Dockerfile.otelcol
+    command: ["--config", "/etc/otelcol/config.yaml"]
+    volumes:
+      - ./otel-collector.yaml:/etc/otelcol/config.yaml:ro
+      - ./out/otel:/otel # file exporter output (traces.jsonl) for evidence
+
+  gateway:
+    image: scenario-a/gateway:5d69aeb
+    build:
+      context: .build
+      dockerfile: ../Dockerfile.gateway
+    command:
+      - "-addr"
+      - ":8080"
+      - "-backend-url"
+      - "http://mock-backend:8081"
+      - "-backend-name"
+      - "mock"
+      - "-models"
+      - "mock-8b"
+      - "-upstream-timeout"
+      - "180s"
+      - "-stream-write-timeout"
+      - "30s"
+      - "-trace-exporter"
+      - "otlp"
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+      OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+    ports:
+      - "18080:8080" # Contract 1 surface: /v1/*, /healthz, /readyz, /metrics
+    depends_on:
+      - mock-backend
+      - otel-collector

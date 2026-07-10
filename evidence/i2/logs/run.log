@@ -1,0 +1,71 @@
+[2026-07-10T19:32:26.383Z] bring-up: docker compose up -d
+ Network scenario-a_default Creating 
+ Network scenario-a_default Created 
+ Container scenario-a-mock-backend-1 Creating 
+ Container scenario-a-otel-collector-1 Creating 
+ Container scenario-a-mock-backend-1 Created 
+ Container scenario-a-otel-collector-1 Created 
+ Container scenario-a-gateway-1 Creating 
+ Container scenario-a-gateway-1 Created 
+ Container scenario-a-mock-backend-1 Starting 
+ Container scenario-a-otel-collector-1 Starting 
+ Container scenario-a-mock-backend-1 Started 
+ Container scenario-a-otel-collector-1 Started 
+ Container scenario-a-gateway-1 Starting 
+ Container scenario-a-gateway-1 Started 
+[2026-07-10T19:32:27.202Z] stack healthy (gateway http://127.0.0.1:18080, mock http://127.0.0.1:18081)
+NAME                          IMAGE                               COMMAND                  SERVICE          CREATED        STATUS                  PORTS
+scenario-a-gateway-1          scenario-a/gateway:5d69aeb          "/gateway -addr :808…"   gateway          1 second ago   Up Less than a second   0.0.0.0:18080->8080/tcp
+scenario-a-mock-backend-1     scenario-a/mock-backend:5d69aeb     "/mock-backend -addr…"   mock-backend     1 second ago   Up Less than a second   0.0.0.0:18081->8081/tcp
+scenario-a-otel-collector-1   scenario-a/otel-collector:0.156.0   "/otelcol-scenario-a…"   otel-collector   1 second ago   Up Less than a second   4318/tcp
+[2026-07-10T19:32:28.398Z] smoke complete (logs/smoke.log, raw/smoke-stream.chat-completion-stream.sse)
+[2026-07-10T19:32:28.410Z] metrics scraped: 00-pre-chat-short
+[2026-07-10T19:32:28.413Z] inferbench run: chat-short (workload /home/user/inference-lab/scenarios/a/.build/workloads/chat-short.json)
+run i2-chat-short: sent=4830 ok=4830 errors=0 shed=0 canceled=0 max_dispatch_slip=66.430636ms max_send_slip=67.11571ms wall=10m4.536s
+artifacts: /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/chat-short
+[2026-07-10T19:42:32.980Z] metrics scraped: 01-post-chat-short
+[2026-07-10T19:42:32.982Z] inferbench run: concurrency-100 (workload /home/user/inference-lab/scenarios/a/workloads/concurrency-100.json)
+run i2-concurrency-100: sent=2736 ok=2736 errors=0 shed=0 canceled=0 max_dispatch_slip=53.258873ms max_send_slip=53.48504ms wall=1m37.732s
+artifacts: /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/concurrency-100
+[2026-07-10T19:44:10.756Z] metrics scraped: 02-post-concurrency
+[2026-07-10T19:44:10.760Z] restarting mock-backend (reset /debug/state)
+ Container scenario-a-mock-backend-1 Restarting 
+ Container scenario-a-mock-backend-1 Started 
+[2026-07-10T19:44:11.879Z] keep-alive flush request done
+[2026-07-10T19:44:11.882Z] inferbench run: cancel-pre-first-token (workload /home/user/inference-lab/scenarios/a/workloads/cancel-pre-first-token.json)
+run i2-cancel-pre-first-token: sent=30 ok=0 errors=0 shed=0 canceled=30 max_dispatch_slip=1.092631ms max_send_slip=1.801998ms wall=9.992s
+artifacts: /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/cancel-pre-first-token
+[2026-07-10T19:44:21.894Z] mock /debug/state captured for cancel-pre-first-token
+[2026-07-10T19:44:21.896Z] restarting mock-backend (reset /debug/state)
+ Container scenario-a-mock-backend-1 Restarting 
+ Container scenario-a-mock-backend-1 Started 
+[2026-07-10T19:44:22.787Z] keep-alive flush request done
+[2026-07-10T19:44:22.789Z] inferbench run: cancel-mid-stream (workload /home/user/inference-lab/scenarios/a/workloads/cancel-mid-stream.json)
+run i2-cancel-mid-stream: sent=30 ok=1 errors=0 shed=0 canceled=29 max_dispatch_slip=79.183578ms max_send_slip=80.224589ms wall=10.359s
+artifacts: /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/cancel-mid-stream
+[2026-07-10T19:44:33.169Z] mock /debug/state captured for cancel-mid-stream
+[2026-07-10T19:44:33.171Z] restarting mock-backend (reset /debug/state)
+ Container scenario-a-mock-backend-1 Restarting 
+ Container scenario-a-mock-backend-1 Started 
+[2026-07-10T19:44:34.078Z] keep-alive flush request done
+[2026-07-10T19:44:34.080Z] inferbench run: cancel-near-completion (workload /home/user/inference-lab/scenarios/a/workloads/cancel-near-completion.json)
+run i2-cancel-near-completion: sent=200 ok=187 errors=0 shed=0 canceled=13 max_dispatch_slip=36.900392ms max_send_slip=37.645555ms wall=1m5.404s
+artifacts: /tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/runs/cancel-near-completion
+[2026-07-10T19:45:39.508Z] mock /debug/state captured for cancel-near-completion
+[2026-07-10T19:45:39.519Z] metrics scraped: 03-final
+[2026-07-10T19:45:39.522Z] waiting 8s for span batch export + collector file flush
+[2026-07-10T19:45:48.202Z] teardown: docker compose down
+ Container scenario-a-gateway-1 Stopping 
+ Container scenario-a-gateway-1 Stopped 
+ Container scenario-a-gateway-1 Removing 
+ Container scenario-a-gateway-1 Removed 
+ Container scenario-a-mock-backend-1 Stopping 
+ Container scenario-a-otel-collector-1 Stopping 
+ Container scenario-a-mock-backend-1 Stopped 
+ Container scenario-a-mock-backend-1 Removing 
+ Container scenario-a-otel-collector-1 Stopped 
+ Container scenario-a-otel-collector-1 Removing 
+ Container scenario-a-mock-backend-1 Removed 
+ Container scenario-a-otel-collector-1 Removed 
+ Network scenario-a_default Removing 
+ Network scenario-a_default Removed 

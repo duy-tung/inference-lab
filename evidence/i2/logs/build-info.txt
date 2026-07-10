@@ -1,0 +1,16 @@
+scenario-a build 2026-07-10T19:30:50Z
+infergate pin:  5d69aeb11228b5dcfbaca10c2e57f0a24603b8f9
+inferbench pin: caa507498fa417b3e4f5cdb0285737ef3f36856e
+contracts pin:  8d81492 (v0.2.0 tag pending; v0.1.0 released)
+otel collector: v0.156.0 (ocb build per otelcol-builder-manifest.yaml)
+go toolchain:   go version go1.24.7 linux/amd64
+binary sha256:
+  c3f85e3ab8d94ebf09344ea9862de46ef7425e6923a1b8f9cb2bd413c72c16fd  gateway
+  822dce0d7bf465b2b21c6078d23a39a95c806621e735631273e8e0a4ed0d916f  mock-backend
+  b9f1a39c954f353cd08a3d88f4f88c930d8274de30c4dd10bd39bd05f80521b0  inferbench
+  6ef08bfc56927492d84e00d03d18844a3465abb5841a149bbc144dec834ec13d  otelcol-scenario-a
+image digests (local image IDs — content-addressed config digests;
+no registry hosting yet, RQ-4; re-record RepoDigests once pushed):
+  scenario-a/gateway:5d69aeb sha256:a38a0aa6d68622c6d12dd569bf94efca8428432b292ae12acda3ce2965fd05ad
+  scenario-a/mock-backend:5d69aeb sha256:b74d4502fc84a060bfaca671151f47df4941c9be4a18df3bac2d94f06f05c7e0
+  scenario-a/otel-collector:0.156.0 sha256:741d9d27556c161ceb4ac7b57f225e1ea7822a64a5f6000109fe2dc9d9e152b0

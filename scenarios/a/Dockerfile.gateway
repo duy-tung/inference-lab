@@ -1,0 +1,14 @@
+# infergate gateway image — Scenario A local build.
+#
+# Intended form is a multi-stage Go build (builder stage FROM a pinned
+# golang image); this environment's egress proxy denies all container
+# registry blob CDNs (docker.io CloudFront, ghcr blobs — deviation D-002,
+# docs/implementation-notes.md), so no builder base image can be pulled.
+# build.sh therefore compiles the binary on the host with a recorded
+# toolchain (CGO_ENABLED=0, from `git archive 5d69aeb` of infergate — never
+# from a working tree) and this Dockerfile assembles a minimal FROM-scratch
+# image. Build context: scenarios/a/.build (produced by build.sh).
+FROM scratch
+COPY gateway /gateway
+EXPOSE 8080
+ENTRYPOINT ["/gateway"]

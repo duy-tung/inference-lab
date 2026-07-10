@@ -1,0 +1,8 @@
+# infergate mock-backend image — Scenario A local build.
+# Same build model and deviation (D-002) as Dockerfile.gateway: binary
+# compiled by build.sh from `git archive 5d69aeb` (CGO_ENABLED=0), image
+# assembled FROM scratch. Build context: scenarios/a/.build.
+FROM scratch
+COPY mock-backend /mock-backend
+EXPOSE 8081
+ENTRYPOINT ["/mock-backend"]

@@ -4,9 +4,9 @@ One directory per integration milestone: `evidence/i1` … `evidence/i8` (create
 first evidence for that milestone lands — no empty placeholders). This repo is the evidence
 archivist for **all** of I1–I8; roles per milestone: `docs/integration.md`.
 
-**Status (2026-07-10): empty.** No milestone has produced evidence yet; the first content is
-expected under `evidence/i2/` (Scenario A, IL-T002) — or `evidence/i1/` if serving-contracts
-reaches I1 first.
+**Status (2026-07-10):** first evidence set landed — `evidence/i2/` (Scenario A, IL-T002):
+executed checklist, pins snapshot, run logs, raw events, metrics scrapes, trace export.
+I2 acceptance review pending (documented deviation D-001: no PostgreSQL usage write yet).
 
 ## Layout per milestone (convention from `docs/interfaces.md` §4)
 

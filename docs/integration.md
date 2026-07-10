@@ -27,6 +27,9 @@ traces/metrics visible (Scenario A includes PostgreSQL usage write + OTel).
 **Failure handling:** frame mixing or cancellation leak → stop, fix in infergate, re-run;
 measurement disagreement → check measurement-point definitions before touching code.
 **Evidence:** run logs, raw-event files, trace export, acceptance checklist → `evidence/i2/`.
+**Status (2026-07-10):** executed (IL-T002) — evidence archived (`evidence/i2/checklist.md`:
+all executed criteria PASS); the PostgreSQL usage-write criterion is a documented deviation
+(D-001, re-run when IG-T008 lands); **acceptance review pending**.
 
 ## I3 — Local inference (owner: inference-lab)
 

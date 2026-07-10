@@ -1,0 +1,4 @@
+mock-backend-1  | time=2026-07-10T19:32:26.924Z level=INFO msg="mock-backend listening" addr=:8081 seed=42 ttft=300ms itl=30ms error_rate=0
+mock-backend-1  | time=2026-07-10T19:44:11.522Z level=INFO msg="mock-backend listening" addr=:8081 seed=42 ttft=300ms itl=30ms error_rate=0
+mock-backend-1  | time=2026-07-10T19:44:22.441Z level=INFO msg="mock-backend listening" addr=:8081 seed=42 ttft=300ms itl=30ms error_rate=0
+mock-backend-1  | time=2026-07-10T19:44:33.728Z level=INFO msg="mock-backend listening" addr=:8081 seed=42 ttft=300ms itl=30ms error_rate=0

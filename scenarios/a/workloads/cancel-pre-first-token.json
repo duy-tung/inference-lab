@@ -1,0 +1,39 @@
+{
+  "name": "cancel-pre-first-token",
+  "version": "1.0.0",
+  "seed": 1004001,
+  "description": "Scenario A / I2 cancellation point 1 (before first token) — derived from the inferbench IB-T004 profile (inferbench@caa5074 docs/evidence/ib-t004/cancel-pre-first-token/workload.json; name/seed kept, unchanged), run against the composed Scenario A stack. Mock ttft=300ms; every request cancels at 0.15s elapsed, before the first token arrives. Expected: client events status=canceled with 0 output tokens and no TTFT; mock /debug/state aborts phase=pre_first_token, chunks_sent=0.",
+  "arrival_process": {
+    "type": "open-loop-poisson",
+    "rate_rps": 4
+  },
+  "input_length_distribution": {
+    "type": "uniform",
+    "min": 64,
+    "max": 256
+  },
+  "output_length_distribution": {
+    "type": "constant",
+    "value": 256
+  },
+  "prefix_sharing": {
+    "ratio": 0
+  },
+  "cancellation": {
+    "rate": 1.0,
+    "point": {
+      "trigger": "elapsed-seconds",
+      "distribution": {
+        "type": "constant",
+        "value": 0.15
+      }
+    }
+  },
+  "slow_client": {
+    "fraction": 0
+  },
+  "stop": {
+    "request_count": 30
+  },
+  "tags": ["scenario-a", "cancellation"]
+}

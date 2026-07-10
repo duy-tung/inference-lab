@@ -1,0 +1,39 @@
+{
+  "name": "cancel-mid-stream",
+  "version": "1.0.0",
+  "seed": 1004001,
+  "description": "Scenario A / I2 cancellation point 2 (mid-stream) — derived from the inferbench IB-T004 profile (inferbench@caa5074 docs/evidence/ib-t004/cancel-mid-stream/workload.json; name/seed kept, unchanged), run against the composed Scenario A stack. Every request cancels after 8 client-observed output tokens. Streams the mock deterministically ends before 8 tokens complete ok (honest realized-cancel accounting). Expected realized cancels: status=canceled with output_tokens_at_cancel=8, measured TTFT and ITL kept; mock /debug/state aborts phase=mid_stream, chunks_sent>=9.",
+  "arrival_process": {
+    "type": "open-loop-poisson",
+    "rate_rps": 4
+  },
+  "input_length_distribution": {
+    "type": "uniform",
+    "min": 64,
+    "max": 256
+  },
+  "output_length_distribution": {
+    "type": "constant",
+    "value": 256
+  },
+  "prefix_sharing": {
+    "ratio": 0
+  },
+  "cancellation": {
+    "rate": 1.0,
+    "point": {
+      "trigger": "output-tokens",
+      "distribution": {
+        "type": "constant",
+        "value": 8
+      }
+    }
+  },
+  "slow_client": {
+    "fraction": 0
+  },
+  "stop": {
+    "request_count": 30
+  },
+  "tags": ["scenario-a", "cancellation"]
+}

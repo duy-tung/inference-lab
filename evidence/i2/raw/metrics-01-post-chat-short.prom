@@ -1,0 +1,94 @@
+# HELP inference_backend_healthy 1/0 per configured backend as judged by gateway health checking (static 1 until the health poller lands, IG-T012).
+# TYPE inference_backend_healthy gauge
+inference_backend_healthy{backend="mock"} 1
+# HELP inference_e2e_duration_seconds Start of the TTFT window to terminal outcome at the gateway, per request.
+# TYPE inference_e2e_duration_seconds histogram
+inference_e2e_duration_seconds_bucket{model="mock-8b",backend="mock",status_class="2xx",le="0.25"} 0
+inference_e2e_duration_seconds_bucket{model="mock-8b",backend="mock",status_class="2xx",le="0.5"} 334
+inference_e2e_duration_seconds_bucket{model="mock-8b",backend="mock",status_class="2xx",le="1"} 1124
+inference_e2e_duration_seconds_bucket{model="mock-8b",backend="mock",status_class="2xx",le="2"} 2538
+inference_e2e_duration_seconds_bucket{model="mock-8b",backend="mock",status_class="2xx",le="4"} 4076
+inference_e2e_duration_seconds_bucket{model="mock-8b",backend="mock",status_class="2xx",le="8"} 4815
+inference_e2e_duration_seconds_bucket{model="mock-8b",backend="mock",status_class="2xx",le="15"} 4832
+inference_e2e_duration_seconds_bucket{model="mock-8b",backend="mock",status_class="2xx",le="30"} 4832
+inference_e2e_duration_seconds_bucket{model="mock-8b",backend="mock",status_class="2xx",le="60"} 4832
+inference_e2e_duration_seconds_bucket{model="mock-8b",backend="mock",status_class="2xx",le="120"} 4832
+inference_e2e_duration_seconds_bucket{model="mock-8b",backend="mock",status_class="2xx",le="300"} 4832
+inference_e2e_duration_seconds_bucket{model="mock-8b",backend="mock",status_class="2xx",le="600"} 4832
+inference_e2e_duration_seconds_bucket{model="mock-8b",backend="mock",status_class="2xx",le="+Inf"} 4832
+inference_e2e_duration_seconds_sum{model="mock-8b",backend="mock",status_class="2xx"} 11260.375555114024
+inference_e2e_duration_seconds_count{model="mock-8b",backend="mock",status_class="2xx"} 4832
+# HELP inference_itl_seconds Inter-chunk gap between consecutive content-bearing stream chunks, measured at the gateway on upstream reads.
+# TYPE inference_itl_seconds histogram
+inference_itl_seconds_bucket{model="mock-8b",backend="mock",le="0.005"} 97
+inference_itl_seconds_bucket{model="mock-8b",backend="mock",le="0.01"} 114
+inference_itl_seconds_bucket{model="mock-8b",backend="mock",le="0.02"} 172
+inference_itl_seconds_bucket{model="mock-8b",backend="mock",le="0.04"} 314930
+inference_itl_seconds_bucket{model="mock-8b",backend="mock",le="0.08"} 316388
+inference_itl_seconds_bucket{model="mock-8b",backend="mock",le="0.15"} 316675
+inference_itl_seconds_bucket{model="mock-8b",backend="mock",le="0.3"} 316710
+inference_itl_seconds_bucket{model="mock-8b",backend="mock",le="0.6"} 316710
+inference_itl_seconds_bucket{model="mock-8b",backend="mock",le="1"} 316710
+inference_itl_seconds_bucket{model="mock-8b",backend="mock",le="2"} 316710
+inference_itl_seconds_bucket{model="mock-8b",backend="mock",le="5"} 316710
+inference_itl_seconds_bucket{model="mock-8b",backend="mock",le="+Inf"} 316710
+inference_itl_seconds_sum{model="mock-8b",backend="mock"} 9798.901846751829
+inference_itl_seconds_count{model="mock-8b",backend="mock"} 316710
+# HELP inference_queue_depth Admission queue depth per tenant tier (0 until admission control lands, IG-T010).
+# TYPE inference_queue_depth gauge
+inference_queue_depth{tenant_tier="default"} 0
+# HELP inference_queue_wait_seconds Admission-enqueue to dispatch wait (zero-length window until admission control lands, IG-T010).
+# TYPE inference_queue_wait_seconds histogram
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.001"} 4832
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.0025"} 4832
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.005"} 4832
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.01"} 4832
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.025"} 4832
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.05"} 4832
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.1"} 4832
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.25"} 4832
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.5"} 4832
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="1"} 4832
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="2.5"} 4832
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="5"} 4832
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="10"} 4832
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="30"} 4832
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="+Inf"} 4832
+inference_queue_wait_seconds_sum{tenant_tier="default"} 0
+inference_queue_wait_seconds_count{tenant_tier="default"} 4832
+# HELP inference_requests_in_flight Requests currently dispatched to a backend and not yet settled.
+# TYPE inference_requests_in_flight gauge
+inference_requests_in_flight{backend="mock"} 0
+# HELP inference_requests_total Requests by terminal outcome, incremented once per request at settle time (error_class="none" for successes).
+# TYPE inference_requests_total counter
+inference_requests_total{model="mock-8b",backend="mock",tenant_tier="default",status_class="2xx",error_class="none"} 4832
+# HELP inference_retries_total Upstream retries; stage has exactly one legal value, pre_first_token (0 until the retry budget lands, IG-T013).
+# TYPE inference_retries_total counter
+inference_retries_total{stage="pre_first_token"} 0
+# HELP inference_sheds_total Admission rejections by reason (0 until admission control lands, IG-T010).
+# TYPE inference_sheds_total counter
+inference_sheds_total{reason="backend_unavailable"} 0
+inference_sheds_total{reason="global_overload"} 0
+inference_sheds_total{reason="queue_full"} 0
+inference_sheds_total{reason="tenant_rate_limit"} 0
+# HELP inference_ttft_seconds Gateway TTFT: complete client request read to first upstream response body byte at the gateway.
+# TYPE inference_ttft_seconds histogram
+inference_ttft_seconds_bucket{model="mock-8b",backend="mock",le="0.025"} 0
+inference_ttft_seconds_bucket{model="mock-8b",backend="mock",le="0.05"} 0
+inference_ttft_seconds_bucket{model="mock-8b",backend="mock",le="0.1"} 0
+inference_ttft_seconds_bucket{model="mock-8b",backend="mock",le="0.2"} 0
+inference_ttft_seconds_bucket{model="mock-8b",backend="mock",le="0.4"} 4829
+inference_ttft_seconds_bucket{model="mock-8b",backend="mock",le="0.8"} 4832
+inference_ttft_seconds_bucket{model="mock-8b",backend="mock",le="1.5"} 4832
+inference_ttft_seconds_bucket{model="mock-8b",backend="mock",le="3"} 4832
+inference_ttft_seconds_bucket{model="mock-8b",backend="mock",le="6"} 4832
+inference_ttft_seconds_bucket{model="mock-8b",backend="mock",le="12"} 4832
+inference_ttft_seconds_bucket{model="mock-8b",backend="mock",le="30"} 4832
+inference_ttft_seconds_bucket{model="mock-8b",backend="mock",le="60"} 4832
+inference_ttft_seconds_bucket{model="mock-8b",backend="mock",le="+Inf"} 4832
+inference_ttft_seconds_sum{model="mock-8b",backend="mock"} 1459.732334541
+inference_ttft_seconds_count{model="mock-8b",backend="mock"} 4832
+# HELP inference_usage_tokens_total Settled billable tokens (tokens emitted before cancellation are billable).
+# TYPE inference_usage_tokens_total counter
+inference_usage_tokens_total{direction="input",model="mock-8b",tenant_tier="default"} 977185
+inference_usage_tokens_total{direction="output",model="mock-8b",tenant_tier="default"} 321556

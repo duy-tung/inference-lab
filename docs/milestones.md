@@ -7,7 +7,7 @@ criteria are demonstrated and reviewed. Integration milestones (I1–I8) are def
 | # | Milestone | Acceptance criteria | Status |
 |---|---|---|---|
 | M1 | Skeleton + docs | All 15 docs exist with content; pins file format defined + validated by a script; scenario A–E definitions written; OSS log + study tracker initialized. | **In progress** (IL-T001; awaiting user plan review) |
-| M2 | Scenario A / I2 accepted | I2 acceptance (see `docs/integration.md`) demonstrated and reviewed; evidence archived under `evidence/i2`; pins record contracts v0.1.x + infergate/mock images + inferbench version. | Not started |
+| M2 | Scenario A / I2 accepted | I2 acceptance (see `docs/integration.md`) demonstrated and reviewed; evidence archived under `evidence/i2`; pins record contracts v0.1.x + infergate/mock images + inferbench version. | **In review** (executed 2026-07-10; evidence + pins recorded; D-001 usage-write deviation; awaiting user acceptance) |
 | M3 | Scenario B / I3 accepted | I3 acceptance demonstrated; benchmark report #0 archived; llama.cpp commit + GGUF revision pinned. | Not started |
 | M4 | Scenario C / I4 accepted | I4 acceptance demonstrated (or CPU-fallback deviation recorded); GPU session manifest archived; vLLM/model/driver/CUDA pins recorded. | Not started |
 | M5 | Scenario D / I5 evidence archived | I5 (owned by inferops) accepted; this repo archives manifests, smoke outputs, dashboard exports, rolling-update log; compatibility matrix updated. | Not started |

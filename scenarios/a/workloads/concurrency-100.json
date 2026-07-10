@@ -1,0 +1,32 @@
+{
+  "name": "concurrency-100",
+  "version": "1.0.0",
+  "seed": 1002042,
+  "description": "Scenario A / I2 stream-integrity check workload (inference-lab IL-T002; NOT part of the canonical benchmark suite — never cite for performance numbers). Sustains >=100 concurrent in-flight streams against the composed gateway+mock stack: mock ttft=300ms itl=30ms, mock output length seeded-uniform 1..min(max_tokens,256) (mean ~128 tokens => mean stream ~4.2s), 30 rps x ~4.2s => ~127 expected concurrent streams at steady state. Verification: every event ok, server-reported usage tokens == client-received content chunks, zero frame mixing.",
+  "arrival_process": {
+    "type": "open-loop-poisson",
+    "rate_rps": 30
+  },
+  "input_length_distribution": {
+    "type": "uniform",
+    "min": 64,
+    "max": 256
+  },
+  "output_length_distribution": {
+    "type": "constant",
+    "value": 256
+  },
+  "prefix_sharing": {
+    "ratio": 0
+  },
+  "cancellation": {
+    "rate": 0
+  },
+  "slow_client": {
+    "fraction": 0
+  },
+  "stop": {
+    "duration_seconds": 90
+  },
+  "tags": ["scenario-a", "correctness-check"]
+}

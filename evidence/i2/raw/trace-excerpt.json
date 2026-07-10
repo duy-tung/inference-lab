@@ -1,0 +1,55 @@
+{
+  "traceId": "00132efebc8bbd94af8ac8eb671222ca",
+  "spans": [
+    {
+      "name": "recv",
+      "spanId": "b874f4aca9239b90",
+      "parentSpanId": "",
+      "startTimeUnixNano": 1783711999871664249,
+      "endTimeUnixNano": 1783712001717381561
+    },
+    {
+      "name": "queue.wait",
+      "spanId": "622c28219e39597b",
+      "parentSpanId": "b874f4aca9239b90",
+      "startTimeUnixNano": 1783711999871916980,
+      "endTimeUnixNano": 1783711999871916980
+    },
+    {
+      "name": "upstream.connect",
+      "spanId": "0be51dbc0659d07b",
+      "parentSpanId": "b874f4aca9239b90",
+      "startTimeUnixNano": 1783711999871916980,
+      "endTimeUnixNano": 1783711999872065342
+    },
+    {
+      "name": "ttft",
+      "spanId": "3f2b0061cb44a33e",
+      "parentSpanId": "b874f4aca9239b90",
+      "startTimeUnixNano": 1783711999872065342,
+      "endTimeUnixNano": 1783712000173038547
+    },
+    {
+      "name": "stream.relay",
+      "spanId": "5adbeb02355d4fe9",
+      "parentSpanId": "b874f4aca9239b90",
+      "startTimeUnixNano": 1783712000173038547,
+      "endTimeUnixNano": 1783712001717320413
+    },
+    {
+      "name": "settle",
+      "spanId": "f9b7240cea3bcf61",
+      "parentSpanId": "b874f4aca9239b90",
+      "startTimeUnixNano": 1783712001717320413,
+      "endTimeUnixNano": 1783712001717380347
+    }
+  ],
+  "span_order_by_start": [
+    "recv",
+    "queue.wait",
+    "upstream.connect",
+    "ttft",
+    "stream.relay",
+    "settle"
+  ]
+}

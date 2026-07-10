@@ -5,9 +5,12 @@ backend, PostgreSQL usage accounting, and OTel traces — in **≤15 minutes on 
 machine**. This is hypothesis H1 (`docs/experiments.md`): the number is measured, never
 assumed.
 
-> **Status (2026-07-10):** structure only. The runnable path lands with IL-T002 (Scenario A
-> compose + released images). Until then the steps below are the committed shape of the
-> quickstart, not a runnable procedure — nothing here claims to work yet.
+> **Status (2026-07-10, IL-T002):** Scenario A is now runnable —
+> `scenarios/a/build.sh && cd scenarios/a && docker compose up -d` (this environment builds
+> the pinned images locally, deviation D-002; registry-pulled images arrive with remote
+> hosting, RQ-4). PostgreSQL usage accounting is **not composed yet** (deviation D-001:
+> infergate gains usage writes at IG-T008) — the usage step below stays aspirational until
+> then. No timed quickstart runs yet; timing protocol executes before I8.
 
 ## Prerequisites
 

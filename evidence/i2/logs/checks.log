@@ -1,0 +1,229 @@
+== integrity: chat-short
+{
+  "check": "integrity",
+  "events": 4830,
+  "by_status": {
+    "ok": 4830
+  },
+  "chunk_count_rule": "usage completion_tokens == client content chunks (len(itl)+1 / 1)",
+  "violations": [],
+  "violation_count": 0,
+  "max_concurrent_in_flight": 34,
+  "min_concurrent_required": null,
+  "result": "PASS"
+}
+== integrity + concurrency: concurrency-100
+{
+  "check": "integrity",
+  "events": 2736,
+  "by_status": {
+    "ok": 2736
+  },
+  "chunk_count_rule": "usage completion_tokens == client content chunks (len(itl)+1 / 1)",
+  "violations": [],
+  "violation_count": 0,
+  "max_concurrent_in_flight": 154,
+  "min_concurrent_required": 100,
+  "result": "PASS"
+}
+== cancel point 1: pre-first-token
+{
+  "check": "cancel",
+  "declared_bound_ms": 100.0,
+  "bound_definition": "mock-observed abort timestamp (/debug/state at_unix_nano) within bound of the client-side cancel completion (event end_ts); k-th sorted abort paired with k-th sorted cancel; same-host clock",
+  "events": 30,
+  "client_canceled": 30,
+  "client_ok_completed_before_trigger": 0,
+  "completion_race_count": 0,
+  "completion_race_note": "client cancels the mock never observed because the stream was already fully written (completed at engine); verified against mock completed-vs-client-ok surplus \u2014 race, not leak",
+  "mock": {
+    "requests_total": 31,
+    "streams_started": 30,
+    "streams_completed": 0,
+    "aborts_total": 30
+  },
+  "abort_phases": [
+    "pre_first_token"
+  ],
+  "expected_phase": "pre_first_token",
+  "release_delta_ms": {
+    "count": 30,
+    "min": 0.247,
+    "median": 0.402,
+    "max": 0.573
+  },
+  "problems": [],
+  "result": "PASS"
+}
+== cancel point 2: mid-stream
+{
+  "check": "cancel",
+  "declared_bound_ms": 100.0,
+  "bound_definition": "mock-observed abort timestamp (/debug/state at_unix_nano) within bound of the client-side cancel completion (event end_ts); k-th sorted abort paired with k-th sorted cancel; same-host clock",
+  "events": 30,
+  "client_canceled": 29,
+  "client_ok_completed_before_trigger": 1,
+  "completion_race_count": 0,
+  "completion_race_note": "client cancels the mock never observed because the stream was already fully written (completed at engine); verified against mock completed-vs-client-ok surplus \u2014 race, not leak",
+  "mock": {
+    "requests_total": 31,
+    "streams_started": 30,
+    "streams_completed": 1,
+    "aborts_total": 29
+  },
+  "abort_phases": [
+    "mid_stream"
+  ],
+  "expected_phase": "mid_stream",
+  "release_delta_ms": {
+    "count": 29,
+    "min": 0.31,
+    "median": 0.413,
+    "max": 0.724
+  },
+  "problems": [],
+  "result": "PASS"
+}
+== cancel point 3: near-completion
+{
+  "check": "cancel",
+  "declared_bound_ms": 100.0,
+  "bound_definition": "mock-observed abort timestamp (/debug/state at_unix_nano) within bound of the client-side cancel completion (event end_ts); k-th sorted abort paired with k-th sorted cancel; same-host clock",
+  "events": 200,
+  "client_canceled": 13,
+  "client_ok_completed_before_trigger": 187,
+  "completion_race_count": 1,
+  "completion_race_note": "client cancels the mock never observed because the stream was already fully written (completed at engine); verified against mock completed-vs-client-ok surplus \u2014 race, not leak",
+  "mock": {
+    "requests_total": 201,
+    "streams_started": 200,
+    "streams_completed": 188,
+    "aborts_total": 12
+  },
+  "abort_phases": [
+    "mid_stream"
+  ],
+  "expected_phase": "mid_stream",
+  "release_delta_ms": {
+    "count": 12,
+    "min": 0.318,
+    "median": 0.367,
+    "max": 0.638
+  },
+  "problems": [],
+  "result": "PASS"
+}
+== ttft agreement (chat-short scrape delta)
+{
+  "check": "ttft-agreement",
+  "measurement_points": {
+    "gateway": "complete client request read at gateway -> first upstream response body byte at gateway (inference_ttft_seconds, Contract 2)",
+    "client": "scheduled send (CO-safe basis, inferbench) -> first response body byte at client (raw-event ttft_seconds)"
+  },
+  "declared_tolerance": "0ms <= client_mean - gateway_mean <= 25.0ms; justification: same-host loopback/bridge transit (<1ms RTT), gateway request-read+dispatch overhead, and client send-slip on the scheduled-send basis (IB-T004 calibration measured client TTFT-minus-configured p50 within [-2,+15]ms)",
+  "gateway": {
+    "count": 4830.0,
+    "mean_s": 0.30201
+  },
+  "client": {
+    "count": 4830,
+    "mean_s": 0.303917,
+    "p50_s": 0.303359,
+    "p95_s": 0.305167
+  },
+  "client_minus_gateway_mean_ms": 1.907,
+  "bucket_cdf": [
+    {
+      "le": "0.025",
+      "gateway_fraction": 0.0,
+      "client_fraction": 0.0
+    },
+    {
+      "le": "0.05",
+      "gateway_fraction": 0.0,
+      "client_fraction": 0.0
+    },
+    {
+      "le": "0.1",
+      "gateway_fraction": 0.0,
+      "client_fraction": 0.0
+    },
+    {
+      "le": "0.2",
+      "gateway_fraction": 0.0,
+      "client_fraction": 0.0
+    },
+    {
+      "le": "0.4",
+      "gateway_fraction": 0.9996,
+      "client_fraction": 0.9996
+    },
+    {
+      "le": "0.8",
+      "gateway_fraction": 1.0,
+      "client_fraction": 1.0
+    },
+    {
+      "le": "1.5",
+      "gateway_fraction": 1.0,
+      "client_fraction": 1.0
+    },
+    {
+      "le": "3",
+      "gateway_fraction": 1.0,
+      "client_fraction": 1.0
+    },
+    {
+      "le": "6",
+      "gateway_fraction": 1.0,
+      "client_fraction": 1.0
+    },
+    {
+      "le": "12",
+      "gateway_fraction": 1.0,
+      "client_fraction": 1.0
+    },
+    {
+      "le": "30",
+      "gateway_fraction": 1.0,
+      "client_fraction": 1.0
+    },
+    {
+      "le": "60",
+      "gateway_fraction": 1.0,
+      "client_fraction": 1.0
+    },
+    {
+      "le": "+Inf",
+      "gateway_fraction": 1.0,
+      "client_fraction": 1.0
+    }
+  ],
+  "problems": [],
+  "result": "PASS"
+}
+== traces
+{
+  "check": "traces",
+  "required_span_sequence": [
+    "recv",
+    "queue.wait",
+    "upstream.connect",
+    "ttft",
+    "stream.relay",
+    "settle"
+  ],
+  "total_spans": 46956,
+  "total_traces": 7831,
+  "traces_with_full_sequence": 7801,
+  "excerpt_written_to": "/tmp/claude-0/-home-user-ai-infra/f9d2a869-bab7-54d8-a091-357b56be5c68/scratchpad/i2-run1/raw/trace-excerpt.json",
+  "excerpt_span_order": [
+    "recv",
+    "queue.wait",
+    "upstream.connect",
+    "ttft",
+    "stream.relay",
+    "settle"
+  ],
+  "result": "PASS"
+}

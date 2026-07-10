@@ -1,0 +1,49 @@
+{
+  "run_id": "i2-concurrency-100",
+  "target_topology": "gateway-mock",
+  "workload_ref": {
+    "name": "concurrency-100",
+    "version": "1.0.0",
+    "seed": 1002042
+  },
+  "engine": {
+    "name": "mock",
+    "version": "5d69aeb",
+    "commit": "5d69aeb11228b5dcfbaca10c2e57f0a24603b8f9",
+    "flags": {
+      "error_rate": 0,
+      "itl": "30ms",
+      "seed": 42,
+      "ttft": "300ms"
+    }
+  },
+  "model": {
+    "checkpoint": "mock-8b",
+    "revision": "mockengine@5d69aeb",
+    "tokenizer": "mockengine-estimator (~4 bytes/token, deterministic)"
+  },
+  "hardware": {
+    "gpu_model": null,
+    "gpu_count": 0,
+    "vram_gb": null,
+    "driver_version": null,
+    "cuda_version": null,
+    "instance_type": "local-dev-container (linux/amd64, CPU-only; Docker Compose bridge network)"
+  },
+  "gateway": {
+    "version": "5d69aeb (image scenario-a/gateway:5d69aeb, local build — see evidence/i2 pins-snapshot)",
+    "config_version": "static (flags: -backend-url http://mock-backend:8081 -models mock-8b -upstream-timeout 180s -stream-write-timeout 30s -trace-exporter otlp)"
+  },
+  "client": {
+    "location": "same host (inferbench on host -\u003e published gateway port 18080, Docker bridge)",
+    "rtt_ms": 1.10611
+  },
+  "warm_up": {
+    "policy": "none"
+  },
+  "repetitions": 1,
+  "hypothesis": "At 30 rps against the composed stack, \u003e=100 streams are concurrently in flight and all complete with zero frame mixing: every event ok, server-reported usage completion tokens equal client-received content chunks, no malformed frames, mock streams_started == streams_completed with zero aborts.",
+  "started_at": "2026-07-10T19:42:32Z",
+  "contracts_bundle_version": "8d81492 (v0.2.0 tag pending)",
+  "notes": "I2 acceptance run (b): 100-concurrent-stream integrity check. Correctness evidence, not a benchmark."
+}

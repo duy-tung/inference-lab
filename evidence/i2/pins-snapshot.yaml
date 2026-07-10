@@ -1,0 +1,101 @@
+note: "Snapshot of the pins/pins.yaml entries the Scenario A / I2 run of 2026-07-10 used (evidence\
+  \ convention docs/interfaces.md \xA74). Authoritative ledger: pins/pins.yaml at the IL-T002 commit."
+schema_version: 1
+updated: '2026-07-10'
+artifacts:
+- id: contracts-bundle
+  component: serving-contracts
+  kind: contract-bundle
+  version: v0.1.0
+  provenance: measured
+  date: '2026-07-10'
+  proven_at: []
+  source: 'in-program: serving-contracts annotated tag v0.1.0 (local repo /home/user/serving-contracts,
+    commit 2df9f81); release review passed 2026-07-10; kit selftest GREEN (positives 32/32, negatives
+    20/20)'
+  notes: First real pin. proven_at fills at I1/I2. Remote hosting pending (RQ-4); tag exists locally
+    only until the repos are pushed.
+- id: contracts-bundle-prerelease
+  component: serving-contracts
+  kind: contract-bundle
+  version: 8d81492 (v0.2.0 tag pending)
+  provenance: measured
+  date: '2026-07-10'
+  proven_at: []
+  source: 'in-program: serving-contracts commit 8d81492 (local repo /home/user/serving-contracts);
+    v0.2.0 release prepared, tag pending user review'
+  notes: 'Pre-release bundle used for Scenario A / I2 validation: its kit + raw-event schema carry
+    the scheduled-send latency-basis CO fix that inferbench@caa5074 emits (manifests are stamped "8d81492
+    (v0.2.0 tag pending)" by the tool itself). Superseded by a v0.2.0 entry once the tag lands; v0.1.0
+    above remains the released baseline.'
+- id: infergate-image
+  component: infergate
+  kind: container-image
+  version: 5d69aeb (scenario-a/gateway:5d69aeb)
+  digest: sha256:a38a0aa6d68622c6d12dd569bf94efca8428432b292ae12acda3ce2965fd05ad
+  provenance: measured
+  date: '2026-07-10'
+  proven_at: []
+  source: 'in-program: infergate commit 5d69aeb11228b5dcfbaca10c2e57f0a24603b8f9, built read-only
+    via git archive by scenarios/a/build.sh (binary sha256 c3f85e3ab8d94ebf09344ea9862de46ef7425e6923a1b8f9cb2bd413c72c16fd,
+    CGO_ENABLED=0 go1.24.7, FROM scratch)'
+  notes: 'Digest is the local content-addressed image ID: no registry hosting yet (RQ-4), so no RepoDigest
+    exists; re-record once pushed. Local scratch image instead of a registry-pulled multi-stage build
+    is deviation D-002 (egress proxy denies all registry blob CDNs), see docs/implementation-notes.md.'
+- id: infergate-mock-image
+  component: infergate-mock
+  kind: container-image
+  version: 5d69aeb (scenario-a/mock-backend:5d69aeb)
+  digest: sha256:b74d4502fc84a060bfaca671151f47df4941c9be4a18df3bac2d94f06f05c7e0
+  provenance: measured
+  date: '2026-07-10'
+  proven_at: []
+  source: 'in-program: infergate commit 5d69aeb11228b5dcfbaca10c2e57f0a24603b8f9, built read-only
+    via git archive by scenarios/a/build.sh (binary sha256 822dce0d7bf465b2b21c6078d23a39a95c806621e735631273e8e0a4ed0d916f,
+    CGO_ENABLED=0 go1.24.7, FROM scratch)'
+  notes: Same build model and digest semantics as infergate-image (deviation D-002; local image ID,
+    re-record on push). Deterministic mock engine; Scenario A runs it with -seed 42 -ttft 300ms -itl
+    30ms -error-rate 0.
+- id: inferbench-binary
+  component: inferbench
+  kind: binary
+  version: caa5074 (pre-release)
+  digest: sha256:b9f1a39c954f353cd08a3d88f4f88c930d8274de30c4dd10bd39bd05f80521b0
+  provenance: measured
+  date: '2026-07-10'
+  proven_at: []
+  source: 'in-program: inferbench commit caa507498fa417b3e4f5cdb0285737ef3f36856e (IB-T004: streaming
+    client correctness), built read-only via git archive by scenarios/a/build.sh (CGO_ENABLED=0 go1.24.7);
+    digest = sha256 of the built binary'
+  notes: "No inferbench release tag exists yet; the commit is the pin (same remote-hosting pending\
+    \ state as the other repos). Runs on the host against the composed stack \u2014 the measuring\
+    \ client is not containerized."
+- id: otel-collector-image
+  component: other
+  kind: container-image
+  version: 0.156.0 (scenario-a/otel-collector:0.156.0)
+  digest: sha256:741d9d27556c161ceb4ac7b57f225e1ea7822a64a5f6000109fe2dc9d9e152b0
+  provenance: measured
+  date: '2026-07-10'
+  proven_at: []
+  reverify: true
+  source: OpenTelemetry Collector v0.156.0 components (otlp receiver, batch processor, contrib file
+    exporter, debug exporter) built with the official builder (ocb v0.156.0) from the pinned manifest
+    scenarios/a/otelcol-builder-manifest.yaml via the allowlisted Go module proxy; binary sha256 6ef08bfc56927492d84e00d03d18844a3465abb5841a149bbc144dec834ec13d
+  notes: "Intended pin was docker.io/otel/opentelemetry-collector-contrib, but the egress proxy denies\
+    \ every registry blob CDN and GitHub release assets \u2014 deviation D-003 (docs/implementation-notes.md).\
+    \ Digest is the local image ID (as above). Re-verify: swap to the upstream contrib image digest\
+    \ when a registry is reachable."
+- id: otel-genai-semconv
+  component: otel-semconv
+  kind: spec-version
+  version: v1.34.0
+  provenance: source-reported
+  date: '2026-07-10'
+  proven_at: []
+  reverify: true
+  source: 'in-program: infergate@5d69aeb imports go.opentelemetry.io/otel/semconv v1.34.0; gateway
+    spans observed in Scenario A carry gen_ai.* attributes (gen_ai.operation.name, gen_ai.request.model,
+    gen_ai.usage.*, gen_ai.response.*)'
+  notes: "OTel GenAI semantic conventions status \"Development\" as of 2026-07 \u2014 re-verify at\
+    \ use time; attribute names may still move upstream."

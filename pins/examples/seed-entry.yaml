@@ -1,0 +1,49 @@
+# Seed fixture for the pins validator (IL-T001 verification: "pins validator runs
+# green on a seed entry").
+#
+# NON-NORMATIVE: this file demonstrates the entry format only. It records no real
+# release, makes no "proven together" claim, and is never merged into pins.yaml.
+# The digest below is a syntactically valid placeholder (sha256 of the empty string).
+
+schema_version: 1
+updated: "2026-07-10"
+
+comparability_rule: >-
+  Results are comparable only when model revision, quantization, tokenizer, engine
+  version+flags, hardware, driver/CUDA, workload version+seed, and warm-up policy all
+  match, or the difference is the single declared experimental variable.
+
+milestone_evidence: {}
+
+artifacts:
+  - id: contracts-bundle
+    component: serving-contracts
+    kind: contract-bundle
+    version: "v0.1.0"
+    provenance: assumed
+    date: "2026-07-10"
+    proven_at: []
+    source: "in-program: serving-contracts release tag v0.1.0 (EXAMPLE — no such release exists yet)"
+    notes: "Format demonstration only."
+
+  - id: infergate-image
+    component: infergate
+    kind: container-image
+    version: "v0.1.0"
+    digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    provenance: assumed
+    date: "2026-07-10"
+    proven_at: []
+    source: "in-program: infergate release registry (EXAMPLE — placeholder digest)"
+    notes: "Digest is the sha256 of the empty string — a placeholder demonstrating the required shape."
+
+  - id: otel-genai-semconv
+    component: otel-semconv
+    kind: spec-version
+    version: "unpinned"
+    provenance: source-reported
+    date: "2026-07-10"
+    proven_at: []
+    source: "https://opentelemetry.io/docs/specs/semconv/gen-ai/"
+    reverify: true
+    notes: "Status 'Development' as of 2026-07 — re-verify at use time. Example of a reverify-flagged volatile fact."

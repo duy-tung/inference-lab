@@ -1,0 +1,43 @@
+# pins.yaml — the version-pin matrix of the inference-systems portfolio.
+#
+# This file is the authoritative, machine-readable record of which contract bundle,
+# image digests, engine versions, model revisions, and config bundles are PROVEN
+# TOGETHER, per integration milestone. Format: docs/interfaces.md §3 + ADR-0001.
+# Validate with:  python3 pins/validate_pins.py
+#
+# Ledger rules:
+#   - a pin bump is a new dated entry (or a dated update; git history is the ledger)
+#   - `proven_at` may list a milestone ONLY if evidence exists under evidence/i<N>/
+#   - `digest` is mandatory for container images (sha256:<64 hex>)
+#   - volatile facts carry `reverify: true` ("as of <date> — re-verify at use time")
+#
+# STATUS (2026-07-10): everything is UNPINNED. No sibling repo has published a
+# release yet; the artifacts list is intentionally empty. The expected first
+# entries (recorded here as comments, NOT claims) are:
+#   - contracts-bundle        serving-contracts v0.1.x tag           (needed for I2)
+#   - infergate-image         container image, digest-pinned         (needed for I2)
+#   - infergate-mock-image    container image, digest-pinned         (needed for I2)
+#   - inferbench-binary       released version                       (needed for I2)
+#   - otel-genai-semconv      pinned semconv version; status "Development"
+#                             as of 2026-07 — re-verify              (needed for I2)
+#   - engine-llamacpp         git commit + GGUF model revision       (needed for I3)
+#   - engine-vllm             v0.24.x baseline + exact commit, as of 2026-07 —
+#                             re-verify + model/quantization/tokenizer +
+#                             driver/CUDA + instance type            (needed for I4)
+#   - inferops-bundle         release + dashboard/config bundle tags (needed for I5)
+#   - fleetlab-release        released version                       (needed for I6)
+
+schema_version: 1
+updated: "2026-07-10"
+
+# Normative benchmark comparability rule (also printed in compatibility/matrix.md):
+comparability_rule: >-
+  Results are comparable only when model revision, quantization, tokenizer, engine
+  version+flags, hardware, driver/CUDA, workload version+seed, and warm-up policy all
+  match, or the difference is the single declared experimental variable.
+
+# Milestone -> evidence directory, filled as milestones are accepted.
+# For I1 the value links the four green consumer-CI runs per bundle tag.
+milestone_evidence: {}
+
+artifacts: []

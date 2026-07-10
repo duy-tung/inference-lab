@@ -11,10 +11,8 @@
 #   - `digest` is mandatory for container images (sha256:<64 hex>)
 #   - volatile facts carry `reverify: true` ("as of <date> — re-verify at use time")
 #
-# STATUS (2026-07-10): everything is UNPINNED. No sibling repo has published a
-# release yet; the artifacts list is intentionally empty. The expected first
-# entries (recorded here as comments, NOT claims) are:
-#   - contracts-bundle        serving-contracts v0.1.x tag           (needed for I2)
+# STATUS (2026-07-10): first pin landed (contracts-bundle v0.1.0). The other
+# expected entries (recorded here as comments, NOT claims) are:
 #   - infergate-image         container image, digest-pinned         (needed for I2)
 #   - infergate-mock-image    container image, digest-pinned         (needed for I2)
 #   - inferbench-binary       released version                       (needed for I2)
@@ -40,4 +38,18 @@ comparability_rule: >-
 # For I1 the value links the four green consumer-CI runs per bundle tag.
 milestone_evidence: {}
 
-artifacts: []
+artifacts:
+  - id: contracts-bundle
+    component: serving-contracts
+    kind: contract-bundle
+    version: "v0.1.0"
+    provenance: measured
+    date: "2026-07-10"
+    proven_at: []
+    source: >-
+      in-program: serving-contracts annotated tag v0.1.0 (local repo
+      /home/user/serving-contracts, commit 2df9f81); release review passed
+      2026-07-10; kit selftest GREEN (positives 32/32, negatives 20/20)
+    notes: >-
+      First real pin. proven_at fills at I1/I2. Remote hosting pending (RQ-4);
+      tag exists locally only until the repos are pushed.

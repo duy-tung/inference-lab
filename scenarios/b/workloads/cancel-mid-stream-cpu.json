@@ -1,0 +1,39 @@
+{
+  "name": "cancel-mid-stream-cpu",
+  "version": "1.0.0",
+  "seed": 3004001,
+  "description": "Scenario B / I3 live cancellation workload against the REAL engine (inferbench -> infergate -> llama-server): every request streams and cancels after 8 client-observed output tokens (same trigger profile as Scenario A's cancel-mid-stream, new seed). 20 requests at 0.2 rps (~2.5 s busy time per request at ~1.6 s prefill + 8 tokens decode => ~0.25 utilization on 2 slots, so most cancels land while the engine decodes, some overlap another request's prefill). Engine-side release is observed via 25 ms /slots polling and llama-server 'srv stop: cancel task' log lines; requests the model ends by EOS before the 8th token complete ok (honest realized-cancel accounting). Expected release granularity is the engine's decode-batch boundary (infergate IG-T005 @74f2372: mid-stream 1.25-5.24 ms; up to seconds when the cancel lands inside another slot's prefill ubatch).",
+  "arrival_process": {
+    "type": "open-loop-poisson",
+    "rate_rps": 0.2
+  },
+  "input_length_distribution": {
+    "type": "uniform",
+    "min": 64,
+    "max": 256
+  },
+  "output_length_distribution": {
+    "type": "constant",
+    "value": 256
+  },
+  "prefix_sharing": {
+    "ratio": 0
+  },
+  "cancellation": {
+    "rate": 1.0,
+    "point": {
+      "trigger": "output-tokens",
+      "distribution": {
+        "type": "constant",
+        "value": 8
+      }
+    }
+  },
+  "slow_client": {
+    "fraction": 0
+  },
+  "stop": {
+    "request_count": 20
+  },
+  "tags": ["scenario-b", "cancellation"]
+}

@@ -1,0 +1,43 @@
+run_id=i3-cancel-mid-stream-cpu repetition=1 requests=20 max_slip=100ms cancel_planned=20 slow_planned=0 prefix_sharing=0
+schedule item=0 offset=4.354774886s input_tokens=159 max_tokens=256 cancel_after_tokens=8
+schedule item=1 offset=5.637353955s input_tokens=167 max_tokens=256 cancel_after_tokens=8
+schedule item=2 offset=28.712246095s input_tokens=175 max_tokens=256 cancel_after_tokens=8
+schedule item=3 offset=32.950476968s input_tokens=91 max_tokens=256 cancel_after_tokens=8
+schedule item=4 offset=35.33365134s input_tokens=67 max_tokens=256 cancel_after_tokens=8
+schedule item=5 offset=39.83128202s input_tokens=90 max_tokens=256 cancel_after_tokens=8
+schedule item=6 offset=49.174404151s input_tokens=166 max_tokens=256 cancel_after_tokens=8
+schedule item=7 offset=56.913542629s input_tokens=178 max_tokens=256 cancel_after_tokens=8
+schedule item=8 offset=1m1.53774227s input_tokens=140 max_tokens=256 cancel_after_tokens=8
+schedule item=9 offset=1m7.11903712s input_tokens=69 max_tokens=256 cancel_after_tokens=8
+schedule item=10 offset=1m16.351685538s input_tokens=229 max_tokens=256 cancel_after_tokens=8
+schedule item=11 offset=1m20.338198989s input_tokens=161 max_tokens=256 cancel_after_tokens=8
+schedule item=12 offset=1m24.985952548s input_tokens=142 max_tokens=256 cancel_after_tokens=8
+schedule item=13 offset=1m36.581414202s input_tokens=69 max_tokens=256 cancel_after_tokens=8
+schedule item=14 offset=1m42.265574279s input_tokens=102 max_tokens=256 cancel_after_tokens=8
+schedule item=15 offset=1m45.258968298s input_tokens=193 max_tokens=256 cancel_after_tokens=8
+schedule item=16 offset=1m57.756336141s input_tokens=95 max_tokens=256 cancel_after_tokens=8
+schedule item=17 offset=2m2.779767243s input_tokens=252 max_tokens=256 cancel_after_tokens=8
+schedule item=18 offset=2m10.238246587s input_tokens=216 max_tokens=256 cancel_after_tokens=8
+schedule item=19 offset=2m15.167795878s input_tokens=218 max_tokens=256 cancel_after_tokens=8
+epoch=2026-07-11T06:19:48.514058Z
+request item=0 id=i3-cancel-mid-stream-cpu-r1-000000 status=canceled send_slip=4.885747ms body_sha256=a3af516311e62646490748c0ea1ea781b68de2e26d2e8fad0c02bd041e75503d
+request item=1 id=i3-cancel-mid-stream-cpu-r1-000001 status=canceled send_slip=5.372153ms body_sha256=7cf975bb6b65958a02058a596cea6a6cc6a65f64ef13172e1f4ec899064da398
+request item=2 id=i3-cancel-mid-stream-cpu-r1-000002 status=canceled send_slip=21.237887ms body_sha256=7753cff409370aab0d7fdf22545c6e3301085bf3acd478025fcf4fb7f46ee179
+request item=3 id=i3-cancel-mid-stream-cpu-r1-000003 status=canceled send_slip=1.359974ms body_sha256=885d67836d488c0d5887dd587a08964a979a5e7361f7d5b30415238deb9a004e
+request item=4 id=i3-cancel-mid-stream-cpu-r1-000004 status=canceled send_slip=818.358µs body_sha256=6a751a7201a1e38c9134e98e091b16095d93b294579416853e21412dde856fcd
+request item=5 id=i3-cancel-mid-stream-cpu-r1-000005 status=canceled send_slip=3.412071ms body_sha256=2e4904984c9cdef9d1f2c11354464dfd2c0bc6c1da946b27a1a3746e84fd5782
+request item=6 id=i3-cancel-mid-stream-cpu-r1-000006 status=canceled send_slip=4.214619ms body_sha256=7772c0d5b7e8872789c6109ebea6327a18b174e055c63d8aa541972a571e6e28
+request item=7 id=i3-cancel-mid-stream-cpu-r1-000007 status=canceled send_slip=5.605814ms body_sha256=656f66e4c46952601d8bb3816772645b5b923097535bd1ede12a931cb01caf98
+request item=8 id=i3-cancel-mid-stream-cpu-r1-000008 status=canceled send_slip=824.736µs body_sha256=1a5e310aa7c42a4a3cde59fd865fec5cd55a4dbaa222db7579a3569e549e1fb1
+request item=9 id=i3-cancel-mid-stream-cpu-r1-000009 status=canceled send_slip=3.541316ms body_sha256=1b398cf85bb612096eb25a967a67e1cbf39e6c8cff6e67d6cc1d6a3d5ded4c24
+request item=10 id=i3-cancel-mid-stream-cpu-r1-000010 status=canceled send_slip=964.662µs body_sha256=7ef6d0e4bfabcfd57b783f1eb0470a68ce72325ec373b45ad8a32f7ae444c260
+request item=11 id=i3-cancel-mid-stream-cpu-r1-000011 status=canceled send_slip=1.38432ms body_sha256=3116e12a335180480983f5d0c170e558428d63247e3d9431c90d3fcad749a5c4
+request item=12 id=i3-cancel-mid-stream-cpu-r1-000012 status=canceled send_slip=3.440079ms body_sha256=f8fab95c41ba4b8123b463b7d67e91938c51d290c5daba1121638e7ac6e91041
+request item=13 id=i3-cancel-mid-stream-cpu-r1-000013 status=canceled send_slip=788.66µs body_sha256=27dfe7d48ccabdde23e2cf54daafcd068409f0d595eb4b0e34ad1060d5199e9d
+request item=14 id=i3-cancel-mid-stream-cpu-r1-000014 status=canceled send_slip=2.214897ms body_sha256=7d2212cd68f033bcb7d110acea85f98708d4b9c8dfbcdfe2632a26f6944050ac
+request item=15 id=i3-cancel-mid-stream-cpu-r1-000015 status=canceled send_slip=742.552µs body_sha256=f5fc6324ec64ac8b3405184dd04db1f4efe75847408a14fcd25dd17ed674e313
+request item=16 id=i3-cancel-mid-stream-cpu-r1-000016 status=canceled send_slip=1.527411ms body_sha256=db9d398db80c0f163285c8ffd930a2ed3a272fd8171a09c99e0e2f46dc08e2b5
+request item=17 id=i3-cancel-mid-stream-cpu-r1-000017 status=canceled send_slip=757.324µs body_sha256=8209b478d37a991358319863758c6f42bf0b23490e33698621d70719eafa730a
+request item=18 id=i3-cancel-mid-stream-cpu-r1-000018 status=canceled send_slip=712.491µs body_sha256=c80df9c55c0e50e592ff15bfe6c4e0a58ed958f0267ce8994dd4da926d480e4d
+request item=19 id=i3-cancel-mid-stream-cpu-r1-000019 status=canceled send_slip=685.873µs body_sha256=2376905dde2bf94bfd6f4526626204e58eb9dfcac778ea65d3ca59962b484d4f
+summary sent=20 ok=0 errors=0 shed=0 canceled=20 cancel_planned=20 slow_planned=0 max_dispatch_slip=20.463677ms max_send_slip=21.237887ms usage_missing=0 wall=2m17.38s

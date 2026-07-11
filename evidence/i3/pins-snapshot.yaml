@@ -1,0 +1,39 @@
+# Snapshot of the pins/pins.yaml entries the Scenario B / I3 run used
+# (recorded 2026-07-11 at IL-T003 execution; authoritative ledger:
+# pins/pins.yaml at the IL-T003 commit — git history is the ledger).
+# proven_at is [] here by design: it fills at I3 user acceptance (I2 precedent).
+#
+# Cross-check: every version/sha256 below is re-verified at build time by
+# scenarios/b/build.sh and recorded in logs/build-info.txt.
+
+snapshot_of: pins/pins.yaml
+scenario: b
+milestone: I3
+recorded: "2026-07-11"
+
+artifacts_used:
+  - id: contracts-bundle-v0-2-0
+    version: "v0.2.0"
+    resolved: "serving-contracts tag v0.2.0 (tag object 484b44904233da569d76bafe4a4acb8d71bbbe4d); schema content identical to 8d81492"
+    role: all contract validation (kit), analysis bundle
+  - id: infergate-binary
+    version: "infergate@74f2372acea62645fa3c1d91689574ea9de7c589"
+    sha256: "ba79b99fb21e79ab1d10919f75ca00a19b6d9d873818e32dc3b692411cf97465"
+    role: gateway (llama.cpp adapter; failover pair in phase 6)
+  - id: infergate-mock-binary
+    version: "infergate@74f2372acea62645fa3c1d91689574ea9de7c589"
+    sha256: "aa262948a95f5231aecb326fabd0c628f1b6aee09709091ed654bffa8ccd4b45"
+    role: failover fallback engine (-seed 42 -ttft 300ms -itl 30ms -error-rate 0)
+  - id: inferbench-binary-69a5abc
+    version: "inferbench@69a5abc604a737235ea3f1721ddb6b7f64334289"
+    sha256: "82e8abf6622e566b2c704c30b927deb0ad9ae163172750885f4f6bebcdf03eb2"
+    role: load generator + (same commit) analysis/report package via PYTHONPATH
+  - id: engine-llamacpp
+    version: "8f114a9b573b69035299f9b924047f53c1e22c7e"
+    sha256: "af4e01186c5b4248b60cf48f908df6516576c6dbf2209064fb6c8cb645201f26"  # llama-server binary
+    flags: "-np 2 -c 8192 -t 4 -a qwen2.5-1.5b-instruct-q4_k_m --metrics --slots --no-webui --log-timestamps"
+    role: real engine (2 slots x 4096 ctx, CPU)
+  - id: model-gguf
+    version: "Qwen2.5-1.5B-Instruct GGUF Q4_K_M"
+    sha256: "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e"  # model file = pinned revision
+    role: served checkpoint (weights + quantization + embedded tokenizer in one hash)

@@ -1,0 +1,25 @@
+{
+  "check": "derive-slo",
+  "calib_runs": [
+    "/home/user/inference-lab/evidence/i3/raw/runs/chat-short-cpu-calib",
+    "/home/user/inference-lab/evidence/i3/raw/runs/shared-prefix-cpu-calib"
+  ],
+  "ok_events_used": 20,
+  "headroom": 1.5,
+  "derivation": {
+    "ttft_seconds": {
+      "measured_max": 23.720162,
+      "threshold": 36
+    },
+    "e2e_duration_seconds": {
+      "measured_max": 62.873551,
+      "threshold": 95
+    },
+    "max_stall_seconds": {
+      "measured_max": 19.813081,
+      "threshold": 30
+    }
+  },
+  "written_to": "/home/user/inference-lab/evidence/i3/raw/slo/scenario-b-llamacpp-cpu-shakedown.slo.json",
+  "result": "PASS"
+}

@@ -1,0 +1,58 @@
+{
+  "target_topology": "via-gateway",
+  "engine": {
+    "name": "llamacpp+mock (infergate static-priority failover pair)",
+    "version": "primary: llamacpp 1 (8f114a9); fallback: mock-backend infergate@74f2372 (-seed 42 -ttft 300ms -itl 30ms -error-rate 0)",
+    "commit": "8f114a9b573b69035299f9b924047f53c1e22c7e",
+    "flags": {
+      "primary_llamacpp": {
+        "model": "/home/user/tools/models/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+        "host": "127.0.0.1",
+        "port": 18082,
+        "parallel": 2,
+        "ctx_size": 8192,
+        "threads": 4,
+        "alias": "qwen2.5-1.5b-instruct-q4_k_m",
+        "metrics": true,
+        "slots": true,
+        "webui": false,
+        "log_timestamps": true
+      },
+      "fallback_mock": {
+        "addr": "127.0.0.1:18083",
+        "seed": 42,
+        "ttft": "300ms",
+        "itl": "30ms",
+        "error_rate": 0
+      },
+      "fault_injection": "run.sh SIGKILLs llama-server once a slot is processing (~T+110-130 s) and restarts it at ~T+240 s; timestamps recorded in evidence/i3/raw/failover-timeline.json"
+    }
+  },
+  "model": {
+    "checkpoint": "qwen2.5-1.5b-instruct-q4_k_m.gguf (Qwen2.5-1.5B-Instruct, GGUF Q4_K_M); mock fallback synthesizes deterministic text for the same model id",
+    "revision": "sha256:6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e (llama-server arm); mockengine@74f2372 (fallback window)",
+    "tokenizer": "gguf-embedded Qwen2 BPE (llama-server arm); mockengine estimator ~4 bytes/token (fallback window)"
+  },
+  "hardware": {
+    "gpu_model": null,
+    "gpu_count": 0,
+    "vram_gb": null,
+    "driver_version": null,
+    "cuda_version": null,
+    "instance_type": "local-dev-host (linux/amd64, 4 CPU cores, 15 GiB RAM; llama-server -t 4, mock-backend, infergate, and inferbench co-located on the same cores)"
+  },
+  "gateway": {
+    "version": "74f2372 (infergate@74f2372acea62645fa3c1d91689574ea9de7c589, host binary built read-only via git archive; binary sha256 in evidence/i3/logs/build-info.txt)",
+    "config_version": "v1-8ac73bb5 (scenarios/b/config/gateway-failover.json: llamacpp primary + openai-type mock fallback, upstream_timeout 300s, stream_write_timeout 30s)"
+  },
+  "client": {
+    "location": "same host (inferbench on host -> infergate 127.0.0.1:18080 -> llama-server 127.0.0.1:18082 / mock 127.0.0.1:18083, loopback)",
+    "rtt_ms": null
+  },
+  "warm_up": {
+    "policy": "none"
+  },
+  "repetitions": 1,
+  "hypothesis": "Failover demonstration: killing llama-server mid-run (SIGKILL while a slot is processing) terminates ONLY the streams already accepted at kill time, each with exactly one typed upstream_error SSE event (bounded by the in-flight count; never retried after tokens were delivered); every request dispatched while llama-server is down is served by the mock fallback with zero client-visible errors; after llama-server restarts, traffic returns to it automatically (per-request primary-first selection). NOT a latency benchmark: two engines with different timing behavior serve one run.",
+  "notes": "I3 failover demonstration (mock <-> llama.cpp through the composed path). Latency aggregates over this run mix two engines and must not be quoted; the evidence is the per-segment behavior table in checks.log."
+}

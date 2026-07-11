@@ -1,0 +1,62 @@
+[2026-07-11T00:53:47.778Z] contention sampler started (pid 8951)
+[2026-07-11T00:53:49.841Z] llama-server up (calib, pid 8956)
+[2026-07-11T00:53:49.860Z] gateway up (main, pid 8985, config /home/user/inference-lab/scenarios/b/config/gateway-llamacpp.json)
+[2026-07-11T00:53:51.553Z] smoke complete (logs/smoke.log, raw/smoke-stream.chat-completion-stream.sse)
+[2026-07-11T00:53:51.555Z] inferbench run: chat-short-cpu-calib (workload /home/user/inference-lab/scenarios/b/workloads/chat-short-cpu-calib.json -> http://127.0.0.1:18080)
+run i3-chat-short-cpu-calib: sent=12 ok=12 errors=0 shed=0 canceled=0 max_dispatch_slip=11.061819ms max_send_slip=11.24765ms wall=2m45.755s
+artifacts: /home/user/inference-lab/evidence/i3/raw/runs/chat-short-cpu-calib
+[2026-07-11T00:56:37.329Z] inferbench run: shared-prefix-cpu-calib (workload /home/user/inference-lab/scenarios/b/workloads/shared-prefix-cpu-calib.json -> http://127.0.0.1:18080)
+run i3-shared-prefix-cpu-calib: sent=8 ok=8 errors=0 shed=0 canceled=0 max_dispatch_slip=13.245335ms max_send_slip=14.052076ms wall=1m55.042s
+artifacts: /home/user/inference-lab/evidence/i3/raw/runs/shared-prefix-cpu-calib
+[2026-07-11T00:58:35.626Z] llama-server up (direct, pid 10174)
+[2026-07-11T00:58:35.629Z] inferbench run: chat-short-cpu-direct (workload /home/user/inference-lab/scenarios/b/workloads/chat-short-cpu.json -> http://127.0.0.1:18082)
+run i3-chat-short-cpu-direct: sent=40 ok=40 errors=0 shed=0 canceled=0 max_dispatch_slip=76.243336ms max_send_slip=76.892458ms wall=10m15.123s
+artifacts: /home/user/inference-lab/evidence/i3/raw/runs/chat-short-cpu-direct
+[2026-07-11T01:08:50.786Z] metrics scraped: post-direct-llama
+[2026-07-11T01:08:54.026Z] llama-server up (gw, pid 10357)
+[2026-07-11T01:08:54.048Z] gateway up (main2, pid 10389, config /home/user/inference-lab/scenarios/b/config/gateway-llamacpp.json)
+[2026-07-11T01:08:54.058Z] metrics scraped: pre-gw-gateway
+[2026-07-11T01:08:54.061Z] inferbench run: chat-short-cpu-gw (workload /home/user/inference-lab/scenarios/b/workloads/chat-short-cpu.json -> http://127.0.0.1:18080)
+run i3-chat-short-cpu-gw: sent=40 ok=40 errors=0 shed=0 canceled=0 max_dispatch_slip=43.496959ms max_send_slip=43.737137ms wall=10m6.597s
+artifacts: /home/user/inference-lab/evidence/i3/raw/runs/chat-short-cpu-gw
+[2026-07-11T01:19:00.688Z] metrics scraped: post-gw-gateway
+[2026-07-11T01:19:00.699Z] metrics scraped: post-gw-llama
+[2026-07-11T01:19:03.822Z] llama-server up (sharedprefix, pid 10562)
+[2026-07-11T01:19:03.824Z] inferbench run: shared-prefix-cpu (workload /home/user/inference-lab/scenarios/b/workloads/shared-prefix-cpu.json -> http://127.0.0.1:18080)
+[2026-07-11T06:07:30.646Z] contention sampler started (pid 4087); phases selected: sharedprefix cancel failover validate analysis checks
+[2026-07-11T06:09:08.440Z] llama-server up (sharedprefix, pid 4092)
+[2026-07-11T06:09:09.509Z] gateway up (sharedprefix, pid 5938, config /home/user/inference-lab/scenarios/b/config/gateway-llamacpp.json)
+[2026-07-11T06:09:09.512Z] inferbench run: shared-prefix-cpu (workload /home/user/inference-lab/scenarios/b/workloads/shared-prefix-cpu.json -> http://127.0.0.1:18080)
+run i3-shared-prefix-cpu: sent=25 ok=25 errors=0 shed=0 canceled=0 max_dispatch_slip=34.997629ms max_send_slip=36.007569ms wall=10m36.111s
+artifacts: /home/user/inference-lab/evidence/i3/raw/runs/shared-prefix-cpu
+[2026-07-11T06:19:45.979Z] metrics scraped: post-sharedprefix-gateway
+[2026-07-11T06:19:45.991Z] metrics scraped: post-sharedprefix-llama
+[2026-07-11T06:19:48.477Z] llama-server up (cancel, pid 8376)
+[2026-07-11T06:19:48.498Z] gateway up (cancel, pid 8407, config /home/user/inference-lab/scenarios/b/config/gateway-llamacpp.json)
+[2026-07-11T06:19:48.501Z] slots poller started (pid 8420, 25 ms)
+[2026-07-11T06:19:48.504Z] inferbench run: cancel-mid-stream-cpu (workload /home/user/inference-lab/scenarios/b/workloads/cancel-mid-stream-cpu.json -> http://127.0.0.1:18080)
+run i3-cancel-mid-stream-cpu: sent=20 ok=0 errors=0 shed=0 canceled=20 max_dispatch_slip=20.463677ms max_send_slip=21.237887ms wall=2m17.38s
+artifacts: /home/user/inference-lab/evidence/i3/raw/runs/cancel-mid-stream-cpu
+[2026-07-11T06:22:07.958Z] llama-server 'cancel task' log lines: 21
+[2026-07-11T06:22:10.373Z] llama-server up (failover-1, pid 8500)
+[2026-07-11T06:22:10.810Z] mock-backend up (pid 8529)
+[2026-07-11T06:22:10.829Z] gateway up (failover, pid 8547, config /home/user/inference-lab/scenarios/b/config/gateway-failover.json)
+[2026-07-11T06:22:10.832Z] inferbench run: chat-short-failover (workload /home/user/inference-lab/scenarios/b/workloads/chat-short-failover.json -> http://127.0.0.1:18080)
+[2026-07-11T06:23:50.656Z] llama-server SIGKILLed at 2026-07-11T06:23:50.653Z (slot was processing)
+[2026-07-11T06:26:12.333Z] llama-server up (failover-2, pid 9151)
+[2026-07-11T06:26:12.337Z] llama-server healthy again at 2026-07-11T06:26:12.335Z
+run i3-chat-short-failover: sent=28 ok=27 errors=1 shed=0 canceled=0 max_dispatch_slip=15.005847ms max_send_slip=15.664003ms wall=6m2.223s
+artifacts: /home/user/inference-lab/evidence/i3/raw/runs/chat-short-failover
+[2026-07-11T06:28:13.084Z] llama-server (restarted) chat-completion log lines: 0
+[2026-07-11T06:28:22.739Z] scenario B run complete WITH FAILED CHECKS: cancel-llama (evidence in /home/user/inference-lab/evidence/i3)
+[2026-07-11T07:44:29.754Z] contention sampler started (pid 11619); phases selected: cancel checks
+[2026-07-11T07:46:00.438Z] llama-server up (cancel, pid 11624)
+[2026-07-11T07:46:01.502Z] gateway up (cancel, pid 11999, config /home/user/inference-lab/scenarios/b/config/gateway-llamacpp.json)
+[2026-07-11T07:46:01.505Z] slots poller started (pid 12022, 25 ms)
+[2026-07-11T07:46:01.507Z] inferbench run: cancel-mid-stream-cpu (workload /home/user/inference-lab/scenarios/b/workloads/cancel-mid-stream-cpu.json -> http://127.0.0.1:18080)
+run i3-cancel-mid-stream-cpu: sent=20 ok=0 errors=0 shed=0 canceled=20 max_dispatch_slip=10.520782ms max_send_slip=15.838443ms wall=2m17.171s
+artifacts: /home/user/inference-lab/evidence/i3/raw/runs/cancel-mid-stream-cpu
+[2026-07-11T07:48:21.139Z] llama-server 'cancel task' log lines: 20
+[2026-07-11T07:48:22.679Z] scenario B run complete; all checks PASS; evidence in /home/user/inference-lab/evidence/i3
+[2026-07-11T07:48:39.230Z] contention sampler started (pid 12484); phases selected: validate
+[2026-07-11T07:48:41.862Z] checks phase not selected; stopping here

@@ -1,0 +1,24 @@
+result_id: i3-shared-prefix-cpu
+measured window: 513.950s, 21 events (1 repetition(s)); warm-up: 4 excluded
+throughput: 0.0409 ok-req/s, 4.09 out-tok/s
+error rate 0.0000 + shed rate 0.0000 vs declared gate threshold 0.05
+pooled latency percentiles (method: pooled-raw-events):
+  ttft_seconds: n=21 p50=13.192586 p90=28.765372 p95=29.874211 p99=42.226442 max=45.314500 mean=14.666313  p99 95% CI [26.413963, 45.314500]
+  e2e_duration_seconds: n=21 p50=24.742317 p90=52.411887 p95=52.992440 p99=55.581281 max=56.228491 mean=26.352594  p99 95% CI [39.590219, 56.228491]
+  itl_seconds: n=2066 p50=0.080685 p90=0.089566 p95=0.092196 p99=0.105546 p999=12.868424 max=16.021004 mean=0.118257  p99 95% CI [0.097885, 0.115461]
+  max_stall_seconds: n=21 p50=0.109867 p90=12.919025 p95=15.095942 p99=15.835992 max=16.021004 mean=3.816450  p99 95% CI [12.094135, 16.021004]
+goodput@SLO[scenario-b-llamacpp-cpu-shakedown@1.0.0]: ratio=0.9524 (20/21), 0.0389 req/s meeting SLO | shed_rate=0.0000 | stall_rate=0.0000 (threshold 30s, 0/21 streaming)
+cost: null — no cost profile applies to this run set — cost is null (cost figures are only computed from a declared, provenanced cost-profile file, never from assumed rates)
+knee_estimate: null (no sweep)
+threats_to_validity:
+  - single-host client+server co-location: llama-server (-t 4), infergate, and inferbench share one 4-core host; measured interval-CPU during this run: gateway mean 0.1% / max 0.8% of one core, inferbench mean 0.1% / max 0.8% of one core, llama-server mean 204.4% / max 398.5% of one core. Client-side timing competes with the engine for CPU.
+  - single repetition, small sample (CPU-adapted rate): bootstrap CIs are wide and cross-run dispersion does not exist; numbers are a methodology shakedown, not a performance claim
+  - arrival rate CPU-adapted from same-day single-stream calibration (evidence/i3/logs/rate-calibration.log); results characterize this host + engine build + quantized model only
+  - SLO thresholds derived from same-host calibration probe maxima (x1.5 headroom, seeds distinct from the measured runs): goodput@SLO exercises the machinery, it is not an external target
+  - prefix-cache reuse depends on llama-server slot LCP selection with only 2 slots; group-interleaved arrivals can evict a cached prefix — cache effectiveness here is a property of this configuration, not of the workload
+  - run_count=1 is below the >=3-repetitions methodology minimum (experiments.md rule 4); cross-run dispersion is not assessable
+  - no rate sweep in this run set — knee_estimate is null; no claim is made about saturation behavior
+  - no cost profile applies to this run set — cost is null (cost figures are only computed from a declared, provenanced cost-profile file, never from assumed rates)
+unexplained_anomalies: [] (we looked and found none)
+
+wrote schema-valid benchmark-result: evidence/i3/raw/results/i3-shared-prefix-cpu.benchmark-result.json

@@ -1,0 +1,10 @@
+== GET /healthz
+ok
+== GET /readyz
+ok
+== GET /v1/models
+{"object":"list","data":[{"id":"qwen2.5-1.5b-instruct-q4_k_m","object":"model","created":1783730699,"owned_by":"infergate"}]}
+
+== POST /v1/chat/completions (non-stream)
+{"id":"chatcmpl-akKlaOdyYf4SniadHKs6nMm9pSRfUya9","object":"chat.completion","created":1783730700,"model":"qwen2.5-1.5b-instruct-q4_k_m","choices":[{"index":0,"message":{"role":"assistant","content":"A benchmark is a standard or reference point for comparison."},"finish_reason":"stop"}],"usage":{"prompt_tokens":40,"completion_tokens":12,"total_tokens":52}}
+

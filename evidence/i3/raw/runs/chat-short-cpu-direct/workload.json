@@ -1,0 +1,37 @@
+{
+  "name": "chat-short-cpu",
+  "version": "1.0.0",
+  "seed": 1003001,
+  "description": "Scenario B / I3 CPU adaptation of the canonical chat-short v1.0.0 (inferbench@69a5abc workloads/chat-short.json): every distribution, the prefix/cancel/slow-client settings, the 600 s duration, and the seed are IDENTICAL to the canonical file; ONLY arrival_process.rate_rps is changed 8 -> 0.08. Recorded reasoning (measured 2026-07-11, evidence/i3/logs/rate-calibration.log): qwen2.5-1.5b-instruct Q4_K_M on this 4-core CPU host under llama-server 8f114a9 (-np 2 -c 8192 -t 4) sustains ~89-105 prefill tok/s and ~22.7 decode tok/s single-stream (13.8 tok/s per stream with 2 concurrent), giving a per-request service time of roughly 2 s prefill + up to ~10 s decode; at 2 slots the path saturates near ~0.17 req/s, so the canonical 8 rps would overload it ~50x. 0.08 rps targets ~0.5 utilization so open-loop queueing is present but bounded (~48 requests in 600 s). Not comparable to canonical chat-short results (different workload name/rate); the single declared variable vs chat-short-cpu runs is the topology (engine-direct vs via-gateway).",
+  "arrival_process": {
+    "type": "open-loop-poisson",
+    "rate_rps": 0.08
+  },
+  "input_length_distribution": {
+    "type": "normal",
+    "mean": 200,
+    "stddev": 80,
+    "min": 16,
+    "max": 1024
+  },
+  "output_length_distribution": {
+    "type": "lognormal",
+    "mu": 4.8,
+    "sigma": 0.6,
+    "min": 8,
+    "max": 384
+  },
+  "prefix_sharing": {
+    "ratio": 0
+  },
+  "cancellation": {
+    "rate": 0
+  },
+  "slow_client": {
+    "fraction": 0
+  },
+  "stop": {
+    "duration_seconds": 600
+  },
+  "tags": ["scenario-b", "interactive", "cpu-adapted"]
+}

@@ -1,0 +1,50 @@
+{
+  "target_topology": "via-gateway",
+  "engine": {
+    "name": "llamacpp",
+    "version": "1 (8f114a9)",
+    "commit": "8f114a9b573b69035299f9b924047f53c1e22c7e",
+    "flags": {
+      "model": "/home/user/tools/models/qwen2.5-1.5b-instruct-q4_k_m.gguf",
+      "host": "127.0.0.1",
+      "port": 18082,
+      "parallel": 2,
+      "ctx_size": 8192,
+      "threads": 4,
+      "alias": "qwen2.5-1.5b-instruct-q4_k_m",
+      "metrics": true,
+      "slots": true,
+      "webui": false,
+      "log_timestamps": true,
+      "defaults_note": "all remaining llama-server options at 8f114a9 build defaults (fresh process for this run; slot prefix cache is engine-default behavior)"
+    }
+  },
+  "model": {
+    "checkpoint": "qwen2.5-1.5b-instruct-q4_k_m.gguf (Qwen2.5-1.5B-Instruct, GGUF Q4_K_M)",
+    "revision": "sha256:6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+    "tokenizer": "gguf-embedded (Qwen2 BPE as packaged in the checkpoint; identity covered by the model-file sha256 above)"
+  },
+  "hardware": {
+    "gpu_model": null,
+    "gpu_count": 0,
+    "vram_gb": null,
+    "driver_version": null,
+    "cuda_version": null,
+    "instance_type": "local-dev-host (linux/amd64, 4 CPU cores, 15 GiB RAM; llama-server -t 4, infergate, and inferbench co-located on the same cores)"
+  },
+  "gateway": {
+    "version": "74f2372 (infergate@74f2372acea62645fa3c1d91689574ea9de7c589, host binary built read-only via git archive; binary sha256 in evidence/i3/logs/build-info.txt)",
+    "config_version": "v1-24d2072b (scenarios/b/config/gateway-llamacpp.json: llamacpp backend, no fallback, upstream_timeout 300s, stream_write_timeout 30s)"
+  },
+  "client": {
+    "location": "same host (inferbench on host -> infergate 127.0.0.1:18080 -> llama-server 127.0.0.1:18082, loopback; client shares the 4 CPU cores with the engine)",
+    "rtt_ms": null
+  },
+  "warm_up": {
+    "policy": "discard-requests",
+    "value": 4
+  },
+  "repetitions": 1,
+  "hypothesis": "Prefix-cache characterization: with 80% of requests sharing a 1024-token prefix (groups of 16), llama-server slot-level prefix-cache reuse is observable end-to-end from the client side: pooled client TTFT p50 through the gateway stays below the measured single-stream cold-prefill floor of ~15.2 s for a ~1354-token prompt (rate calibration 2026-07-11, evidence/i3/logs/rate-calibration.log) -- i.e. most requests do NOT pay a full cold prefill. Methodology shakedown: ~24 requests, single repetition, wide CIs.",
+  "notes": "I3 / Scenario B shared-prefix run through the gateway. TTFT here includes open-loop queue wait at ~0.5 utilization; a failed hypothesis is recorded as a finding, not hidden."
+}

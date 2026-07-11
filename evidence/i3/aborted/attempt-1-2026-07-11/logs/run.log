@@ -1,0 +1,12 @@
+[2026-07-11T00:44:59.281Z] contention sampler started (pid 2623)
+[2026-07-11T00:44:59.297Z] llama-server up (calib, pid 2628)
+[2026-07-11T00:44:59.310Z] gateway up (main, pid 2639, config /home/user/inference-lab/scenarios/b/config/gateway-llamacpp.json)
+[2026-07-11T00:45:00.975Z] smoke complete (logs/smoke.log, raw/smoke-stream.chat-completion-stream.sse)
+[2026-07-11T00:45:00.977Z] inferbench run: chat-short-cpu-calib (workload /home/user/inference-lab/scenarios/b/workloads/chat-short-cpu-calib.json -> http://127.0.0.1:18080)
+run i3-chat-short-cpu-calib: sent=12 ok=12 errors=0 shed=0 canceled=0 max_dispatch_slip=9.571856ms max_send_slip=10.627009ms wall=2m52.074s
+artifacts: /home/user/inference-lab/evidence/i3/raw/runs/chat-short-cpu-calib
+[2026-07-11T00:47:53.069Z] inferbench run: shared-prefix-cpu-calib (workload /home/user/inference-lab/scenarios/b/workloads/shared-prefix-cpu-calib.json -> http://127.0.0.1:18080)
+run i3-shared-prefix-cpu-calib: sent=8 ok=8 errors=0 shed=0 canceled=0 max_dispatch_slip=9.805585ms max_send_slip=10.784812ms wall=1m55.39s
+artifacts: /home/user/inference-lab/evidence/i3/raw/runs/shared-prefix-cpu-calib
+[2026-07-11T00:49:48.587Z] llama-server up (direct, pid 5614)
+[2026-07-11T00:49:48.589Z] inferbench run: chat-short-cpu-direct (workload /home/user/inference-lab/scenarios/b/workloads/chat-short-cpu.json -> http://127.0.0.1:18082)

@@ -6,8 +6,8 @@ the OSS-track execution tasks (externally paced, never on the critical path).
 | ID | Title | Complexity | Critical path | Parallel-safe | Required | Status | Evidence |
 |---|---|---|---|---|---|---|---|
 | IL-T001 | Skeleton: pins, quickstart, scenarios, logs | M | yes | no | Required | **In review** (skeleton committed 2026-07-10; awaiting user plan review) | this commit; `pins/` validator output in `docs/implementation-notes.md` |
-| IL-T002 | Scenario A + milestone I2 | M | yes | no | Required | **In review** (executed 2026-07-10; evidence recorded; I2 acceptance review pending, PostgreSQL usage-write deviation D-001) | `scenarios/a/`, `evidence/i2/checklist.md` |
-| IL-T003 | Scenario B + milestone I3 | M | yes | no | Required | Not started | — |
+| IL-T002 | Scenario A + milestone I2 | M | yes | no | Required | **Done** (executed 2026-07-10; I2 ACCEPTED by user 2026-07-11 with recorded deviation D-001 — PostgreSQL usage write re-runs at IG-T008) | `scenarios/a/`, `evidence/i2/checklist.md` |
+| IL-T003 | Scenario B + milestone I3 | M | yes | no | Required | **In review** (executed 2026-07-11; benchmark report #0 generated schema-valid; I3 user-acceptance review pending) | `scenarios/b/`, `evidence/i3/checklist.md`, `evidence/i3/reports/` |
 | IL-T004 | Scenario C + milestone I4 (GPU) | M | yes | no | Required | Not started | — |
 | IL-T005 | Scenario D + milestone I5 | M | yes | no | Required | Not started | — |
 | IL-T006 | Scenario E + milestone I6 (the central story) | L | yes | no | Required | Not started | — |

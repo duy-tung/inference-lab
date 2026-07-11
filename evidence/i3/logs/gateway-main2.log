@@ -1,0 +1,2 @@
+time=2026-07-11T01:08:54.040Z level=INFO msg="config snapshot published" config_version=v1-24d2072b models=qwen2.5-1.5b-instruct-q4_k_m backend=llamacpp publish_latency=80.288µs
+time=2026-07-11T01:08:54.041Z level=INFO msg="gateway listening" addr=127.0.0.1:18080 backend=llamacpp models=qwen2.5-1.5b-instruct-q4_k_m config_version=v1-24d2072b

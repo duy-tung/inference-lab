@@ -1,0 +1,49 @@
+run_id=i3-chat-short-cpu-direct repetition=1 requests=40 max_slip=100ms cancel_planned=0 slow_planned=0 prefix_sharing=0
+schedule item=0 offset=9.046570576s input_tokens=174 max_tokens=83
+schedule item=1 offset=33.663305053s input_tokens=205 max_tokens=163
+schedule item=2 offset=1m2.151493878s input_tokens=189 max_tokens=54
+schedule item=3 offset=1m11.193655676s input_tokens=198 max_tokens=189
+schedule item=4 offset=1m40.230377557s input_tokens=247 max_tokens=127
+schedule item=5 offset=1m41.076760758s input_tokens=224 max_tokens=66
+schedule item=6 offset=2m27.774637763s input_tokens=176 max_tokens=84
+schedule item=7 offset=2m57.172690028s input_tokens=277 max_tokens=50
+schedule item=8 offset=3m14.053701002s input_tokens=188 max_tokens=242
+schedule item=9 offset=3m21.524087506s input_tokens=177 max_tokens=48
+schedule item=10 offset=3m22.507961056s input_tokens=257 max_tokens=136
+schedule item=11 offset=3m33.941080883s input_tokens=152 max_tokens=82
+schedule item=12 offset=3m47.949162789s input_tokens=73 max_tokens=172
+schedule item=13 offset=3m48.553589591s input_tokens=167 max_tokens=126
+schedule item=14 offset=3m49.473238127s input_tokens=281 max_tokens=163
+schedule item=15 offset=3m52.781095528s input_tokens=197 max_tokens=90
+schedule item=16 offset=5m31.170151134s input_tokens=183 max_tokens=384
+schedule item=17 offset=5m38.672133115s input_tokens=152 max_tokens=200
+schedule item=18 offset=5m44.700823334s input_tokens=286 max_tokens=204
+schedule item=19 offset=6m6.456520091s input_tokens=247 max_tokens=178
+schedule item=20 offset=6m26.472366959s input_tokens=154 max_tokens=279
+schedule item=21 offset=6m44.703615849s input_tokens=212 max_tokens=193
+schedule item=22 offset=7m4.142665447s input_tokens=231 max_tokens=214
+schedule item=23 offset=7m5.788539951s input_tokens=153 max_tokens=244
+schedule item=24 offset=7m7.57538379s input_tokens=242 max_tokens=122
+schedule item=25 offset=7m18.945746545s input_tokens=289 max_tokens=74
+schedule item=26 offset=7m27.719594078s input_tokens=273 max_tokens=137
+schedule item=27 offset=8m14.049285627s input_tokens=221 max_tokens=109
+schedule item=28 offset=8m23.741245781s input_tokens=174 max_tokens=60
+schedule item=29 offset=8m24.810292641s input_tokens=264 max_tokens=85
+schedule item=30 offset=8m32.501389216s input_tokens=161 max_tokens=80
+schedule item=31 offset=8m36.317173679s input_tokens=271 max_tokens=161
+schedule item=32 offset=9m1.112535412s input_tokens=295 max_tokens=63
+schedule item=33 offset=9m5.356782752s input_tokens=98 max_tokens=108
+schedule item=34 offset=9m14.155062707s input_tokens=211 max_tokens=116
+schedule item=35 offset=9m23.790633882s input_tokens=299 max_tokens=154
+schedule item=36 offset=9m39.456306785s input_tokens=87 max_tokens=73
+schedule item=37 offset=9m44.688841069s input_tokens=285 max_tokens=165
+schedule item=38 offset=9m51.904899817s input_tokens=163 max_tokens=171
+schedule item=39 offset=9m55.157766072s input_tokens=284 max_tokens=264
+epoch=2026-07-11T00:49:48.597604Z
+request item=0 id=i3-chat-short-cpu-direct-r1-000000 status=ok send_slip=4.52878ms body_sha256=617f058edae188dcfa6d0e892f09cba69263efe7441ac3dbfeb0ce41ec3369eb
+request item=1 id=i3-chat-short-cpu-direct-r1-000001 status=ok send_slip=1.480883ms body_sha256=54a43cc209c81e8248d1271017a8c0baa37883b174b80393c21458e61cef0387
+request item=2 id=i3-chat-short-cpu-direct-r1-000002 status=ok send_slip=1.192348ms body_sha256=771e12936d63b6a02bd5bbc8e0e93785a06e051dd3c9b507822476e7947ad18d
+request item=3 id=i3-chat-short-cpu-direct-r1-000003 status=ok send_slip=4.494798ms body_sha256=b59e4ff9e2ff3d4a3c82c06e73b00e7c0b3d6f8f58adcd943cf4deb93184157e
+request item=5 id=i3-chat-short-cpu-direct-r1-000005 status=ok send_slip=3.370583ms body_sha256=3d809ab4d13389fff22f453dea629a2580c9eef5c5d6b9f297c84dcc72dd4991
+request item=4 id=i3-chat-short-cpu-direct-r1-000004 status=ok send_slip=1.100381ms body_sha256=41b72137cec3611b8fa8541bd0553d63b4ef0973d2ff6656db2e6c36dabcad37
+request item=6 id=i3-chat-short-cpu-direct-r1-000006 status=ok send_slip=17.289936ms body_sha256=aa2e52f5aa555edefe5a2c7c689b963f9c8d38225c5c473f1ebb6065b4fde526

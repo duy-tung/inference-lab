@@ -1,0 +1,39 @@
+{
+  "name": "shared-prefix-cpu-calib",
+  "version": "1.0.0",
+  "seed": 2003004,
+  "description": "Scenario B / I3 SLO-calibration probe: shared-prefix-cpu's distributions and 0.04 rps rate, but an 8-request stop and a DIFFERENT seed (2003004) so the scenario SLO is derived from measured maxima of a schedule that is not the measured run's own schedule. Covers the long-prompt/cold-prefill regime (and the decode-stall-during-concurrent-prefill regime) that the chat-short calibration cannot reach.",
+  "arrival_process": {
+    "type": "open-loop-poisson",
+    "rate_rps": 0.04
+  },
+  "input_length_distribution": {
+    "type": "normal",
+    "mean": 1400,
+    "stddev": 200,
+    "min": 1152,
+    "max": 2048
+  },
+  "output_length_distribution": {
+    "type": "normal",
+    "mean": 160,
+    "stddev": 64,
+    "min": 16,
+    "max": 384
+  },
+  "prefix_sharing": {
+    "ratio": 0.8,
+    "shared_prefix_length_tokens": 1024,
+    "group_size": 16
+  },
+  "cancellation": {
+    "rate": 0
+  },
+  "slow_client": {
+    "fraction": 0
+  },
+  "stop": {
+    "request_count": 8
+  },
+  "tags": ["scenario-b", "calibration"]
+}

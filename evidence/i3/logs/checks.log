@@ -1,0 +1,372 @@
+== integrity: chat-short-cpu-calib
+{
+  "check": "integrity",
+  "events": 12,
+  "by_status": {
+    "ok": 12
+  },
+  "chunk_count_rule": "usage completion_tokens == client content chunks (len(itl)+1 / 1), OR == chunks+1 for EOS-stopped streams (llama-server counts the stop token in usage but emits no content delta for it \u2014 measured 8f114a9 framing)",
+  "chunk_accounting": {
+    "exact": 6,
+    "eos_stop_deficit_1": 6
+  },
+  "violations": [],
+  "violation_count": 0,
+  "realized_output_tokens": {
+    "note": "real model: EOS may end a completion before the directed max_tokens cap",
+    "min": 13,
+    "median": 89,
+    "max": 239
+  },
+  "result": "PASS"
+}
+== integrity: shared-prefix-cpu-calib
+{
+  "check": "integrity",
+  "events": 8,
+  "by_status": {
+    "ok": 8
+  },
+  "chunk_count_rule": "usage completion_tokens == client content chunks (len(itl)+1 / 1), OR == chunks+1 for EOS-stopped streams (llama-server counts the stop token in usage but emits no content delta for it \u2014 measured 8f114a9 framing)",
+  "chunk_accounting": {
+    "exact": 2,
+    "eos_stop_deficit_1": 6
+  },
+  "violations": [],
+  "violation_count": 0,
+  "realized_output_tokens": {
+    "note": "real model: EOS may end a completion before the directed max_tokens cap",
+    "min": 16,
+    "median": 83,
+    "max": 132
+  },
+  "result": "PASS"
+}
+== integrity: chat-short-cpu-direct
+{
+  "check": "integrity",
+  "events": 40,
+  "by_status": {
+    "ok": 40
+  },
+  "chunk_count_rule": "usage completion_tokens == client content chunks (len(itl)+1 / 1), OR == chunks+1 for EOS-stopped streams (llama-server counts the stop token in usage but emits no content delta for it \u2014 measured 8f114a9 framing)",
+  "chunk_accounting": {
+    "exact": 24,
+    "eos_stop_deficit_1": 16
+  },
+  "violations": [],
+  "violation_count": 0,
+  "realized_output_tokens": {
+    "note": "real model: EOS may end a completion before the directed max_tokens cap",
+    "min": 48,
+    "median": 94,
+    "max": 264
+  },
+  "result": "PASS"
+}
+== integrity: chat-short-cpu-gw
+{
+  "check": "integrity",
+  "events": 40,
+  "by_status": {
+    "ok": 40
+  },
+  "chunk_count_rule": "usage completion_tokens == client content chunks (len(itl)+1 / 1), OR == chunks+1 for EOS-stopped streams (llama-server counts the stop token in usage but emits no content delta for it \u2014 measured 8f114a9 framing)",
+  "chunk_accounting": {
+    "exact": 19,
+    "eos_stop_deficit_1": 21
+  },
+  "violations": [],
+  "violation_count": 0,
+  "realized_output_tokens": {
+    "note": "real model: EOS may end a completion before the directed max_tokens cap",
+    "min": 48,
+    "median": 91,
+    "max": 189
+  },
+  "result": "PASS"
+}
+== integrity: shared-prefix-cpu
+{
+  "check": "integrity",
+  "events": 25,
+  "by_status": {
+    "ok": 25
+  },
+  "chunk_count_rule": "usage completion_tokens == client content chunks (len(itl)+1 / 1), OR == chunks+1 for EOS-stopped streams (llama-server counts the stop token in usage but emits no content delta for it \u2014 measured 8f114a9 framing)",
+  "chunk_accounting": {
+    "exact": 9,
+    "eos_stop_deficit_1": 16
+  },
+  "violations": [],
+  "violation_count": 0,
+  "realized_output_tokens": {
+    "note": "real model: EOS may end a completion before the directed max_tokens cap",
+    "min": 30,
+    "median": 103,
+    "max": 187
+  },
+  "result": "PASS"
+}
+== contention: chat-short-cpu-direct
+{
+  "check": "contention",
+  "phase": "chat-short-cpu-direct",
+  "samples": 123,
+  "interval_cpu_percent": {
+    "gateway": {
+      "mean": 0.0,
+      "max": 0.0
+    },
+    "inferbench": {
+      "mean": 0.2,
+      "max": 0.6
+    },
+    "llama-server": {
+      "mean": 70.0,
+      "max": 398.0
+    },
+    "mock-backend": {
+      "mean": 0.0,
+      "max": 0.0
+    }
+  },
+  "loadavg_1min": {
+    "mean": 2.23,
+    "max": 3.61
+  },
+  "note": "interval CPU from /proc/<pid>/stat utime+stime deltas, 100% = one core",
+  "result": "PASS"
+}
+== contention: chat-short-cpu-gw
+{
+  "check": "contention",
+  "phase": "chat-short-cpu-gw",
+  "samples": 121,
+  "interval_cpu_percent": {
+    "gateway": {
+      "mean": 0.2,
+      "max": 1.0
+    },
+    "inferbench": {
+      "mean": 0.1,
+      "max": 0.6
+    },
+    "llama-server": {
+      "mean": 178.6,
+      "max": 397.6
+    },
+    "mock-backend": {
+      "mean": 0.0,
+      "max": 0.0
+    }
+  },
+  "loadavg_1min": {
+    "mean": 1.85,
+    "max": 2.97
+  },
+  "note": "interval CPU from /proc/<pid>/stat utime+stime deltas, 100% = one core",
+  "result": "PASS"
+}
+== contention: shared-prefix-cpu
+{
+  "check": "contention",
+  "phase": "shared-prefix-cpu",
+  "samples": 128,
+  "interval_cpu_percent": {
+    "gateway": {
+      "mean": 0.1,
+      "max": 0.8
+    },
+    "inferbench": {
+      "mean": 0.1,
+      "max": 0.8
+    },
+    "llama-server": {
+      "mean": 204.4,
+      "max": 398.5
+    },
+    "mock-backend": {
+      "mean": 0.0,
+      "max": 0.0
+    }
+  },
+  "loadavg_1min": {
+    "mean": 1.88,
+    "max": 3.63
+  },
+  "note": "interval CPU from /proc/<pid>/stat utime+stime deltas, 100% = one core",
+  "result": "PASS"
+}
+== contention: cancel-mid-stream-cpu
+{
+  "check": "contention",
+  "phase": "cancel-mid-stream-cpu",
+  "samples": 28,
+  "interval_cpu_percent": {
+    "gateway": {
+      "mean": 0.1,
+      "max": 0.6
+    },
+    "inferbench": {
+      "mean": 0.1,
+      "max": 0.2
+    },
+    "llama-server": {
+      "mean": 92.0,
+      "max": 250.7
+    },
+    "mock-backend": {
+      "mean": 0.0,
+      "max": 0.0
+    }
+  },
+  "loadavg_1min": {
+    "mean": 0.92,
+    "max": 1.37
+  },
+  "note": "interval CPU from /proc/<pid>/stat utime+stime deltas, 100% = one core",
+  "result": "PASS"
+}
+== contention: chat-short-failover
+{
+  "check": "contention",
+  "phase": "chat-short-failover",
+  "samples": 72,
+  "interval_cpu_percent": {
+    "gateway": {
+      "mean": 0.2,
+      "max": 1.2
+    },
+    "inferbench": {
+      "mean": 0.2,
+      "max": 0.6
+    },
+    "llama-server": {
+      "mean": 64.3,
+      "max": 397.2
+    },
+    "mock-backend": {
+      "mean": 0.2,
+      "max": 1.8
+    }
+  },
+  "loadavg_1min": {
+    "mean": 1.18,
+    "max": 2.47
+  },
+  "note": "interval CPU from /proc/<pid>/stat utime+stime deltas, 100% = one core",
+  "result": "PASS"
+}
+== cancel-llama
+{
+  "check": "cancel-llama",
+  "declared_bound_ms": 2500,
+  "bound_definition": "midpoint of the /slots is_processing true->false transition window (poll interval 25 ms) minus client-side cancel completion (event end_ts); greedy nearest-neighbor pairing over ALL request ends (ok completions also release their slot); same-host clock. The bound covers the ENGINE's decode-batch-boundary release granularity \u2014 a cancel landing inside a concurrent slot's prefill ubatch is noticed only when that ubatch completes (IG-T005 @74f2372 measured the gateway-propagation component directly at 1.25-5.24 ms mid-stream)",
+  "events": 20,
+  "client_canceled": 20,
+  "client_ok_completed_before_trigger": 0,
+  "eos_race_note": "ok events are completions the model ended by EOS before the 8-token cancel trigger fired \u2014 realized-cancel accounting, mirroring Scenario A",
+  "llama_log_cancel_task_lines": 20,
+  "slot_releases_observed": 40,
+  "release_delta_ms": {
+    "count": 20,
+    "min": -29.4,
+    "median": -21.7,
+    "max": 79.3,
+    "all": [
+      -29.4,
+      -28.5,
+      -26.3,
+      -24.5,
+      -24.4,
+      -24.2,
+      -24.1,
+      -22.8,
+      -22.3,
+      -22.0,
+      -21.7,
+      25.3,
+      27.0,
+      34.5,
+      34.7,
+      34.9,
+      72.4,
+      74.9,
+      78.8,
+      79.3
+    ]
+  },
+  "problems": [],
+  "result": "PASS"
+}
+== failover
+{
+  "check": "failover",
+  "timeline": {
+    "kill_ts": "2026-07-11T06:23:50.653Z",
+    "listening_ts": "2026-07-11T06:26:12.335Z",
+    "downtime_seconds": 141.7
+  },
+  "events": 28,
+  "typed_upstream_errors": {
+    "count": 1,
+    "bound": "== streams accepted before the kill and still in flight (1); never failed over after acceptance",
+    "request_ids": [
+      "i3-chat-short-failover-r1-000006"
+    ],
+    "error_classes": [
+      "upstream_error"
+    ]
+  },
+  "segments": {
+    "pre_kill": {
+      "ok": 6,
+      "mock": 0,
+      "llamacpp": 6,
+      "ttft_p50_s": 1.917
+    },
+    "downtime": {
+      "ok": 12,
+      "mock": 12,
+      "llamacpp": 0,
+      "ttft_p50_s": 0.306
+    },
+    "post_restart": {
+      "ok": 9,
+      "mock": 0,
+      "llamacpp": 9,
+      "ttft_p50_s": 1.87
+    }
+  },
+  "attribution_method": "ok events attributed by timing signature (mock: constant 30 ms ITL / 300 ms TTFT; llama-server: >=40 ms/token, >=0.2 s prefill), cross-checked by conservation against mock /debug/state streams_completed",
+  "mock_debug_state": {
+    "requests_total": 12,
+    "streams_started": 12,
+    "streams_completed": 12,
+    "aborts_total": 0
+  },
+  "problems": [],
+  "result": "PASS"
+}
+== ttft-compare (gateway-overhead hypothesis)
+{
+  "check": "ttft-compare",
+  "hypothesis": "via-gateway pooled TTFT p50 - engine-direct pooled TTFT p50 < 100 ms (identical workload version+seed, fresh llama-server per arm, single run per arm)",
+  "pipeline_pooled_p50_s": {
+    "engine_direct": 2.4861807825,
+    "via_gateway": 2.3132731705
+  },
+  "delta_ms": -172.9,
+  "bound_ms": 100,
+  "source": "pooled percentiles from the inferbench analysis pipeline result files only (no re-computation here)",
+  "paired_diagnostic": {
+    "label": "DIAGNOSTIC ONLY \u2014 per-request pairing by workload_item (same seed => same prompt+schedule); not a pipeline statistic, never quotable as a result",
+    "pairs": 40,
+    "delta_ms_median": -20.4,
+    "delta_ms_p90": 107.8,
+    "delta_ms_min": -4375.2,
+    "delta_ms_max": 3269.2
+  },
+  "result": "PASS"
+}

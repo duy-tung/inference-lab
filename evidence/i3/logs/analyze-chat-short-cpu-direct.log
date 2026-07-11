@@ -1,0 +1,24 @@
+result_id: i3-chat-short-cpu-direct
+measured window: 514.893s, 36 events (1 repetition(s)); warm-up: 4 excluded
+throughput: 0.0699 ok-req/s, 7.80 out-tok/s
+error rate 0.0000 + shed rate 0.0000 vs declared gate threshold 0.05
+pooled latency percentiles (method: pooled-raw-events):
+  ttft_seconds: n=36 p50=2.486181 p90=8.958734 p95=9.705061 p99=13.890496 max=15.443167 mean=3.689673  p99 95% CI [9.015426, 15.443167]
+  e2e_duration_seconds: n=36 p50=10.363868 p90=21.099735 p95=24.881027 p99=29.442217 max=31.662331 mean=12.432972  p99 95% CI [21.439992, 31.662331]
+  itl_seconds: n=3964 p50=0.074414 p90=0.084552 p95=0.086795 p99=0.093565 p999=2.882997 max=3.262488 mean=0.079140  p99 95% CI [0.091385, 0.099479]
+  max_stall_seconds: n=36 p50=0.092429 p90=2.844900 p95=3.041878 p99=3.215749 max=3.262488 mean=0.915729  p99 95% CI [2.855129, 3.262488]
+goodput@SLO[scenario-b-llamacpp-cpu-shakedown@1.0.0]: ratio=1.0000 (36/36), 0.0699 req/s meeting SLO | shed_rate=0.0000 | stall_rate=0.0000 (threshold 30s, 0/36 streaming)
+cost: null — no cost profile applies to this run set — cost is null (cost figures are only computed from a declared, provenanced cost-profile file, never from assumed rates)
+knee_estimate: null (no sweep)
+threats_to_validity:
+  - single-host client+server co-location: llama-server (-t 4), infergate, and inferbench share one 4-core host; measured interval-CPU during this run: inferbench mean 0.2% / max 0.6% of one core, llama-server mean 70.0% / max 398.0% of one core. Client-side timing competes with the engine for CPU.
+  - single repetition, small sample (CPU-adapted rate): bootstrap CIs are wide and cross-run dispersion does not exist; numbers are a methodology shakedown, not a performance claim
+  - arrival rate CPU-adapted from same-day single-stream calibration (evidence/i3/logs/rate-calibration.log); results characterize this host + engine build + quantized model only
+  - SLO thresholds derived from same-host calibration probe maxima (x1.5 headroom, seeds distinct from the measured runs): goodput@SLO exercises the machinery, it is not an external target
+  - paired arm ran minutes apart against its own fresh llama-server process (OS page cache warm in both arms after calibration); arm-to-arm drift is not controlled beyond that
+  - run_count=1 is below the >=3-repetitions methodology minimum (experiments.md rule 4); cross-run dispersion is not assessable
+  - no rate sweep in this run set — knee_estimate is null; no claim is made about saturation behavior
+  - no cost profile applies to this run set — cost is null (cost figures are only computed from a declared, provenanced cost-profile file, never from assumed rates)
+unexplained_anomalies: [] (we looked and found none)
+
+wrote schema-valid benchmark-result: evidence/i3/raw/results/i3-chat-short-cpu-direct.benchmark-result.json

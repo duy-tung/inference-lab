@@ -1,0 +1,77 @@
+== raw-event: raw/runs/chat-short-cpu-calib/events.jsonl
+PASS  /home/user/inference-lab/evidence/i3/raw/runs/chat-short-cpu-calib/events.jsonl  [raw-event]
+
+validate: 1/1 file(s) valid against 'raw-event'
+== benchmark-run: raw/runs/chat-short-cpu-calib/manifest.json
+PASS  /home/user/inference-lab/evidence/i3/raw/runs/chat-short-cpu-calib/manifest.json  [benchmark-run]
+
+validate: 1/1 file(s) valid against 'benchmark-run'
+== raw-event: raw/runs/shared-prefix-cpu-calib/events.jsonl
+PASS  /home/user/inference-lab/evidence/i3/raw/runs/shared-prefix-cpu-calib/events.jsonl  [raw-event]
+
+validate: 1/1 file(s) valid against 'raw-event'
+== benchmark-run: raw/runs/shared-prefix-cpu-calib/manifest.json
+PASS  /home/user/inference-lab/evidence/i3/raw/runs/shared-prefix-cpu-calib/manifest.json  [benchmark-run]
+
+validate: 1/1 file(s) valid against 'benchmark-run'
+== raw-event: raw/runs/chat-short-cpu-direct/events.jsonl
+PASS  /home/user/inference-lab/evidence/i3/raw/runs/chat-short-cpu-direct/events.jsonl  [raw-event]
+
+validate: 1/1 file(s) valid against 'raw-event'
+== benchmark-run: raw/runs/chat-short-cpu-direct/manifest.json
+PASS  /home/user/inference-lab/evidence/i3/raw/runs/chat-short-cpu-direct/manifest.json  [benchmark-run]
+
+validate: 1/1 file(s) valid against 'benchmark-run'
+== raw-event: raw/runs/chat-short-cpu-gw/events.jsonl
+PASS  /home/user/inference-lab/evidence/i3/raw/runs/chat-short-cpu-gw/events.jsonl  [raw-event]
+
+validate: 1/1 file(s) valid against 'raw-event'
+== benchmark-run: raw/runs/chat-short-cpu-gw/manifest.json
+PASS  /home/user/inference-lab/evidence/i3/raw/runs/chat-short-cpu-gw/manifest.json  [benchmark-run]
+
+validate: 1/1 file(s) valid against 'benchmark-run'
+== raw-event: raw/runs/shared-prefix-cpu/events.jsonl
+PASS  /home/user/inference-lab/evidence/i3/raw/runs/shared-prefix-cpu/events.jsonl  [raw-event]
+
+validate: 1/1 file(s) valid against 'raw-event'
+== benchmark-run: raw/runs/shared-prefix-cpu/manifest.json
+PASS  /home/user/inference-lab/evidence/i3/raw/runs/shared-prefix-cpu/manifest.json  [benchmark-run]
+
+validate: 1/1 file(s) valid against 'benchmark-run'
+== raw-event: raw/runs/cancel-mid-stream-cpu/events.jsonl
+PASS  /home/user/inference-lab/evidence/i3/raw/runs/cancel-mid-stream-cpu/events.jsonl  [raw-event]
+
+validate: 1/1 file(s) valid against 'raw-event'
+== benchmark-run: raw/runs/cancel-mid-stream-cpu/manifest.json
+PASS  /home/user/inference-lab/evidence/i3/raw/runs/cancel-mid-stream-cpu/manifest.json  [benchmark-run]
+
+validate: 1/1 file(s) valid against 'benchmark-run'
+== raw-event: raw/runs/chat-short-failover/events.jsonl
+PASS  /home/user/inference-lab/evidence/i3/raw/runs/chat-short-failover/events.jsonl  [raw-event]
+
+validate: 1/1 file(s) valid against 'raw-event'
+== benchmark-run: raw/runs/chat-short-failover/manifest.json
+PASS  /home/user/inference-lab/evidence/i3/raw/runs/chat-short-failover/manifest.json  [benchmark-run]
+
+validate: 1/1 file(s) valid against 'benchmark-run'
+== workload: scenario-b workload files
+PASS  /home/user/inference-lab/scenarios/b/workloads/cancel-mid-stream-cpu.json  [workload]
+PASS  /home/user/inference-lab/scenarios/b/workloads/chat-short-cpu-calib.json  [workload]
+PASS  /home/user/inference-lab/scenarios/b/workloads/chat-short-cpu.json  [workload]
+PASS  /home/user/inference-lab/scenarios/b/workloads/chat-short-failover.json  [workload]
+PASS  /home/user/inference-lab/scenarios/b/workloads/shared-prefix-cpu-calib.json  [workload]
+PASS  /home/user/inference-lab/scenarios/b/workloads/shared-prefix-cpu.json  [workload]
+
+validate: 6/6 file(s) valid against 'workload'
+== slo: derived scenario SLO
+PASS  /home/user/inference-lab/evidence/i3/raw/slo/scenario-b-llamacpp-cpu-shakedown.slo.json  [slo]
+
+validate: 1/1 file(s) valid against 'slo'
+== backend-capability: pinned llama.cpp descriptor (infergate@74f2372)
+PASS  /home/user/inference-lab/evidence/i3/raw/llamacpp.backend-capability.json  [backend-capability]
+
+validate: 1/1 file(s) valid against 'backend-capability'
+== api.stream-event: smoke SSE transcript (gateway -> llama.cpp path)
+PASS  /home/user/inference-lab/evidence/i3/raw/smoke-stream.chat-completion-stream.sse  [api.stream-event]
+
+validate: 1/1 file(s) valid against 'api.stream-event'

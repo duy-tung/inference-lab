@@ -1,0 +1,19 @@
+run_id=i3-shared-prefix-cpu-calib repetition=1 requests=8 max_slip=100ms cancel_planned=0 slow_planned=0 prefix_sharing=7
+schedule item=0 offset=7.466781268s input_tokens=1252 max_tokens=210 prefix_group=1
+schedule item=1 offset=18.67403263s input_tokens=1655 max_tokens=16 prefix_group=1
+schedule item=2 offset=46.048909359s input_tokens=1538 max_tokens=215
+schedule item=3 offset=1m6.894132988s input_tokens=1570 max_tokens=164 prefix_group=1
+schedule item=4 offset=1m6.895410731s input_tokens=1152 max_tokens=235 prefix_group=1
+schedule item=5 offset=1m8.873956826s input_tokens=1405 max_tokens=89 prefix_group=1
+schedule item=6 offset=1m20.149393666s input_tokens=1385 max_tokens=285 prefix_group=1
+schedule item=7 offset=1m26.77255791s input_tokens=1461 max_tokens=35 prefix_group=1
+epoch=2026-07-11T00:56:37.338350Z
+request item=1 id=i3-shared-prefix-cpu-calib-r1-000001 status=ok send_slip=14.052076ms body_sha256=acb67aff5acb97e16275b4acd93bef594ac25c65b98cc7001c7bf95939237342
+request item=0 id=i3-shared-prefix-cpu-calib-r1-000000 status=ok send_slip=3.277951ms body_sha256=edbd30043ababfab99f71f137d77687b440685b263d9b1d9523ec115668b1f00
+request item=2 id=i3-shared-prefix-cpu-calib-r1-000002 status=ok send_slip=1.227952ms body_sha256=92d0dd20533764bc04adf626d2ce61f3110aa4d7a8b9cd1c7a0078144e33b579
+request item=4 id=i3-shared-prefix-cpu-calib-r1-000004 status=ok send_slip=429.668µs body_sha256=35e38b283345a265e4293cd1c7c5b552980a9e489f6bb379e07b9ef88909c3bd
+request item=3 id=i3-shared-prefix-cpu-calib-r1-000003 status=ok send_slip=1.685063ms body_sha256=061af74724a33d165baa84a44d534d43a28beebfa16d32c38ac2760f885ce051
+request item=5 id=i3-shared-prefix-cpu-calib-r1-000005 status=ok send_slip=2.087903ms body_sha256=9559c1b454501b8ca92379c73fc7c2b840422d737867c09a82a4de631ba39c7f
+request item=7 id=i3-shared-prefix-cpu-calib-r1-000007 status=ok send_slip=855.043µs body_sha256=0130702c98483fef462a397b1a49befb7a0c8a0f2c85d08241f3b4927a755a23
+request item=6 id=i3-shared-prefix-cpu-calib-r1-000006 status=ok send_slip=953.901µs body_sha256=9aff0d8d1e2110a248890e394a7fc8f4d20acfb7ec984257b8be3c90d6a5682d
+summary sent=8 ok=8 errors=0 shed=0 canceled=0 cancel_planned=0 slow_planned=0 max_dispatch_slip=13.245335ms max_send_slip=14.052076ms usage_missing=0 wall=1m55.042s

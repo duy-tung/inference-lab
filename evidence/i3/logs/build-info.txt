@@ -1,0 +1,18 @@
+scenario-b build 2026-07-11T00:41:05Z
+infergate pin:  74f2372acea62645fa3c1d91689574ea9de7c589
+inferbench pin: 69a5abc604a737235ea3f1721ddb6b7f64334289
+contracts pin:  v0.2.0 (tag object at 484b44904233da569d76bafe4a4acb8d71bbbe4d)
+llama.cpp:      8f114a9b573b69035299f9b924047f53c1e22c7e (prebuilt, verified; llama-server 'version: 1 (8f114a9)')
+llama-server:   /home/user/tools/llama.cpp/build/bin/llama-server (sha256 af4e01186c5b4248b60cf48f908df6516576c6dbf2209064fb6c8cb645201f26)
+model:          /home/user/tools/models/qwen2.5-1.5b-instruct-q4_k_m.gguf
+model sha256:   6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e (verified)
+go toolchain:   go version go1.24.7 linux/amd64
+python:         Python 3.11.15 numpy=2.4.6 jsonschema=4.26.0
+binary sha256:
+  ba79b99fb21e79ab1d10919f75ca00a19b6d9d873818e32dc3b692411cf97465  gateway
+  aa262948a95f5231aecb326fabd0c628f1b6aee09709091ed654bffa8ccd4b45  mock-backend
+  82e8abf6622e566b2c704c30b927deb0ad9ae163172750885f4f6bebcdf03eb2  inferbench
+gateway config sha256 (config_version = v<seq>-<first 8 hex>):
+  24d2072b4a638b6798a0c595aec4d396c9aca01e7e1e90c1a35ab6d120af8d90  gateway-llamacpp.json
+  8ac73bb59ee6b271d14eedc1156b960c01316c160271ff7e58589675d60703bf  gateway-failover.json
+analysis package: inferbench@69a5abc604a737235ea3f1721ddb6b7f64334289 analysis/src via PYTHONPATH (not pip-installed)

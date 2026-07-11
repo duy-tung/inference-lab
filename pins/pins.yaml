@@ -14,8 +14,11 @@
 # STATUS (2026-07-11): I2 ACCEPTED (user review passed; evidence/i2/). The
 # Scenario A pin set carries proven_at: [I2]. serving-contracts v0.2.0 released
 # (tag at 484b449; remote pinnable ref release/v0.2.0 — git proxy drops tags, KI-1).
+# I3 EXECUTED same day (Scenario B pin set below: contracts v0.2.0,
+# infergate/mock 74f2372 host binaries, inferbench 69a5abc, engine-llamacpp
+# 8f114a9, model-gguf Qwen2.5-1.5B-Instruct Q4_K_M); proven_at: [I3] and
+# milestone_evidence.I3 fill at user acceptance (I2 precedent).
 # Entries still expected (recorded here as comments, NOT claims):
-#   - engine-llamacpp         git commit + GGUF model revision       (needed for I3)
 #   - engine-vllm             v0.24.x baseline + exact commit, as of 2026-07 —
 #                             re-verify + model/quantization/tokenizer +
 #                             driver/CUDA + instance type            (needed for I4)
@@ -148,6 +151,131 @@ artifacts:
       deviation D-003 (docs/implementation-notes.md). Digest is the local
       image ID (as above). Re-verify: swap to the upstream contrib image
       digest when a registry is reachable.
+
+  # ---- Scenario B / I3 pin set (recorded 2026-07-11 at IL-T003 execution;
+  # ---- proven_at fills at I3 user acceptance, I2 precedent) -------------------
+
+  - id: contracts-bundle-v0-2-0
+    component: serving-contracts
+    kind: contract-bundle
+    version: "v0.2.0"
+    provenance: measured
+    date: "2026-07-11"
+    proven_at: []
+    source: >-
+      in-program: serving-contracts annotated tag v0.2.0 (local repo
+      /home/user/serving-contracts, tag object 484b44904233da569d76bafe4a4acb8d71bbbe4d);
+      release review passed 2026-07-11; schema content identical to commit
+      8d81492 (the I2 prerelease pin)
+    notes: >-
+      Supersedes contracts-bundle-prerelease for all new scenario work.
+      Scenario B validated every artifact against this bundle
+      (evidence/i3/logs/kit-validate.log). Known cosmetic mismatch recorded
+      honestly: inferbench@69a5abc stamps manifests
+      contracts_bundle_version "8d81492 (v0.2.0 tag pending)" because the
+      tool pinned the tag candidate before the tag was cut — content
+      identical, re-stamps at the next inferbench pin bump.
+
+  - id: infergate-binary
+    component: infergate
+    kind: binary
+    version: "74f2372 (host binary, IG-T005: llama.cpp adapter + failover)"
+    digest: "sha256:ba79b99fb21e79ab1d10919f75ca00a19b6d9d873818e32dc3b692411cf97465"
+    provenance: measured
+    date: "2026-07-11"
+    proven_at: []
+    source: >-
+      in-program: infergate commit 74f2372acea62645fa3c1d91689574ea9de7c589,
+      built read-only via git archive by scenarios/b/build.sh
+      (CGO_ENABLED=0 go1.24.7); digest = sha256 of the built gateway binary
+    notes: >-
+      Scenario B runs HOST PROCESSES, not containers (decision D-004 in
+      docs/implementation-notes.md) — hence kind binary, not
+      container-image, for this scenario's gateway pin. Carries the
+      llama.cpp adapter, the probed capability descriptor
+      (internal/backend/llamacpp/llamacpp.backend-capability.json,
+      kit-validated), and the static-priority mock fallback.
+
+  - id: infergate-mock-binary
+    component: infergate-mock
+    kind: binary
+    version: "74f2372 (host binary)"
+    digest: "sha256:aa262948a95f5231aecb326fabd0c628f1b6aee09709091ed654bffa8ccd4b45"
+    provenance: measured
+    date: "2026-07-11"
+    proven_at: []
+    source: >-
+      in-program: infergate commit 74f2372acea62645fa3c1d91689574ea9de7c589,
+      built read-only via git archive by scenarios/b/build.sh
+      (CGO_ENABLED=0 go1.24.7); digest = sha256 of the built mock-backend binary
+    notes: >-
+      Failover peer for Scenario B (mock<->llama.cpp demo); run with
+      -seed 42 -ttft 300ms -itl 30ms -error-rate 0 (same profile as
+      Scenario A for continuity).
+
+  - id: inferbench-binary-69a5abc
+    component: inferbench
+    kind: binary
+    version: "69a5abc (pre-release, IB-T006: analysis core + report generator)"
+    digest: "sha256:82e8abf6622e566b2c704c30b927deb0ad9ae163172750885f4f6bebcdf03eb2"
+    provenance: measured
+    date: "2026-07-11"
+    proven_at: []
+    source: >-
+      in-program: inferbench commit 69a5abc604a737235ea3f1721ddb6b7f64334289,
+      built read-only via git archive by scenarios/b/build.sh
+      (CGO_ENABLED=0 go1.24.7); digest = sha256 of the built binary
+    notes: >-
+      Supersedes inferbench-binary (caa5074) for new scenario work. The SAME
+      commit pins the Python analysis+report package
+      (inferbench-analysis 0.2.0, analysis/src used via PYTHONPATH from the
+      git-archive extraction — not pip-installed; numpy 2.4.6 /
+      jsonschema 4.26.0 recorded in evidence/i3/logs/build-info.txt).
+      Produced benchmark report #0.
+
+  - id: engine-llamacpp
+    component: engine-llamacpp
+    kind: git-commit
+    version: "8f114a9b573b69035299f9b924047f53c1e22c7e"
+    digest: "sha256:af4e01186c5b4248b60cf48f908df6516576c6dbf2209064fb6c8cb645201f26"
+    provenance: measured
+    date: "2026-07-11"
+    proven_at: []
+    reverify: true
+    source: >-
+      prebuilt llama-server at /home/user/tools/llama.cpp/build/bin
+      (commit verified against the checkout by scenarios/b/build.sh;
+      binary reports "version: 1 (8f114a9)", built with GNU 13.3.0 for
+      Linux x86_64); digest = sha256 of the llama-server binary
+    notes: >-
+      Same commit infergate's IG-T005 adapter + capability descriptor were
+      probed against (internal/backend/llamacpp/llamacpp.backend-capability.json).
+      Scenario B server flags (the pin includes flags per interfaces.md §3):
+      -np 2 -c 8192 -t 4 -a qwen2.5-1.5b-instruct-q4_k_m --metrics --slots
+      --no-webui --log-timestamps => 2 slots x 4096 ctx, CPU-only; all other
+      options at build defaults. reverify: local build, not a released
+      upstream artifact — rebuild/re-verify when the toolchain or host
+      changes.
+
+  - id: model-gguf
+    component: model
+    kind: model-revision
+    version: "Qwen2.5-1.5B-Instruct GGUF Q4_K_M (file qwen2.5-1.5b-instruct-q4_k_m.gguf)"
+    digest: "sha256:6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e"
+    provenance: measured
+    date: "2026-07-11"
+    proven_at: []
+    source: >-
+      Hugging Face download 2026-07-11 (Qwen2.5-1.5B-Instruct GGUF
+      distribution, Q4_K_M file), stored at
+      /home/user/tools/models/qwen2.5-1.5b-instruct-q4_k_m.gguf; sha256
+      computed and re-verified at build time by scenarios/b/build.sh
+    notes: >-
+      The file sha256 IS the pinned model revision: it covers weights,
+      quantization (Q4_K_M), and the GGUF-embedded tokenizer + chat
+      template in one content hash (tokenizer identity has no separate
+      upstream hash for a single-file GGUF). Served under the gateway model
+      id qwen2.5-1.5b-instruct-q4_k_m (llama-server alias set to match).
 
   - id: otel-genai-semconv
     component: otel-semconv

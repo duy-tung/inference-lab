@@ -1,0 +1,16 @@
+{
+  "backend": {
+    "name": "llamacpp",
+    "type": "llamacpp",
+    "url": "http://127.0.0.1:18082",
+    "fallback": {
+      "name": "mock",
+      "type": "openai",
+      "url": "http://127.0.0.1:18083"
+    }
+  },
+  "models": ["qwen2.5-1.5b-instruct-q4_k_m"],
+  "owned_by": "infergate",
+  "upstream_timeout": "300s",
+  "stream_write_timeout": "30s"
+}

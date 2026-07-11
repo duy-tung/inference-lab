@@ -1,0 +1,53 @@
+run_id=i3-shared-prefix-cpu repetition=1 requests=25 max_slip=100ms cancel_planned=0 slow_planned=0 prefix_sharing=18
+schedule item=0 offset=6.537967682s input_tokens=1152 max_tokens=30 prefix_group=1
+schedule item=1 offset=47.180197955s input_tokens=1226 max_tokens=187 prefix_group=1
+schedule item=2 offset=1m37.659877336s input_tokens=1392 max_tokens=54 prefix_group=1
+schedule item=3 offset=1m44.749508059s input_tokens=1600 max_tokens=187
+schedule item=4 offset=2m2.160700641s input_tokens=1424 max_tokens=236 prefix_group=1
+schedule item=5 offset=2m34.797283695s input_tokens=1635 max_tokens=205 prefix_group=1
+schedule item=6 offset=2m42.5278774s input_tokens=1708 max_tokens=100 prefix_group=1
+schedule item=7 offset=2m48.93473331s input_tokens=1261 max_tokens=146 prefix_group=1
+schedule item=8 offset=2m52.439085702s input_tokens=1582 max_tokens=98
+schedule item=9 offset=2m54.206724895s input_tokens=1240 max_tokens=165
+schedule item=10 offset=3m22.715983158s input_tokens=1244 max_tokens=151 prefix_group=1
+schedule item=11 offset=3m52.730394768s input_tokens=1460 max_tokens=244 prefix_group=1
+schedule item=12 offset=5m7.061195374s input_tokens=1435 max_tokens=91
+schedule item=13 offset=5m39.508795053s input_tokens=1671 max_tokens=134 prefix_group=1
+schedule item=14 offset=5m39.860105204s input_tokens=1239 max_tokens=144 prefix_group=1
+schedule item=15 offset=5m41.886864064s input_tokens=1408 max_tokens=246 prefix_group=1
+schedule item=16 offset=6m21.770344519s input_tokens=1504 max_tokens=214 prefix_group=1
+schedule item=17 offset=6m51.062263392s input_tokens=1582 max_tokens=187 prefix_group=1
+schedule item=18 offset=8m5.290955758s input_tokens=1395 max_tokens=161 prefix_group=1
+schedule item=19 offset=8m25.803142675s input_tokens=1491 max_tokens=55 prefix_group=1
+schedule item=20 offset=8m45.515424139s input_tokens=1587 max_tokens=118
+schedule item=21 offset=9m23.013958276s input_tokens=1519 max_tokens=115 prefix_group=2
+schedule item=22 offset=9m41.687750823s input_tokens=1423 max_tokens=73 prefix_group=2
+schedule item=23 offset=9m43.118176686s input_tokens=1296 max_tokens=171
+schedule item=24 offset=9m55.911161967s input_tokens=1220 max_tokens=190
+epoch=2026-07-11T06:09:09.846440Z
+request item=0 id=i3-shared-prefix-cpu-r1-000000 status=ok send_slip=1.849912ms body_sha256=e858c072456dce5869c651f0db15d5803d94cb7454f04ffb641c44f249aa0b6e
+request item=1 id=i3-shared-prefix-cpu-r1-000001 status=ok send_slip=1.449507ms body_sha256=6f8b896338147db2fd59bd275ec8aea2d3074330ca8fa5226d311ae7216f3cd9
+request item=2 id=i3-shared-prefix-cpu-r1-000002 status=ok send_slip=36.007569ms body_sha256=3300ef3d29e0f02e5a2a1bac6466e270d542d1e2d71bdd4014896652a464a00a
+request item=3 id=i3-shared-prefix-cpu-r1-000003 status=ok send_slip=1.396313ms body_sha256=31b89754215219347bf3d633a5cca2307e678e04a191b6a9a358bc7d4b52071c
+request item=4 id=i3-shared-prefix-cpu-r1-000004 status=ok send_slip=1.613844ms body_sha256=d469fb2d50ae90d7aa6153dac44731a0ce8ac451e6b0b974720eaa5400c3d5a4
+request item=5 id=i3-shared-prefix-cpu-r1-000005 status=ok send_slip=11.471318ms body_sha256=f22e125147a89c65f81a5daad939091b068253ecf3cec15b8a7837558f67911a
+request item=6 id=i3-shared-prefix-cpu-r1-000006 status=ok send_slip=1.267098ms body_sha256=27c6c51e46a6a205d081423401ae3de50eb4a911013333a1332dadbc27b395ae
+request item=8 id=i3-shared-prefix-cpu-r1-000008 status=ok send_slip=3.185856ms body_sha256=8d2170735282db2b76c57313288c06e2ea8b641c47f0821aade27bf049ad1428
+request item=7 id=i3-shared-prefix-cpu-r1-000007 status=ok send_slip=7.205877ms body_sha256=a1d08da897c0b9ac36311b7187c5d5cb21f2fd0e860916f8d8a83d8d2cdbe7d3
+request item=9 id=i3-shared-prefix-cpu-r1-000009 status=ok send_slip=626.043µs body_sha256=229e70c0ed4c26f6594e505a3fcf5b5e02aaf964c08621a412ce229a84cbc92f
+request item=10 id=i3-shared-prefix-cpu-r1-000010 status=ok send_slip=1.377521ms body_sha256=dbeb3deae42dfd3ef550eed02b2b4bc5e363b9066b7d86c27358983acfe995b2
+request item=11 id=i3-shared-prefix-cpu-r1-000011 status=ok send_slip=704.144µs body_sha256=325b60190037a5343ff1ce5762a7c658acdfb99d0981f03d7ac9db82ba2ad80a
+request item=12 id=i3-shared-prefix-cpu-r1-000012 status=ok send_slip=17.776929ms body_sha256=3e38f411fc60478389bbf5e864b288e5a153c82b1d7608159b0fe29aaef3747b
+request item=13 id=i3-shared-prefix-cpu-r1-000013 status=ok send_slip=13.391726ms body_sha256=9097e9385af0e2ae2dc203aa0e09681623377269962fe8040c955fc9376cd125
+request item=14 id=i3-shared-prefix-cpu-r1-000014 status=ok send_slip=977.063µs body_sha256=455dcddd36cc5007fd3d63e07d6daf117abfdd285958afef286401a19395d12d
+request item=15 id=i3-shared-prefix-cpu-r1-000015 status=ok send_slip=1.889441ms body_sha256=74ec852af34288354b8753d906bd4e5b9ee0113a2d269dfdd0d6d50c7ee23cf1
+request item=16 id=i3-shared-prefix-cpu-r1-000016 status=ok send_slip=15.413519ms body_sha256=a326d87009ff6f0833d5be0e2e5356cb2e9c3b366bd450117594f3215f3a014b
+request item=17 id=i3-shared-prefix-cpu-r1-000017 status=ok send_slip=907.374µs body_sha256=9e4ca005ea2e26eb9c990195a35cf52f82105d67041907d9bda9533e366f18e0
+request item=18 id=i3-shared-prefix-cpu-r1-000018 status=ok send_slip=957.78µs body_sha256=212b67fa011f8151c34925581f6b364259b7cfd3f150882478f020a4b6c88961
+request item=19 id=i3-shared-prefix-cpu-r1-000019 status=ok send_slip=593.134µs body_sha256=c3f9ec0336594b548bc239763210aa8e34a14b609acd855ccb6dd9342126af52
+request item=20 id=i3-shared-prefix-cpu-r1-000020 status=ok send_slip=1.495718ms body_sha256=5af7e564e3b49a52f05ba722b323345e7a8d5f32e2e95ff5e84c0dab4774e913
+request item=21 id=i3-shared-prefix-cpu-r1-000021 status=ok send_slip=511.275µs body_sha256=03190af90027a84c611617513a3926d89d8bccb2e765ff392846c1f1d725d3c8
+request item=22 id=i3-shared-prefix-cpu-r1-000022 status=ok send_slip=1.592914ms body_sha256=28b95aa424cf31b6e22c4c39de1945fff0231224f57462cea6d8598756bd3a4a
+request item=24 id=i3-shared-prefix-cpu-r1-000024 status=ok send_slip=1.700016ms body_sha256=61ccc51545273d06f0bda4447dc021f72ed19c447fd55506c553f8074ef05697
+request item=23 id=i3-shared-prefix-cpu-r1-000023 status=ok send_slip=1.344684ms body_sha256=f4c0ca7bc6c0b89b326769690f3ff8d8985534dcd186d82cbd280853d037e998
+summary sent=25 ok=25 errors=0 shed=0 canceled=0 cancel_planned=0 slow_planned=0 max_dispatch_slip=34.997629ms max_send_slip=36.007569ms usage_missing=0 wall=10m36.111s

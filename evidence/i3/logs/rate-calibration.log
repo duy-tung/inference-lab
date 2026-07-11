@@ -1,0 +1,46 @@
+# Scenario B rate calibration — measured 2026-07-11 (pre-run, this host)
+#
+# Purpose: choose CPU-adapted open-loop rates for the scenario-b workload
+# variants (canonical chat-short 8 rps / shared-prefix 6 rps are sized for a
+# GPU-class target; this host is 4 CPU cores). Method: direct probes against
+# llama-server 8f114a9 (-m qwen2.5-1.5b-instruct-q4_k_m.gguf -np 2 -c 8192
+# -t 4, same flags as the scenario runs), engine-reported `timings` from
+# /v1/chat/completions responses. Raw outputs verbatim below.
+#
+# probe 1 — short prompt (chat-short shape), single stream, cold:
+{'completion_tokens': 14, 'prompt_tokens': 230, 'total_tokens': 244, 'prompt_tokens_details': {'cached_tokens': 0}}
+{'cache_n': 0, 'prompt_n': 230, 'prompt_ms': 2189.202, 'prompt_per_token_ms': 9.518269565217393, 'prompt_per_second': 105.06111359298959, 'predicted_n': 14, 'predicted_ms': 617.914, 'predicted_per_token_ms': 44.136714285714284, 'predicted_per_second': 22.656874581252406}
+#
+# probe 2 — long prompt (shared-prefix shape), single stream, cold, then the
+# same prefix again with a different tail (slot prefix-cache probe):
+cold: {'cache_n': 0, 'prompt_n': 1354, 'prompt_ms': 15198.5, 'prompt_per_token_ms': 11.2, 'prompt_per_second': 89.1, 'predicted_n': 64, 'predicted_ms': 4017.8, 'predicted_per_token_ms': 62.8, 'predicted_per_second': 15.9}
+warm: {'cache_n': 1349, 'prompt_n': 12, 'prompt_ms': 288.6, 'prompt_per_token_ms': 24.0, 'prompt_per_second': 41.6, 'predicted_n': 58, 'predicted_ms': 3581.7, 'predicted_per_token_ms': 61.8, 'predicted_per_second': 16.2}
+#
+# probe 3 — two concurrent streams (ignore_eos, 96 tokens each), decode
+# sharing across the 2 slots:
+concurrent: {'prompt_n': 188, 'prompt_ms': 3522.7, 'predicted_n': 96, 'predicted_ms': 6966.0, 'predicted_per_second': 13.8}
+concurrent: {'prompt_n': 188, 'prompt_ms': 3523.1, 'predicted_n': 96, 'predicted_ms': 6965.9, 'predicted_per_second': 13.8}
+#
+# Summary (measured):
+#   prefill: ~89-105 tok/s single stream (~53 tok/s per stream when 2 prefill
+#            concurrently); slot prefix-cache reuse works (cache_n 1349/1361,
+#            re-prefill 288.6 ms vs 15198.5 ms cold)
+#   decode:  22.7 tok/s single stream short-ctx; 15.9 tok/s single at ~1.4k
+#            ctx; 13.8 tok/s per stream with both slots decoding
+#
+# Rate derivation (recorded reasoning, also in the workload descriptions):
+#   chat-short-cpu:  mean service ~= 2 s prefill (200 tok @ ~100 tok/s) +
+#                    <=10 s decode (lognormal cap 384, median ~121 tok @
+#                    ~14-22 tok/s; real model may EOS earlier) ~= <=12 s.
+#                    2 slots => saturation near ~0.17 req/s. Chosen rate
+#                    0.08 rps ~= 0.5 utilization; 600 s => ~48 requests.
+#   shared-prefix-cpu: cold prefill ~15.7 s (1400 tok @ 89 tok/s), sharing
+#                    requests ~4-6 s (suffix only, given cache reuse); decode
+#                    ~160 tok @ ~14 tok/s ~= 11 s => ~16-28 s service.
+#                    2 slots => saturation near ~0.07-0.12 req/s. Chosen rate
+#                    0.04 rps ~= 0.5 utilization; 600 s => ~24 requests
+#                    (deliberately small; wide CIs stated in the reports).
+#
+# Provenance: measured this session on the run host (4 cores, see
+# logs/host-facts.txt); volatile — re-derive if host, engine build, model, or
+# flags change.

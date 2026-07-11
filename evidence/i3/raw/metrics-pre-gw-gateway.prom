@@ -1,0 +1,49 @@
+# HELP inference_backend_healthy 1/0 per configured backend as judged by gateway health checking (static 1 until the health poller lands, IG-T012).
+# TYPE inference_backend_healthy gauge
+inference_backend_healthy{backend="llamacpp"} 1
+# HELP inference_e2e_duration_seconds Start of the TTFT window to terminal outcome at the gateway, per request.
+# TYPE inference_e2e_duration_seconds histogram
+# HELP inference_itl_seconds Inter-chunk gap between consecutive content-bearing stream chunks, measured at the gateway on upstream reads.
+# TYPE inference_itl_seconds histogram
+# HELP inference_queue_depth Admission queue depth per tenant tier (0 until admission control lands, IG-T010).
+# TYPE inference_queue_depth gauge
+inference_queue_depth{tenant_tier="default"} 0
+# HELP inference_queue_wait_seconds Admission-enqueue to dispatch wait (zero-length window until admission control lands, IG-T010).
+# TYPE inference_queue_wait_seconds histogram
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.001"} 0
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.0025"} 0
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.005"} 0
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.01"} 0
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.025"} 0
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.05"} 0
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.1"} 0
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.25"} 0
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.5"} 0
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="1"} 0
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="2.5"} 0
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="5"} 0
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="10"} 0
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="30"} 0
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="+Inf"} 0
+inference_queue_wait_seconds_sum{tenant_tier="default"} 0
+inference_queue_wait_seconds_count{tenant_tier="default"} 0
+# HELP inference_requests_in_flight Requests currently dispatched to a backend and not yet settled.
+# TYPE inference_requests_in_flight gauge
+inference_requests_in_flight{backend="llamacpp"} 0
+# HELP inference_requests_total Requests by terminal outcome, incremented once per request at settle time (error_class="none" for successes).
+# TYPE inference_requests_total counter
+# HELP inference_retries_total Upstream retries; stage has exactly one legal value, pre_first_token (0 until the retry budget lands, IG-T013).
+# TYPE inference_retries_total counter
+inference_retries_total{stage="pre_first_token"} 0
+# HELP inference_sheds_total Admission rejections by reason (0 until admission control lands, IG-T010).
+# TYPE inference_sheds_total counter
+inference_sheds_total{reason="backend_unavailable"} 0
+inference_sheds_total{reason="global_overload"} 0
+inference_sheds_total{reason="queue_full"} 0
+inference_sheds_total{reason="tenant_rate_limit"} 0
+# HELP inference_ttft_seconds Gateway TTFT: complete client request read to first upstream response body byte at the gateway.
+# TYPE inference_ttft_seconds histogram
+# HELP inference_usage_tokens_total Settled billable tokens (tokens emitted before cancellation are billable).
+# TYPE inference_usage_tokens_total counter
+inference_usage_tokens_total{direction="input",model="qwen2.5-1.5b-instruct-q4_k_m",tenant_tier="default"} 0
+inference_usage_tokens_total{direction="output",model="qwen2.5-1.5b-instruct-q4_k_m",tenant_tier="default"} 0

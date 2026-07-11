@@ -1,0 +1,1 @@
+shared-prefix-cpu phase interrupted at ~01:19 UTC by a container freeze (session limit); partial events preserved, run INVALID (no summary, manifest without completed schedule). Phase rerun after resume at 06:05 UTC with PHASES gating; see evidence/i3/notes.md.

@@ -5,7 +5,8 @@ inferbench → infergate → llama.cpp (CPU)
 ```
 
 - **Owning milestone:** I3 (owner: inference-lab). Task: IL-T003.
-- **Status:** defined (2026-07-10). Compose/scripts arrive with IL-T003; inputs unpinned.
+- **Status:** executed (2026-07-11) — evidence in [`evidence/i3/`](../../evidence/i3/checklist.md);
+  I3 user-acceptance review pending. Inputs pinned in `pins/pins.yaml` (Scenario B pin set).
 - **Depends on:** I2 accepted (Scenario A).
 
 ## Purpose
@@ -15,18 +16,22 @@ llama.cpp adapter against real token generation, shake down the benchmark method
 (report #0), verify cancellation against a real engine, and demonstrate mock↔llama.cpp
 failover through the gateway.
 
-## Components (all released artifacts, pinned in `pins/pins.yaml`)
+## Components (pinned in `pins/pins.yaml`; Scenario B pin set, 2026-07-11)
 
-| Component | Artifact | Pin entry (expected id) |
+| Component | Artifact | Pin entry (actual id) |
 |---|---|---|
-| Gateway | infergate image (digest-pinned), llama.cpp adapter enabled | `infergate-image` |
-| Engine | llama.cpp server at an **exact pinned commit** | `engine-llamacpp` |
-| Model | GGUF checkpoint: pinned revision + quantization + tokenizer hash | `model-gguf` |
-| Load/measurement | inferbench released binary + report generator | `inferbench-binary` |
-| Failover peer | mock-backend image (for mock↔llama.cpp failover demo) | `infergate-mock-image` |
-| Contracts | serving-contracts bundle | `contracts-bundle` |
+| Gateway | infergate **host binary** @74f2372 (llama.cpp adapter + failover), sha256-recorded | `infergate-binary` |
+| Engine | llama.cpp llama-server at commit 8f114a9 (prebuilt, commit + binary sha256 verified at build) | `engine-llamacpp` |
+| Model | Qwen2.5-1.5B-Instruct GGUF Q4_K_M; **file sha256 = pinned revision** (covers weights + quantization + embedded tokenizer) | `model-gguf` |
+| Load/measurement | inferbench binary + analysis/report package @69a5abc | `inferbench-binary-69a5abc` |
+| Failover peer | mock-backend **host binary** @74f2372 (mock↔llama.cpp failover demo) | `infergate-mock-binary` |
+| Contracts | serving-contracts v0.2.0 (tag at 484b449) | `contracts-bundle-v0-2-0` |
 
-**Pinned inputs: currently none — everything unpinned as of 2026-07-10.**
+**Deviation from the definition above as written at IL-T001:** Scenario B runs **host
+processes, not containers** (binaries instead of digest-pinned images) — decision D-004 in
+`docs/implementation-notes.md`. Scenario B is a local scenario; container/registry rigor was
+proven at I2 and full operational rigor is I5's job. Every binary is built read-only via
+`git archive <pinned commit>` with recorded sha256s (`evidence/i3/logs/build-info.txt`).
 
 ## Expected outcome
 
@@ -35,14 +40,22 @@ llama.cpp; the first schema-valid benchmark report (report #0 — a methodology 
 a performance claim) is generated with full manifest + validity block; cancellation and
 failover behave per contract.
 
-## Indicative invocation (executed at IL-T003, not before)
+## Actual invocation (as executed 2026-07-11)
 
 ```bash
-docker compose up          # in scenarios/b
-inferbench run --workload chat-short   --seed <s> --target http://infergate:<port>
-inferbench run --workload shared-prefix --seed <s> --target http://infergate:<port>
-inferbench report --run <id>
+scenarios/b/build.sh               # pinned extraction + host binaries + contracts bundle
+scenarios/b/run.sh evidence/i3     # calibration -> SLO -> paired chat-short arms ->
+                                   # shared-prefix -> cancellation -> failover ->
+                                   # kit validation -> analysis + reports -> checks
 ```
+
+The canonical `chat-short`/`shared-prefix` workloads are consumed as CPU-adapted variants
+(`workloads/chat-short-cpu.json`, `workloads/shared-prefix-cpu.json`): distributions, seeds
+and duration identical to the canonical files, **only the arrival rate changed** (8→0.08,
+6→0.04 rps), with the measured derivation recorded in each file's description and in
+`evidence/i3/logs/rate-calibration.log`. Workload rhythm: `run.sh` also runs the identical
+chat-short-cpu schedule **engine-direct** (fresh llama-server per arm) so benchmark report #0
+carries a real, falsifiable gateway-overhead hypothesis.
 
 ## Acceptance checklist (mirrors I3 — executed copy goes to `evidence/i3/checklist.md`)
 

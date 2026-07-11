@@ -1,0 +1,6 @@
+0.00.003.750 I cmn  common_param: common_params_print_info: verbosity = 3 (adjust with the `-lv N` CLI arg)
+0.00.003.948 I srv          init: The UI is disabled
+0.00.003.949 I srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
+0.00.004.163 E srv         start: couldn't bind HTTP server socket, hostname: 127.0.0.1, port: 18082
+0.00.004.164 I srv    operator(): operator(): cleaning up before exit...
+0.00.004.258 E srv  llama_server: exiting due to HTTP server error

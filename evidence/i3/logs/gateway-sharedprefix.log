@@ -1,0 +1,4 @@
+time=2026-07-11T06:09:09.383Z level=INFO msg="config snapshot published" config_version=v1-24d2072b models=qwen2.5-1.5b-instruct-q4_k_m backend=llamacpp publish_latency=982.112µs
+time=2026-07-11T06:09:09.384Z level=INFO msg="gateway listening" addr=127.0.0.1:18080 backend=llamacpp models=qwen2.5-1.5b-instruct-q4_k_m config_version=v1-24d2072b
+time=2026-07-11T06:19:46.414Z level=INFO msg="shutdown signal received; draining" signal=terminated in_flight=0 drain_timeout=5m5s
+time=2026-07-11T06:19:46.414Z level=INFO msg="drain complete" waited=2.246µs

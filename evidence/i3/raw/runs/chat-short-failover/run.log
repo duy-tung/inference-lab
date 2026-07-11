@@ -1,0 +1,59 @@
+run_id=i3-chat-short-failover repetition=1 requests=28 max_slip=100ms cancel_planned=0 slow_planned=0 prefix_sharing=0
+schedule item=0 offset=19.262996226s input_tokens=204 max_tokens=200
+schedule item=1 offset=27.742616607s input_tokens=197 max_tokens=200
+schedule item=2 offset=34.814115258s input_tokens=289 max_tokens=200
+schedule item=3 offset=54.442658049s input_tokens=122 max_tokens=200
+schedule item=4 offset=1m3.454863091s input_tokens=318 max_tokens=200
+schedule item=5 offset=1m17.048832431s input_tokens=16 max_tokens=200
+schedule item=6 offset=1m33.913612506s input_tokens=234 max_tokens=200
+schedule item=7 offset=1m44.721615594s input_tokens=115 max_tokens=200
+schedule item=8 offset=1m55.540753936s input_tokens=262 max_tokens=200
+schedule item=9 offset=1m57.67577584s input_tokens=189 max_tokens=200
+schedule item=10 offset=2m8.607417307s input_tokens=101 max_tokens=200
+schedule item=11 offset=2m20.880242295s input_tokens=132 max_tokens=200
+schedule item=12 offset=2m40.84295695s input_tokens=302 max_tokens=200
+schedule item=13 offset=2m46.813406475s input_tokens=197 max_tokens=200
+schedule item=14 offset=2m58.173758989s input_tokens=97 max_tokens=200
+schedule item=15 offset=3m4.445735298s input_tokens=229 max_tokens=200
+schedule item=16 offset=3m26.252220412s input_tokens=258 max_tokens=200
+schedule item=17 offset=3m31.269034537s input_tokens=148 max_tokens=200
+schedule item=18 offset=3m47.732723964s input_tokens=234 max_tokens=200
+schedule item=19 offset=4m4.291923526s input_tokens=171 max_tokens=200
+schedule item=20 offset=4m23.514745841s input_tokens=182 max_tokens=200
+schedule item=21 offset=4m25.260628616s input_tokens=100 max_tokens=200
+schedule item=22 offset=4m45.060437997s input_tokens=225 max_tokens=200
+schedule item=23 offset=5m6.800631353s input_tokens=332 max_tokens=200
+schedule item=24 offset=5m10.039706983s input_tokens=208 max_tokens=200
+schedule item=25 offset=5m26.15114787s input_tokens=321 max_tokens=200
+schedule item=26 offset=5m38.436796724s input_tokens=111 max_tokens=200
+schedule item=27 offset=5m56.172762191s input_tokens=308 max_tokens=200
+epoch=2026-07-11T06:22:10.840892Z
+request item=0 id=i3-chat-short-failover-r1-000000 status=ok send_slip=14.456655ms body_sha256=5c820f86e21aad4bb1f1088e2d2d38a99dfb3141fecc5f4e8d91e7e122fdf6ce
+request item=1 id=i3-chat-short-failover-r1-000001 status=ok send_slip=940.171µs body_sha256=9801bf881f560c58bb8823eed083102d0136873edc2815e85babc5a545e13f17
+request item=2 id=i3-chat-short-failover-r1-000002 status=ok send_slip=1.354366ms body_sha256=4d90a10490e52452605424d424fe4fdedc9c7278c82d45ab212b49f1395c55f5
+request item=3 id=i3-chat-short-failover-r1-000003 status=ok send_slip=4.905179ms body_sha256=ceec6ba9eb9a1b8f9e2872fa7b73595f952659d64481bb367932dfa069d4670e
+request item=4 id=i3-chat-short-failover-r1-000004 status=ok send_slip=4.049981ms body_sha256=3f5c419326e86a23db3b3801452b0b85cc119db19c64ffb5d244dfc521628ff1
+request item=5 id=i3-chat-short-failover-r1-000005 status=ok send_slip=6.62539ms body_sha256=e8c4c578f65c964eafb6213ba7ce1137392eb22c917b8017352e02edb8f2df69
+request item=6 id=i3-chat-short-failover-r1-000006 status=error send_slip=493.609µs body_sha256=a5249cfe7f80f067ec10569eb6c80327f6619c7367695196fd22518b9554a2a9
+request item=7 id=i3-chat-short-failover-r1-000007 status=ok send_slip=4.374586ms body_sha256=e762d68198dbc878fa53582c068cfc4126f9adf7fd811c90158fa158b07a593e
+request item=9 id=i3-chat-short-failover-r1-000009 status=ok send_slip=1.246089ms body_sha256=29bac26f98f54f1f195f785bc343bb3e73067f757f098f4659ec1b9f61e947d3
+request item=8 id=i3-chat-short-failover-r1-000008 status=ok send_slip=509.653µs body_sha256=796b7114d206b6be9969da44c41a3f2f7ca0ed24b34c184c6c0c49a5293130b4
+request item=10 id=i3-chat-short-failover-r1-000010 status=ok send_slip=437.014µs body_sha256=64e9520897398d1bad327c10740c9de033af24e98c69a66d6fd5e49322e160b6
+request item=11 id=i3-chat-short-failover-r1-000011 status=ok send_slip=5.184685ms body_sha256=8198b2dc426dadd1654684f58a5f72cd5b4648483b2acdcefee9acdf7f11e398
+request item=12 id=i3-chat-short-failover-r1-000012 status=ok send_slip=895.355µs body_sha256=16780db4919a7de9e7220e48e91f1d534b29671456e33ee40c75c8f3ac386f55
+request item=13 id=i3-chat-short-failover-r1-000013 status=ok send_slip=1.113899ms body_sha256=acc07eb31429ead575cf92f6a6990beee0a3401aba59614ba04bb7ff5d76e87d
+request item=14 id=i3-chat-short-failover-r1-000014 status=ok send_slip=5.865086ms body_sha256=05a7cdee30f054ca96c1899f5256214b9472d86c3aebecc9198d677016e8ac67
+request item=15 id=i3-chat-short-failover-r1-000015 status=ok send_slip=884.585µs body_sha256=38ef95e2d40612f62f04e249ad7ab397f22121b9ae4a1d5390709a7bcdbddd73
+request item=16 id=i3-chat-short-failover-r1-000016 status=ok send_slip=2.933717ms body_sha256=1191b0b66488c26626b2de047c068b2f4f0d3397257eda1785284b7f3a32191f
+request item=17 id=i3-chat-short-failover-r1-000017 status=ok send_slip=3.585386ms body_sha256=1fa8741b9416c565421357cc83407990f50c8747bbcf2868fa23ab3793fca09f
+request item=18 id=i3-chat-short-failover-r1-000018 status=ok send_slip=15.664003ms body_sha256=c43c0a91bfbeabe793970f6ac4b510333c32f5a69672cb0ca5e3b5962d55b1a1
+request item=19 id=i3-chat-short-failover-r1-000019 status=ok send_slip=14.165732ms body_sha256=2e24accd385f7dd5eb4752a1fa466bd6178a7a3372931898994a40e679135fee
+request item=21 id=i3-chat-short-failover-r1-000021 status=ok send_slip=1.04245ms body_sha256=74ac9d3b01da47bd5706ad8286196834f8266d8cab1595a254df2aaecf8ea468
+request item=20 id=i3-chat-short-failover-r1-000020 status=ok send_slip=11.560415ms body_sha256=4f11b8e071f3a4ccfe0e974dbb1bfeec685d221f4ffd1be4a048aa7bcfdf58b6
+request item=22 id=i3-chat-short-failover-r1-000022 status=ok send_slip=6.611518ms body_sha256=0f4302da619b16b7af62a92faa825652766d9e39f2fb45faa541a70a81c33ec8
+request item=23 id=i3-chat-short-failover-r1-000023 status=ok send_slip=12.88277ms body_sha256=e795f66ecec38ae586c3ffc45bfb3a075b93b032d8fbf405c9617ee97c2fe925
+request item=24 id=i3-chat-short-failover-r1-000024 status=ok send_slip=1.311981ms body_sha256=28053c6042820d479e225654acff70488ff56f4cdb7871a66b8353d9493d7a8d
+request item=25 id=i3-chat-short-failover-r1-000025 status=ok send_slip=3.851561ms body_sha256=8ee01ad5828c4a2810ff1f58892a80fddc0f1f86f88294ec86bc2b4f1b0a851a
+request item=26 id=i3-chat-short-failover-r1-000026 status=ok send_slip=956.976µs body_sha256=15ebcf72ce3f83c4c3fc478ba280416900cb52d9ddd49cae2dae6ef39b557115
+request item=27 id=i3-chat-short-failover-r1-000027 status=ok send_slip=483.441µs body_sha256=a5e1870c773533c38da9d74f3d35fa2c450397c3f89c2b87e520fe8b98cd12b5
+summary sent=28 ok=27 errors=1 shed=0 canceled=0 cancel_planned=0 slow_planned=0 max_dispatch_slip=15.005847ms max_send_slip=15.664003ms usage_missing=0 wall=6m2.223s

@@ -1,0 +1,27 @@
+run_id=i3-chat-short-cpu-calib repetition=1 requests=12 max_slip=100ms cancel_planned=0 slow_planned=0 prefix_sharing=0
+schedule item=0 offset=3.79455153s input_tokens=364 max_tokens=75
+schedule item=1 offset=22.739940026s input_tokens=207 max_tokens=59
+schedule item=2 offset=25.381420046s input_tokens=297 max_tokens=276
+schedule item=3 offset=38.457451152s input_tokens=79 max_tokens=145
+schedule item=4 offset=56.163511638s input_tokens=198 max_tokens=384
+schedule item=5 offset=1m53.941461494s input_tokens=131 max_tokens=239
+schedule item=6 offset=2m0.253771811s input_tokens=238 max_tokens=189
+schedule item=7 offset=2m0.751526643s input_tokens=215 max_tokens=89
+schedule item=8 offset=2m2.411238167s input_tokens=263 max_tokens=140
+schedule item=9 offset=2m16.619793813s input_tokens=225 max_tokens=111
+schedule item=10 offset=2m17.911791394s input_tokens=219 max_tokens=48
+schedule item=11 offset=2m34.196609919s input_tokens=222 max_tokens=80
+epoch=2026-07-11T00:53:51.562808Z
+request item=0 id=i3-chat-short-cpu-calib-r1-000000 status=ok send_slip=4.444681ms body_sha256=e0d03cbe3653e4a754005b5338b04d7ff70e67099165cb23cd40a993e04027ed
+request item=2 id=i3-chat-short-cpu-calib-r1-000002 status=ok send_slip=1.463317ms body_sha256=4ddf03a30cf517ea2f9934bf2c7f2e5c9d2bb41b7d2dedf11c33009295506740
+request item=1 id=i3-chat-short-cpu-calib-r1-000001 status=ok send_slip=11.24765ms body_sha256=eb30e2b812c6f2a3ee22a5f219aeb69f4415e22145dc9b6155df9dbd52c65138
+request item=3 id=i3-chat-short-cpu-calib-r1-000003 status=ok send_slip=6.298284ms body_sha256=77908f03191d7de5bde34f359dcc0ea2371ff20b3129972a7216fd3889135cf6
+request item=4 id=i3-chat-short-cpu-calib-r1-000004 status=ok send_slip=9.072809ms body_sha256=e935ea74be6e0aecff50c57a9b5418791a2bdb3bc3f75b0cfa378f7e87c24e84
+request item=6 id=i3-chat-short-cpu-calib-r1-000006 status=ok send_slip=960.015µs body_sha256=43707647f43f14a066c5fafdcdfaa9af1953767453cc339998e9929e385cc907
+request item=5 id=i3-chat-short-cpu-calib-r1-000005 status=ok send_slip=999.951µs body_sha256=118c2f5fdb1c1481107c854b8496a043ab0c9a62346938a32512e0e8a4653352
+request item=7 id=i3-chat-short-cpu-calib-r1-000007 status=ok send_slip=661.179µs body_sha256=1457286a4c8375914d29a59dda29a4da8decb05a41d9b6689304f46f95a964e9
+request item=8 id=i3-chat-short-cpu-calib-r1-000008 status=ok send_slip=1.448876ms body_sha256=85173c21432fcb1e1d902a8195d93aad06fb8e963dd787511697e6f6da4ae70c
+request item=10 id=i3-chat-short-cpu-calib-r1-000010 status=ok send_slip=750.697µs body_sha256=bef1719061cba71e9a1f22f3068f245bf46813def369165c04071c8a51b98995
+request item=9 id=i3-chat-short-cpu-calib-r1-000009 status=ok send_slip=1.338452ms body_sha256=98bd0371061de43d1299c4538c729bb4c069cdf2d18b90ed13acbf2d1dae90ce
+request item=11 id=i3-chat-short-cpu-calib-r1-000011 status=ok send_slip=1.734107ms body_sha256=f582ea6af7ec3bfadbb8ec91306512d4e73fecdbe14e6f55283a5c61f1fdfc85
+summary sent=12 ok=12 errors=0 shed=0 canceled=0 cancel_planned=0 slow_planned=0 max_dispatch_slip=11.061819ms max_send_slip=11.24765ms usage_missing=0 wall=2m45.755s

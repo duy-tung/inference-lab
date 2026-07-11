@@ -1,0 +1,5 @@
+time=2026-07-11T06:22:10.823Z level=INFO msg="config snapshot published" config_version=v1-8ac73bb5 models=qwen2.5-1.5b-instruct-q4_k_m backend=llamacpp+mock publish_latency=473.784µs
+time=2026-07-11T06:22:10.823Z level=INFO msg="gateway listening" addr=127.0.0.1:18080 backend=llamacpp+mock models=qwen2.5-1.5b-instruct-q4_k_m config_version=v1-8ac73bb5
+time=2026-07-11T06:23:50.882Z level=WARN msg="upstream failed mid-stream" request_id=i3-chat-short-failover-r1-000006 backend=llamacpp+mock chunks_relayed=83 error="upstream backend failed: unexpected EOF"
+time=2026-07-11T06:28:13.411Z level=INFO msg="shutdown signal received; draining" signal=terminated in_flight=0 drain_timeout=5m5s
+time=2026-07-11T06:28:13.411Z level=INFO msg="drain complete" waited=29.47µs

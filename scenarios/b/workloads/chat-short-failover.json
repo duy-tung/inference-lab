@@ -1,0 +1,34 @@
+{
+  "name": "chat-short-failover",
+  "version": "1.0.0",
+  "seed": 3003001,
+  "description": "Scenario B / I3 failover demonstration workload: steady 0.08 rps streaming traffic for 360 s with a constant 200-token output cap (long-ish streams so the mid-run llama-server SIGKILL reliably catches accepted streams in flight). run.sh kills llama-server once a slot is processing (~T+110-130 s) and restarts it at ~T+240 s; the gateway runs the IG-T005 static-priority Failover pair (llamacpp primary, mock fallback). Expected client-visible behavior per infergate@74f2372: streams accepted before the kill end with exactly one typed upstream_error SSE event (never failed over -- tokens already delivered must not be duplicated); every request dispatched while llama-server is down is served by the mock (one failed dial each, then fallback, zero client-visible errors); after the restart, per-request primary-first selection returns traffic to llama-server automatically.",
+  "arrival_process": {
+    "type": "open-loop-poisson",
+    "rate_rps": 0.08
+  },
+  "input_length_distribution": {
+    "type": "normal",
+    "mean": 200,
+    "stddev": 80,
+    "min": 16,
+    "max": 1024
+  },
+  "output_length_distribution": {
+    "type": "constant",
+    "value": 200
+  },
+  "prefix_sharing": {
+    "ratio": 0
+  },
+  "cancellation": {
+    "rate": 0
+  },
+  "slow_client": {
+    "fraction": 0
+  },
+  "stop": {
+    "duration_seconds": 360
+  },
+  "tags": ["scenario-b", "failover"]
+}

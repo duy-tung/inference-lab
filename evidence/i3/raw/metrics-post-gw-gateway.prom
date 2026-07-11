@@ -1,0 +1,94 @@
+# HELP inference_backend_healthy 1/0 per configured backend as judged by gateway health checking (static 1 until the health poller lands, IG-T012).
+# TYPE inference_backend_healthy gauge
+inference_backend_healthy{backend="llamacpp"} 1
+# HELP inference_e2e_duration_seconds Start of the TTFT window to terminal outcome at the gateway, per request.
+# TYPE inference_e2e_duration_seconds histogram
+inference_e2e_duration_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx",le="0.25"} 0
+inference_e2e_duration_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx",le="0.5"} 0
+inference_e2e_duration_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx",le="1"} 0
+inference_e2e_duration_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx",le="2"} 0
+inference_e2e_duration_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx",le="4"} 0
+inference_e2e_duration_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx",le="8"} 12
+inference_e2e_duration_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx",le="15"} 36
+inference_e2e_duration_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx",le="30"} 40
+inference_e2e_duration_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx",le="60"} 40
+inference_e2e_duration_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx",le="120"} 40
+inference_e2e_duration_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx",le="300"} 40
+inference_e2e_duration_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx",le="600"} 40
+inference_e2e_duration_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx",le="+Inf"} 40
+inference_e2e_duration_seconds_sum{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx"} 421.471661995
+inference_e2e_duration_seconds_count{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",status_class="2xx"} 40
+# HELP inference_itl_seconds Inter-chunk gap between consecutive content-bearing stream chunks, measured at the gateway on upstream reads.
+# TYPE inference_itl_seconds histogram
+inference_itl_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="0.005"} 0
+inference_itl_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="0.01"} 0
+inference_itl_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="0.02"} 0
+inference_itl_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="0.04"} 0
+inference_itl_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="0.08"} 2564
+inference_itl_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="0.15"} 3776
+inference_itl_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="0.3"} 3776
+inference_itl_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="0.6"} 3776
+inference_itl_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="1"} 3776
+inference_itl_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="2"} 3780
+inference_itl_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="5"} 3791
+inference_itl_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="+Inf"} 3791
+inference_itl_seconds_sum{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp"} 289.69578352299965
+inference_itl_seconds_count{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp"} 3791
+# HELP inference_queue_depth Admission queue depth per tenant tier (0 until admission control lands, IG-T010).
+# TYPE inference_queue_depth gauge
+inference_queue_depth{tenant_tier="default"} 0
+# HELP inference_queue_wait_seconds Admission-enqueue to dispatch wait (zero-length window until admission control lands, IG-T010).
+# TYPE inference_queue_wait_seconds histogram
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.001"} 40
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.0025"} 40
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.005"} 40
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.01"} 40
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.025"} 40
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.05"} 40
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.1"} 40
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.25"} 40
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="0.5"} 40
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="1"} 40
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="2.5"} 40
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="5"} 40
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="10"} 40
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="30"} 40
+inference_queue_wait_seconds_bucket{tenant_tier="default",le="+Inf"} 40
+inference_queue_wait_seconds_sum{tenant_tier="default"} 0
+inference_queue_wait_seconds_count{tenant_tier="default"} 40
+# HELP inference_requests_in_flight Requests currently dispatched to a backend and not yet settled.
+# TYPE inference_requests_in_flight gauge
+inference_requests_in_flight{backend="llamacpp"} 0
+# HELP inference_requests_total Requests by terminal outcome, incremented once per request at settle time (error_class="none" for successes).
+# TYPE inference_requests_total counter
+inference_requests_total{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",tenant_tier="default",status_class="2xx",error_class="none"} 40
+# HELP inference_retries_total Upstream retries; stage has exactly one legal value, pre_first_token (0 until the retry budget lands, IG-T013).
+# TYPE inference_retries_total counter
+inference_retries_total{stage="pre_first_token"} 0
+# HELP inference_sheds_total Admission rejections by reason (0 until admission control lands, IG-T010).
+# TYPE inference_sheds_total counter
+inference_sheds_total{reason="backend_unavailable"} 0
+inference_sheds_total{reason="global_overload"} 0
+inference_sheds_total{reason="queue_full"} 0
+inference_sheds_total{reason="tenant_rate_limit"} 0
+# HELP inference_ttft_seconds Gateway TTFT: complete client request read to first upstream response body byte at the gateway.
+# TYPE inference_ttft_seconds histogram
+inference_ttft_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="0.025"} 0
+inference_ttft_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="0.05"} 0
+inference_ttft_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="0.1"} 0
+inference_ttft_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="0.2"} 0
+inference_ttft_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="0.4"} 0
+inference_ttft_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="0.8"} 0
+inference_ttft_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="1.5"} 3
+inference_ttft_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="3"} 30
+inference_ttft_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="6"} 37
+inference_ttft_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="12"} 38
+inference_ttft_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="30"} 40
+inference_ttft_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="60"} 40
+inference_ttft_seconds_bucket{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp",le="+Inf"} 40
+inference_ttft_seconds_sum{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp"} 130.407968092
+inference_ttft_seconds_count{model="qwen2.5-1.5b-instruct-q4_k_m",backend="llamacpp"} 40
+# HELP inference_usage_tokens_total Settled billable tokens (tokens emitted before cancellation are billable).
+# TYPE inference_usage_tokens_total counter
+inference_usage_tokens_total{direction="input",model="qwen2.5-1.5b-instruct-q4_k_m",tenant_tier="default"} 9884
+inference_usage_tokens_total{direction="output",model="qwen2.5-1.5b-instruct-q4_k_m",tenant_tier="default"} 3852

@@ -1,0 +1,24 @@
+time=2026-07-11T07:46:01.394Z level=INFO msg="config snapshot published" config_version=v1-24d2072b models=qwen2.5-1.5b-instruct-q4_k_m backend=llamacpp publish_latency=515.698µs
+time=2026-07-11T07:46:01.394Z level=INFO msg="gateway listening" addr=127.0.0.1:18080 backend=llamacpp models=qwen2.5-1.5b-instruct-q4_k_m config_version=v1-24d2072b
+time=2026-07-11T07:46:09.797Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000000 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:46:09.864Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000001 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:46:32.341Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000002 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:46:36.022Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000003 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:46:38.094Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000004 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:46:42.763Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000005 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:46:52.646Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000006 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:47:00.649Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000007 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:47:04.887Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000008 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:47:09.942Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000009 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:47:20.403Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000010 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:47:23.897Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000011 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:47:28.422Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000012 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:47:39.436Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000013 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:47:45.439Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000014 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:47:49.157Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000015 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:48:00.823Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000016 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:48:06.946Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000017 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:48:14.130Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000018 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:48:19.065Z level=INFO msg="request canceled by client disconnect" request_id=i3-cancel-mid-stream-cpu-r1-000019 error_class=canceled cancel_point=mid_stream status=499
+time=2026-07-11T07:48:21.560Z level=INFO msg="shutdown signal received; draining" signal=terminated in_flight=0 drain_timeout=5m5s
+time=2026-07-11T07:48:21.560Z level=INFO msg="drain complete" waited=2.421µs

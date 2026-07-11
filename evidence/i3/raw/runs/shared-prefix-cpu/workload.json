@@ -1,0 +1,39 @@
+{
+  "name": "shared-prefix-cpu",
+  "version": "1.0.0",
+  "seed": 1003004,
+  "description": "Scenario B / I3 CPU adaptation of the canonical shared-prefix v1.0.0 (inferbench@69a5abc workloads/shared-prefix.json): distributions, 80%/1024-token prefix sharing in groups of 16, 600 s duration, and seed IDENTICAL to the canonical file; ONLY arrival_process.rate_rps is changed 6 -> 0.04. Recorded reasoning (measured 2026-07-11, evidence/i3/logs/rate-calibration.log): a cold ~1354-token prefill took 15.2 s (89 tok/s) on this host; with llama-server slot prefix-cache reuse the same prefix re-prefilled only its ~12-token unique tail (0.29 s), so sharing requests cost ~4-6 s prefill for their unique suffix; decode at long context measured 15.9 tok/s single / 13.8 tok/s per stream concurrent, so a mean request (~1400 in / ~160 max out) costs ~16-28 s of slot time depending on cache reuse. At 2 slots that saturates near ~0.07-0.12 req/s; 0.04 rps targets ~0.5 utilization (~24 requests in 600 s -- a deliberately small, wide-CI methodology-shakedown sample). Not comparable to canonical shared-prefix results (different workload name/rate).",
+  "arrival_process": {
+    "type": "open-loop-poisson",
+    "rate_rps": 0.04
+  },
+  "input_length_distribution": {
+    "type": "normal",
+    "mean": 1400,
+    "stddev": 200,
+    "min": 1152,
+    "max": 2048
+  },
+  "output_length_distribution": {
+    "type": "normal",
+    "mean": 160,
+    "stddev": 64,
+    "min": 16,
+    "max": 384
+  },
+  "prefix_sharing": {
+    "ratio": 0.8,
+    "shared_prefix_length_tokens": 1024,
+    "group_size": 16
+  },
+  "cancellation": {
+    "rate": 0
+  },
+  "slow_client": {
+    "fraction": 0
+  },
+  "stop": {
+    "duration_seconds": 600
+  },
+  "tags": ["scenario-b", "prefix-cache", "cpu-adapted"]
+}

@@ -167,8 +167,8 @@ def cmd_cancel(args):
         "check": "cancel",
         "declared_bound_ms": args.bound_ms,
         "bound_definition": "mock-observed abort timestamp (/debug/state at_unix_nano) within "
-                            "bound of the client-side cancel completion (event end_ts); k-th "
-                            "sorted abort paired with k-th sorted cancel; same-host clock",
+                            "bound of the client-side cancel completion (event end_ts); "
+                            "greedy nearest-neighbor abort/cancel pairing; same-host clock",
         "events": len(evs),
         "client_canceled": len(canceled),
         "client_ok_completed_before_trigger": len(ok_evs),

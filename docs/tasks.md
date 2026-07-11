@@ -14,7 +14,7 @@ the OSS-track execution tasks (externally paced, never on the critical path).
 | IL-T007 | Failure campaign evidence + milestone I7 | M | yes | no | Required | Not started | — |
 | IL-T008 | Compatibility matrix upkeep | S | no | yes | Required | Ongoing (starts with first consumed release) | — |
 | IL-T009 | Portfolio release + milestone I8 | L | yes | no | Required | Not started | — |
-| IL-T010 | OSS: score, build, first reproduction | M | no | yes | Required | Not started (gated on program wave ≥3 equivalent) | — |
+| IL-T010 | OSS: score, build, first reproduction | M | no | yes | Required | **In review** (executed 2026-07-11: live scoring refresh done, user approved llm-d/llm-d-router primary; built + tested from source; local-only reproduction of issue #1625's unaddressed `fairness_id` cardinality subset complete; upstream communication drafted but **not posted** — user review pending at IL-T011, so the task's own "acknowledged upstream" stop condition is not yet met) | `oss/scoring-refresh.md`, `oss/log.md` (2026-07-11 entries), `oss/reproductions/2026-07-11-llm-d-router-1625-fairness-id-cardinality.md`, `oss/drafts/2026-07-11-llm-d-router-1625-comment.md` |
 | IL-T011 | OSS: minimal reproducer + upstream communication | M | no | yes | Required | Not started | — |
 | IL-T012 | OSS: contribution + review follow-through | M | no | yes | Required | Not started | — |
 

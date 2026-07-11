@@ -16,8 +16,7 @@
 # (tag at 484b449; remote pinnable ref release/v0.2.0 — git proxy drops tags, KI-1).
 # I3 EXECUTED same day (Scenario B pin set below: contracts v0.2.0,
 # infergate/mock 74f2372 host binaries, inferbench 69a5abc, engine-llamacpp
-# 8f114a9, model-gguf Qwen2.5-1.5B-Instruct Q4_K_M); proven_at: [I3] and
-# milestone_evidence.I3 fill at user acceptance (I2 precedent).
+# 8f114a9, model-gguf Qwen2.5-1.5B-Instruct Q4_K_M); I3 ACCEPTED 2026-07-11.
 # Entries still expected (recorded here as comments, NOT claims):
 #   - engine-vllm             v0.24.x baseline + exact commit, as of 2026-07 —
 #                             re-verify + model/quantization/tokenizer +
@@ -37,7 +36,8 @@ comparability_rule: >-
 # Milestone -> evidence directory, filled as milestones are accepted.
 # For I1 the value links the four green consumer-CI runs per bundle tag.
 milestone_evidence:
-  I2: evidence/i2/  # accepted by user 2026-07-11 after fresh-context verification (deviation D-001 recorded: no PostgreSQL usage write; re-run planned at IG-T008)
+  I2: evidence/i2/  # accepted 2026-07-11 (deviation D-001: no PostgreSQL usage write; re-run planned at IG-T008)
+  I3: evidence/i3/  # accepted 2026-07-11 (open observation: attempt-1 cancel-log census 21-vs-20, unreproduced; follow-up filed)
 
 artifacts:
   - id: contracts-bundle
@@ -153,7 +153,7 @@ artifacts:
       digest when a registry is reachable.
 
   # ---- Scenario B / I3 pin set (recorded 2026-07-11 at IL-T003 execution;
-  # ---- proven_at fills at I3 user acceptance, I2 precedent) -------------------
+  # ---- I3 accepted 2026-07-11) -------------------
 
   - id: contracts-bundle-v0-2-0
     component: serving-contracts
@@ -161,7 +161,7 @@ artifacts:
     version: "v0.2.0"
     provenance: measured
     date: "2026-07-11"
-    proven_at: []
+    proven_at: [I3]
     source: >-
       in-program: serving-contracts annotated tag v0.2.0 (local repo
       /home/user/serving-contracts, tag object 484b44904233da569d76bafe4a4acb8d71bbbe4d);
@@ -183,7 +183,7 @@ artifacts:
     digest: "sha256:ba79b99fb21e79ab1d10919f75ca00a19b6d9d873818e32dc3b692411cf97465"
     provenance: measured
     date: "2026-07-11"
-    proven_at: []
+    proven_at: [I3]
     source: >-
       in-program: infergate commit 74f2372acea62645fa3c1d91689574ea9de7c589,
       built read-only via git archive by scenarios/b/build.sh
@@ -203,7 +203,7 @@ artifacts:
     digest: "sha256:aa262948a95f5231aecb326fabd0c628f1b6aee09709091ed654bffa8ccd4b45"
     provenance: measured
     date: "2026-07-11"
-    proven_at: []
+    proven_at: [I3]
     source: >-
       in-program: infergate commit 74f2372acea62645fa3c1d91689574ea9de7c589,
       built read-only via git archive by scenarios/b/build.sh
@@ -220,7 +220,7 @@ artifacts:
     digest: "sha256:82e8abf6622e566b2c704c30b927deb0ad9ae163172750885f4f6bebcdf03eb2"
     provenance: measured
     date: "2026-07-11"
-    proven_at: []
+    proven_at: [I3]
     source: >-
       in-program: inferbench commit 69a5abc604a737235ea3f1721ddb6b7f64334289,
       built read-only via git archive by scenarios/b/build.sh
@@ -240,7 +240,7 @@ artifacts:
     digest: "sha256:af4e01186c5b4248b60cf48f908df6516576c6dbf2209064fb6c8cb645201f26"
     provenance: measured
     date: "2026-07-11"
-    proven_at: []
+    proven_at: [I3]
     reverify: true
     source: >-
       prebuilt llama-server at /home/user/tools/llama.cpp/build/bin
@@ -264,7 +264,7 @@ artifacts:
     digest: "sha256:6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e"
     provenance: measured
     date: "2026-07-11"
-    proven_at: []
+    proven_at: [I3]
     source: >-
       Hugging Face download 2026-07-11 (Qwen2.5-1.5B-Instruct GGUF
       distribution, Q4_K_M file), stored at
@@ -283,7 +283,7 @@ artifacts:
     version: "v1.34.0"
     provenance: source-reported
     date: "2026-07-10"
-    proven_at: []
+    proven_at: [I3]
     reverify: true
     source: >-
       in-program: infergate@5d69aeb imports go.opentelemetry.io/otel/semconv

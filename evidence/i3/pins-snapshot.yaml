@@ -14,7 +14,7 @@ recorded: "2026-07-11"
 artifacts_used:
   - id: contracts-bundle-v0-2-0
     version: "v0.2.0"
-    resolved: "serving-contracts tag v0.2.0 (tag object 484b44904233da569d76bafe4a4acb8d71bbbe4d); schema content identical to 8d81492"
+    resolved: "serving-contracts tag v0.2.0 (annotated tag object 49d8a63, pointing at release commit 484b44904233da569d76bafe4a4acb8d71bbbe4d); schema content identical to 8d81492"
     role: all contract validation (kit), analysis bundle
   - id: infergate-binary
     version: "infergate@74f2372acea62645fa3c1d91689574ea9de7c589"

@@ -70,7 +70,7 @@ milestone_evidence:
   I3: evidence/i3/  # accepted 2026-07-11 (open observation: attempt-1 cancel-log census 21-vs-20, unreproduced; follow-up filed)
   I4: evidence/i4/  # recorded 2026-07-12 as a CPU-FALLBACK DEVIATION (D-005): G6 GPU session deferred by user decision 2026-07-11, no GPU rental; the Scenario B / I3 pin set below stands in as the measured baseline, plus infergate IG-T005 + inferbench IB-T010 E1 evidence (cited, not pinned — see evidence/i4/checklist.md §4). No vLLM/GPU-specific claim is made.
   I5: evidence/i5/  # recorded 2026-07-12: inferops operational stack (owner: inferops), archived from the consumer side per IL-T005. Headline deviation: RQ-14 compose-pivot (inferops cannot schedule any Kubernetes pod in this sandbox; runtime is Docker Compose, manifests validated against a live k3s API server — no pod scheduling claimed). GPU node continues I4's CPU-fallback (D-005): no vLLM, no GPU. Deployment-from-released-images, warm-up-aware readiness, zero-error rolling update, golden dashboards, and end-to-end traces (mock- and llama.cpp-backed) all demonstrated — see evidence/i5/checklist.md. I5 acceptance review by the user is pending (I2/I3 precedent).
-  I7: evidence/i7/  # recorded 2026-07-12: inferops 12-scenario Contract 6 fault campaign (owner: inferops execution, inference-lab evidence), archived per IL-T007. 12/12 scenarios injected; 9/12 expected-semantics-matched cleanly, 3/12 (1, 3, 7, 10 minus overlap) matched with a documented structural single-backend-topology deviation, 1/12 (scenario 4, slow client) deviation-documented as a real, reproducible finding — surfaced prominently, not buried, see evidence/i7/checklist.md §0. Client impact measured by inferbench for scenarios 1, 2, 5, 6, 12 (evidence/i7/client-impact.md). 3 postmortems published (postmortems/pm-001..pm-003.md), exceeding the ≥2 minimum. No GPU/vLLM claim anywhere — continuation of I4/D-005 and I5/D-006. I7 acceptance review by the user is pending (I2/I3/I5 precedent).
+  I7: evidence/i7/  # recorded 2026-07-12: inferops 12-scenario Contract 6 fault campaign (owner: inferops execution, inference-lab evidence), archived per IL-T007. 12/12 scenarios injected; 11/12 matched expected semantics (6 fully clean; 5 matched-with-documented-deviation: 1/3/7/10 structural single-backend, 6 expected non-defect discrepancy), 1/12 (scenario 4, slow client) deviation-documented not-matched as a real, reproducible finding — surfaced prominently, not buried, see evidence/i7/checklist.md §0. Client impact measured by inferbench for scenarios 1, 2, 5, 6, 12 (evidence/i7/client-impact.md). 3 postmortems published (postmortems/pm-001..pm-003.md), exceeding the ≥2 minimum. No GPU/vLLM claim anywhere — continuation of I4/D-005 and I5/D-006. I7 acceptance review by the user is pending (I2/I3/I5 precedent).
 
 artifacts:
   - id: contracts-bundle
@@ -580,8 +580,8 @@ artifacts:
       {hypothesis,checklist,inject.sh,verdict}.md + evidence/, plus
       faults/campaign-matrix.md (the 12-row verdict matrix) and
       faults/noisy-neighbor/ (a supplementary observation run, not one of
-      the 12 numbered scenarios). All 12/12 scenarios executed; 9/12
-      expected-semantics-matched cleanly, 3/12 (1, 3, 7, 10 minus overlap —
+      the 12 numbered scenarios). All 12/12 scenarios executed; 11/12
+      matched expected semantics (6 fully clean; 5 matched-with-documented-deviation: 1/3/7/10 structural, 6 expected discrepancy), 1/12 not-matched (scenario 4 —
       see evidence/i7/checklist.md §0.2) matched with a documented
       structural single-backend-topology deviation, 1/12 (scenario 4)
       deviation-documented (a real, reproducible finding, not a topology

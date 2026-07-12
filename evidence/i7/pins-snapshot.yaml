@@ -67,3 +67,11 @@ no_new_pin_for:
       harness component, not a pinned deployment artifact); digest recorded in
       inferops/faults/lib.sh (HAPROXY_IMAGE) for reproducibility but not claimed as a
       "proven together" program artifact here.
+  - id: inferops-llamacpp-engine-image
+    version: "infergate-llamacpp-engine:8f114a9"
+    sha256: "43af71918dda78a1daaf19849e1c3cccfd7bad7c432b6c1420a45a62e99410be"
+    proven_at_gains: [I7]
+    reason: >-
+      scenario 8 (config reload under traffic) ran through the gateway-llamacpp instance
+      backed by this engine image (same digest proven at I5); pins.yaml carries proven_at
+      [I5, I7]. Omitted from the first snapshot draft — corrected at I7 verification.

@@ -31,7 +31,7 @@ self-disclosed in advance by infergate's own source comment. **Verdict: deviatio
 (not expected-semantics-matched)** — the only one of the 12 scenarios with that verdict. Full
 detail in `postmortems/pm-001.md` and `faults/scenario-04/verdict.md` (inferops, commit
 `a1e0af5`). This is surfaced here at the top of the checklist, in the campaign matrix
-(§2), and as the lead postmortem — never folded silently into the "9/12 clean" summary.
+(§2), and as the lead postmortem — never folded silently into the matched-scenario tally.
 
 ### 0.2 Structural single-backend-topology deviations (scenarios 1, 3, 7, 10)
 
@@ -88,7 +88,7 @@ record, because the entire program has no GPU access this wave (I4/D-005).
 | # | Criterion (verbatim) | Verdict | Evidence (path + commit) |
 |---|---|---|---|
 | 1 | "All 12 contract fault scenarios injected (GPU-dependent ones may run on the llama.cpp/mock path with a recorded deviation)" | **PASS, with the CPU-fallback caveat above (§0.5)** | `inferops/faults/scenario-{01..12}/inject.sh` + `evidence/<timestamp>/` (commits `bfca054`, `a1e0af5`, `a07fd2f`); `inferops/faults/campaign-matrix.md`: "All 12/12 scenarios executed. Kill-criteria set (1, 2, 5, 6, 11, 12) fully run; no scope reduction was needed." |
-| 2 | "For each: expected gateway semantics observed or deviation documented" | **PASS** — 8/12 clean matches (2, 5, 8, 9, 11, 12 with zero deviations; also 6 with one documented expected discrepancy), 4/12 matched with a documented structural deviation (1, 3, 7, 10 — §0.2), 1/12 a documented, non-matching deviation (4 — §0.1). Every scenario has a recorded verdict; none silently passed. | `inferops/faults/scenario-{01..12}/verdict.md`; summarized in `evidence/i7/campaign-matrix.md` (this repo, archived transcription) |
+| 2 | "For each: expected gateway semantics observed or deviation documented" | **PASS** — 11/12 matched expected semantics: 6 fully clean (2, 5, 8, 9, 11, 12) + 5 matched with a documented deviation (1, 3, 6, 7, 10 — of which 1/3/7/10 are the single-backend structural limitation §0.2 and 6 is an expected no-auth shed-path discrepancy); 1/12 deviation-documented, not-matched (4 — §0.1). Sum: 6+5+1=12. (Corrected at I7 verification from an earlier "8/12"/"9/12" roll-up that understated the match rate and mis-summed; per-row verdicts unchanged.) Every scenario has a recorded verdict; none silently passed. | `inferops/faults/scenario-{01..12}/verdict.md`; summarized in `evidence/i7/campaign-matrix.md` (this repo, archived transcription) |
 | 3 | "Client impact measured by inferbench for at least the streaming-critical scenarios (1, 2, 5, 6, 12)" | **PASS** — all five measured with a real `inferbench` build (commit `62c2704997e6c8a2966307ee3d8dbfd16747b631`), no scope reduction | `inferops/faults/scenario-{01,02,05,06,12}/evidence/*/inferbench-run/`; summarized in `evidence/i7/client-impact.md` (this repo) |
 | 4 | "≥2 postmortems published in the standard format (timeline from real metrics, detection gap, root cause, mitigation, action items)" | **PASS — 3 published** (exceeds the minimum of 2) | `postmortems/pm-001.md` (scenario 4, slow client — the campaign's one real defect-shaped finding), `postmortems/pm-002.md` (scenario 2, backend killed after first token — clean textbook semantics), `postmortems/pm-003.md` (scenario 9, usage database failure — cleanest "nothing went wrong, exactly as designed" result in the campaign) |
 
@@ -133,6 +133,7 @@ New entries, `proven_at: [I7]`:
 | `inferops-mock-backend-image` (v0.1.0, commit `49236a3`, digest `sha256:d7df3d5609daa85adef6a07e4471c8bb90f5e2472f0bf3b32deb2fa9efb547e2`) | Same reasoning: `inferops/faults/lib.sh`'s `MOCK_IMAGE` constant is byte-identical to the already-pinned I5 entry; backs `mock-faults`/`mock-faults-a/-b` for 10 of the 12 scenarios. |
 | `engine-llamacpp` (`8f114a9b573b69035299f9b924047f53c1e22c7e`) | Scenario 8 (config reload under traffic) ran against the real `gateway-llamacpp` instance, the same pinned llama.cpp commit already proven at I3/I4/I5 — `inferops/faults/scenario-08/verdict.md` cites `scripts/config-rollout.sh` (IO-T010) runs against this exact engine. |
 | `model-gguf` (Qwen2.5-1.5B-Instruct GGUF Q4_K_M, `sha256:6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e`) | Same reasoning as `engine-llamacpp`: scenario 8 served real inference through this exact pinned model file. |
+| `inferops-llamacpp-engine-image` (`infergate-llamacpp-engine:8f114a9`, digest `sha256:43af71918dda78a1daaf19849e1c3cccfd7bad7c432b6c1420a45a62e99410be`) | Scenario 8 (config reload under traffic) ran through the `gateway-llamacpp` instance backed by this engine image — the same digest proven at I5; `proven_at` gains I7. |
 
 `milestone_evidence.I7` now points at `evidence/i7/`. Validator: `python3 pins/validate_pins.py`
 → green (see commit for exact entry count).

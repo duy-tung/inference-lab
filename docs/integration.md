@@ -114,7 +114,7 @@ no pod scheduling claimed); GPU node continues I4's CPU-fallback (D-005: no vLLM
 
 **Status (2026-07-12):** I7 evidence archived (`evidence/i7/checklist.md`): all 12 Contract 6
 fault scenarios injected against the inferops 12-scenario campaign (commits `bfca054`/`a1e0af5`/
-`a07fd2f`) — 9/12 verdicts expected-semantics-matched cleanly, 3/12 (scenarios 1, 3, 7, 10 minus
+`a07fd2f`) — 11/12 verdicts matched expected semantics (6 fully clean + 5 matched-with-documented-deviation: scenarios 1, 3, 7, 10
 overlap) matched with a documented structural single-backend-topology deviation, and **1/12
 (scenario 4, slow client) is a real, reproducible deviation-documented finding, surfaced
 prominently rather than buried** in the checklist and as the lead postmortem. Client impact

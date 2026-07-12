@@ -7,7 +7,31 @@ archived evidence; rows without evidence do not get written.
 > version+flags, hardware, driver/CUDA, workload version+seed, and warm-up policy all match,
 > or the difference is the single declared experimental variable.
 
-**Status (2026-07-12):** I2 (Scenario A) row **ACCEPTED** (user review 2026-07-11, deviation
+## Current component state (as of 2026-07-12, IL-T008 consistency pass / I8 audit)
+
+Distinct from the per-milestone "proven together" rows below (which are, correctly, historical
+and never rewritten — ADR-0002), this table answers "what does each component look like right
+now": its latest tagged release (if any) vs. its latest commit (HEAD), so a reader can see how
+far current `main` in each sibling repo has drifted from what was actually proven together. A
+newer HEAD does **not** invalidate a milestone row's claim — the row's own pinned commit is what
+was proven, and it stays proven at that commit forever.
+
+| Component | Latest tagged release | Latest commit (HEAD, this repo's clone) | Milestones proven at |
+|---|---|---|---|
+| serving-contracts | `v1.0.0` (`507208b`) | `507208b` (release commit is HEAD) | I1, I6 (contracts-bundle-v1-0-0); I2 (contracts-bundle-prerelease); I3/I4 (contracts-bundle-v0-2-0) |
+| infergate | `v0.1.0` (`49236a3`) | `f362ceb` (ADR-0001/0006/0007 finalization, 2026-07-11 — newer than the tagged release; no v0.2.0 tag yet) | I2 (`5d69aeb` local build); I3/I4 (`74f2372` host binary); I5/I7 (`49236a3`, the v0.1.0 release image) |
+| inferbench | *(no tagged release yet — pinned by commit, same pattern as fleetlab/inferops)* | `62c2704` (G5 re-baseline decision recorded in benchmark report 1b) | I2 (`caa5074`); I3/I4 (`69a5abc`); I7 (`62c2704`, fault-campaign client) |
+| fleetlab | *(no tagged release yet)* | `dd05e7d` (FL-T009 recommendation emitter + limitations report — this is also the I6 pin, i.e. HEAD = the proven commit) | I6 (`dd05e7d`) |
+| inferops | *(no tagged release yet)* | `c695425` (IO-T008 runbooks — newer than the I5/I6/I7 pins) | I5 (`db30279`); I6 (`89871a6`); I7 (`a07fd2f`) |
+
+No component pin recorded above is stale relative to a claim being made: every "proven
+together" row cites the exact commit/digest used for that milestone's evidence, and none of
+the newer HEADs shown here have been re-run through any scenario. Re-run triggers for when a
+newer HEAD *should* supersede a row are listed under "Re-run trigger notes" below.
+
+**Status (2026-07-12):** I1 (Contract compatibility) row **ARCHIVED** (evidence-archivist duty;
+first independently cross-checked I1 snapshot in this repo — see `evidence/i1/checklist.md`).
+I2 (Scenario A) row **ACCEPTED** (user review 2026-07-11, deviation
 D-001 recorded). I3 (Scenario B) row **ACCEPTED** (user review 2026-07-11; open observation
 on the cancellation-check item recorded, not blocking — see `evidence/i3/checklist.md`).
 I4 (Scenario C) row recorded 2026-07-12 as a **CPU-FALLBACK DEVIATION**, not a GPU
@@ -52,13 +76,14 @@ already flagged unresolved. **The 6-replica recommendation itself was never meas
 this shallow-queue config. Contracts **v1.0.0** (SC-T010) pinned as the I6 prerequisite, I1
 re-run GREEN across all four consumers 2026-07-12. **I6 acceptance review by the user is
 pending**, same as I2/I3/I5/I7 before it.
-Full digests: `pins/pins.yaml` + `evidence/i2/pins-snapshot.yaml` +
+Full digests: `pins/pins.yaml` + `evidence/i1/checklist.md` + `evidence/i2/pins-snapshot.yaml` +
 `evidence/i3/pins-snapshot.yaml` + `evidence/i4/pins-snapshot.yaml` +
 `evidence/i5/pins-snapshot.yaml` + `evidence/i6/pins-snapshot.yaml` +
 `evidence/i7/pins-snapshot.yaml`.
 
 | Milestone | Contracts | infergate image/binary | mock image/binary | inferbench | Engine | Model | inferops | fleetlab | Proven (date) | Evidence |
 |---|---|---|---|---|---|---|---|---|---|---|
+| I1 — Contract compatibility (owner: serving-contracts; archived here per evidence-archivist duty) — **no scenario runs; consumer-CI cross-check only** | **v1.0.0** (tag `507208b`) | pinned `v0.2.0`/`484b449` at time of re-check (consumer's own recorded pin string) | pinned `v0.2.0`/`484b449` at time of re-check | pinned `v0.2.0`/`484b449` at time of re-check | — | — | pinned `v0.2.0` at time of re-check | pinned `v0.2.0`/`484b449` (vendored) at time of re-check | *ARCHIVED 2026-07-12 (IL-T008 — first independently cross-checked I1 snapshot in this repo; re-entrant, re-runs every release). All four consumers GREEN validating their own emitted artifacts (not only fixtures) against the frozen v1.0.0 bundle: infergate 2/2 deployment-contract + 2/2 backend-capability; inferbench 29/29 benchmark-run + 29/29 raw-event + 6/6 workload + 3/3 slo + 9/9 benchmark-result; fleetlab 1/1 capacity-recommendation + 1/1 slo; inferops 6/6 live-gateway-smoke fixtures. Kit selftest 52/52 positives, 29/29 negatives, GREEN. No consumer needed a change to stay green.* | [`evidence/i1/`](../evidence/i1/checklist.md) |
 | I2 — Scenario A (local request path) | 8d81492 (v0.2.0 tag pending; v0.1.0 released) | infergate@5d69aeb, local build `sha256:a38a0aa6…` | infergate-mock@5d69aeb, local build `sha256:b74d4502…` | caa5074 (binary `sha256:b9f1a39c…`) | mock (deterministic; seed 42, ttft 300ms, itl 30ms) | mock-8b (mockengine@5d69aeb) | — | — | *ACCEPTED 2026-07-11 (user review; deviation D-001 recorded)* (evidence recorded 2026-07-10; D-001: no PostgreSQL usage write) | [`evidence/i2/`](../evidence/i2/checklist.md) |
 | I3 — Scenario B (local inference, first real engine) | v0.2.0 (tag 484b449) | infergate@74f2372, **host binary** `sha256:ba79b99f…` (decision D-004: host processes, not containers) | infergate-mock@74f2372, host binary `sha256:aa262948…` | 69a5abc (binary `sha256:82e8abf6…`; same commit's analysis/report package via PYTHONPATH) | llama.cpp@8f114a9 (prebuilt, binary `sha256:af4e0118…`; `-np 2 -c 8192 -t 4 --metrics --slots`) | Qwen2.5-1.5B-Instruct GGUF Q4_K_M, `sha256:6a1a2eb6…` | — | — | *ACCEPTED 2026-07-11 (user review; open observation on checklist item 5's cancellation log-census, not reproduced on retry)* | [`evidence/i3/`](../evidence/i3/checklist.md) |
 | I4 — Scenario C (GPU inference) — **CPU-FALLBACK DEVIATION, GPU acceptance NOT claimed** | v0.2.0 (tag 484b449) — same bundle as I3 | infergate@74f2372, host binary `sha256:ba79b99f…` (same pin as I3; the IB-T010 overhead comparison below ran a later infergate@6827d8c, cited not pinned) | infergate-mock@74f2372, host binary `sha256:aa262948…` (same pin as I3) | 69a5abc (binary `sha256:82e8abf6…`; same pin as I3; the IB-T010 overhead comparison ran inferbench@6a3fb53, cited not pinned) | llama.cpp@8f114a9 (same pin as I3; **no vLLM pin exists**) | Qwen2.5-1.5B-Instruct GGUF Q4_K_M, `sha256:6a1a2eb6…` (same pin as I3; **no GPU-class model pin exists**) | — | — | *CPU-FALLBACK DEVIATION recorded 2026-07-12 (G6 deferred by user decision 2026-07-11; no GPU rental). Streaming, cancellation (composed-stack arm), and failover = I3's own evidence; cancellation additionally corroborated by infergate IG-T005 (adapter-level, real llama-server, unpinned test model); gateway-overhead comparison = inferbench IB-T010 E1 — mock arm CONFIRMED (paired p95 +2.21 ms), llama.cpp arm INCONCLUSIVE at the ms scale (engine noise 2–3 orders of magnitude above the 10 ms bound). Deferred, not claimed: vLLM engine-metrics-verified cancellation, GPU-scale overhead comparison, vLLM-specific behaviors, GPU session manifest/auto-stop/budget.* | [`evidence/i4/`](../evidence/i4/checklist.md) |

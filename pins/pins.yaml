@@ -67,6 +67,15 @@
 # of Contracts 1-3, I1 re-run GREEN across all four consumers 2026-07-12.
 # I6 acceptance review by the user is pending (I2/I3/I5/I7 precedent). See
 # evidence/i6/checklist.md §0 for the full honesty accounting.
+# STATUS (2026-07-12, IL-T008 consistency pass): I1 (contract compatibility,
+# owner serving-contracts, archived here per evidence-archivist duty) recorded
+# for the first time as an independently cross-checked, archived snapshot:
+# evidence/i1/checklist.md, citing serving-contracts@507208b RELEASES.md's
+# "I1 re-run on the frozen bundle" (2026-07-12) — GREEN across all four
+# consumers (infergate, inferbench, fleetlab, inferops) validating their own
+# emitted artifacts, not only fixtures, against the frozen v1.0.0 bundle. No
+# new pin added (contracts-bundle-v1-0-0 already covers the tag); I1 milestone
+# row added to compatibility/matrix.md and milestone_evidence below.
 # Entries still expected (recorded here as comments, NOT claims):
 #   - engine-vllm             v0.24.x baseline + exact commit, as of 2026-07 —
 #                             re-verify + model/quantization/tokenizer +
@@ -86,6 +95,7 @@ comparability_rule: >-
 # Milestone -> evidence directory, filled as milestones are accepted.
 # For I1 the value links the four green consumer-CI runs per bundle tag.
 milestone_evidence:
+  I1: evidence/i1/  # archived 2026-07-12 (IL-T008): serving-contracts@507208b (v1.0.0 freeze) I1 re-run, GREEN across all four consumers against real emitted artifacts, not only fixtures. Owner: serving-contracts; archived here per evidence-archivist duty.
   I2: evidence/i2/  # accepted 2026-07-11 (deviation D-001: no PostgreSQL usage write; re-run planned at IG-T008)
   I3: evidence/i3/  # accepted 2026-07-11 (open observation: attempt-1 cancel-log census 21-vs-20, unreproduced; follow-up filed)
   I4: evidence/i4/  # recorded 2026-07-12 as a CPU-FALLBACK DEVIATION (D-005): G6 GPU session deferred by user decision 2026-07-11, no GPU rental; the Scenario B / I3 pin set below stands in as the measured baseline, plus infergate IG-T005 + inferbench IB-T010 E1 evidence (cited, not pinned — see evidence/i4/checklist.md §4). No vLLM/GPU-specific claim is made.

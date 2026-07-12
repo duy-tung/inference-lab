@@ -5,6 +5,76 @@ deviations. Newest entries first within each section.
 
 ## Log
 
+### 2026-07-12 — IL-T008 + IL-T009: compatibility matrix consistency pass, portfolio release, I8 assembled
+
+- **IL-T008 (matrix consistency pass).** Found two process gaps while sweeping the matrix for
+  "every milestone row present + evidence-linked": (1) `evidence/i1/` (contract compatibility,
+  archived per this repo's evidence-archivist duty) had never actually been created, despite
+  I2-I7 evidence citing I1 status throughout — fixed by archiving the serving-contracts@507208b
+  v1.0.0-freeze I1 re-run (GREEN across all four consumers against real emitted artifacts) as
+  `evidence/i1/checklist.md`, adding an I1 row to `compatibility/matrix.md` and
+  `milestone_evidence.I1` to `pins/pins.yaml`. (2) added a "current component state" table to
+  the matrix distinguishing each component's latest tagged release/HEAD from the commit
+  actually proven at each milestone (no row's claim is invalidated by a newer HEAD; that's what
+  the re-run-trigger notes already govern). Validator stayed green throughout, 28 artifact
+  entries (no new pin needed for I1; `contracts-bundle-v1-0-0` already covered the tag).
+- **IL-T009 (portfolio release + I8), in the order executed:**
+  1. Finalized `quickstart/README.md` into an actually-followable procedure (the build.sh step
+     was previously undocumented in the quickstart flow; added `scenarios/a/wait-ready.sh` as
+     a real script instead of a referenced-but-missing one) and then **actually timed it**
+     twice from a fresh clone: 2m08s (warm Docker+Go caches) and 35s (`docker rmi` + `docker
+     builder prune -a -f` forced a real image rebuild; Go module/build caches left warm — the
+     single biggest, disclosed source of divergence from a genuinely cold machine, since a
+     first-time `go mod download` over this sandbox's proxied network was never exercised).
+     Both PASS the 15-minute target by a wide margin. A pre-existing, unrelated container in
+     this shared sandbox (`inferops-haproxy`, from earlier already-archived milestone evidence
+     work) held host port 18080; rather than stop a workload this session didn't create, both
+     timed runs used a local port remap (compose `!override` merge key / a sed-edited copy of
+     `compose.yaml` in the cloned directory) — the committed `scenarios/a/compose.yaml` is
+     unchanged. Full methodology + honesty caveats: `quickstart/timing-log.md`.
+  2. Found `reports/` had sat empty (only its own README) since 2026-07-10 despite I3/I4/I6
+     evidence citing inferbench's and fleetlab's reports extensively by path — archived
+     condensed copies of `benchmark-report-1.md`, `benchmark-report-1b.md` (inferbench), and
+     `capacity-report.md` (fleetlab holdout validation), each with a validity-block excerpt and
+     a link to the full origin.
+  3. Captured a real demo: `portfolio/demo-script.md` (runnable, walks contracts → gateway
+     streaming+cancellation → benchmark → capacity loop) plus a genuine terminal capture
+     (`portfolio/demo-transcript.md`) from a live Scenario A stack. The cancellation capture
+     landed on the **pre-first-token** point, not the mid-stream point the script's prose
+     narrates (a timing race between the demo's own client timeout and the mock's configured
+     TTFT) — recorded as observed, not smoothed over to match the script.
+  4. OSS evidence framed per the documented contingency (`09-open-source-track.md` §4): added
+     an explicit 2026-07-12 note to `oss/log.md` stating plainly that the minimum completion
+     target is not met, local build+reproduction are real, the upstream comment is drafted and
+     **not posted** (posting requires user review/action, which has not happened), and no
+     public link is claimed anywhere. Nothing was posted upstream in this session.
+  5. Landing page (`portfolio/README.md`, chosen over a separate `landing.md` — see the
+     `docs/tasks.md` IL-T009 note) + two articles (`articles/article-1.md` double-queuing,
+     `articles/article-2.md` cancellation/accounting) + `portfolio/limitations.md`, all written
+     from real evidence gathered this session (ADRs, benchmark reports, usage-invariants docs)
+     with dates/commits cited throughout.
+  6. **The reproducibility audit** (`evidence/i8/reproducibility-audit.md`), the critical I8
+     gate: audited every headline claim (100-concurrent-stream integrity, 3-point
+     cancellation, CO-safe methodology/G5, gateway-overhead p95, the I6 +1.3% loop, the fault
+     campaign, OSS evidence) against its pinned artifact, re-reading raw files directly (not
+     trusting prose summaries) and independently recomputing at least one number per claim
+     class where practical (e.g. the I6 +1.3% figure was recomputed from
+     `inferops/experiments/autoscaling/evidence/.../summary.json` directly: (33.583-33.159)/33.159
+     = +1.278%, matching). **Result: PASS, with 2 claims narrowed (not removed)** — the
+     3-point-cancellation claim on the real llama.cpp engine was too broad (the pinned-model
+     composed-stack test only covers one point; a separate 3-point test exists but ran against
+     an unpinned test model — both facts are now stated together, not conflated) and the gate-G5
+     "admission control passes" claim needed the re-framing context (the original ≤20% ratio
+     target was REFUTED twice before the gate was re-baselined) attached everywhere it appears.
+     **0 claims were removed outright** — in every case a true, reproducible, better-qualified
+     version of the claim existed and now replaces the overclaiming short form. The two process
+     gaps from IL-T008/step-2 above are also logged as audit findings, since they were
+     discovered during this same audit pass.
+- **Follow-up:** I8 acceptance review by the user is pending, same precedent as I2 (accepted),
+  I3 (accepted), and I4/I5/I6/I7 (recorded, review pending). `pins/pins.yaml` updated
+  (`milestone_evidence.I8`), `compatibility/matrix.md` gained an I8 row, validator green
+  throughout (28 artifact entries — I8 introduces no new component pin).
+
 ### 2026-07-12 — IL-T006: Scenario E + milestone I6 (the central story) — capacity feedback loop closed
 
 - **The headline deliverable of the program.** Assembled from three already-existing evidence

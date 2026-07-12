@@ -110,6 +110,21 @@ every headline claim from pinned artifacts); honest-limitations section publishe
 no exceptions.
 **Evidence:** release tag of inference-lab + the audit checklist → `evidence/i8/`.
 
+**Status (2026-07-12):** I8 assembled — quickstart timed twice (2m08s, 35s), both PASS against
+the 15-minute target (`quickstart/timing-log.md`); demo script + a real captured transcript
+(`portfolio/demo-script.md`, `portfolio/demo-transcript.md`) — no video recording exists, and
+the video *script* is labeled as a script, not a claimed recording; `reports/benchmark-report-1.md`,
+`reports/benchmark-report-1b.md`, `reports/capacity-report.md`, and `evidence/i6/loop-report.md`
+linked from the landing page with validity blocks; `evidence/i7/campaign-matrix.md` +
+`postmortems/` linked; OSS evidence recorded per the documented contingency (local build +
+reproduction real; upstream comment drafted, not posted, user-gated — `oss/log.md`); compatibility
+matrix current (IL-T008 consistency pass, `evidence/i1/` archived for the first time);
+reproducibility audit **PASS** (`evidence/i8/reproducibility-audit.md`) — 2 claims narrowed
+(cancellation scope, gate-G5 framing), 2 process gaps fixed (`evidence/i1/`, `reports/`), 0
+claims removed outright; honest-limitations section published (`portfolio/limitations.md`).
+**I8 acceptance review by the user is pending**, same precedent as every prior milestone in
+this program.
+
 ## Archiving duty for milestones owned elsewhere
 
 | Milestone | Owner | This repo archives |

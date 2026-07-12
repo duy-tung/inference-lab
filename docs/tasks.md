@@ -13,7 +13,7 @@ the OSS-track execution tasks (externally paced, never on the critical path).
 | IL-T006 | Scenario E + milestone I6 (the central story) | L | yes | no | Required | **Done, evidence archived** (assembled 2026-07-12: fleetlab FL-T009 recommendation archived + independently re-validated against Contract 7 in both v0.2.0 and the newly-frozen v1.0.0 bundles; inferops IO-T009 applied a 1→2 replica change — **not** the recommended 1→6, a disclosed compose-substrate scope reduction; predicted-vs-measured published honestly — 33.159 rps/replica confirmed within +1.3% at its own fitted rate, leaning toward inferbench's unpublished 37.925 rps/replica estimate at higher rates; 6-replica figure never measured, extrapolation only; `in_flight` measured to beat the recommended `queue_depth` signal; **acceptance review pending**, I2/I3/I5/I7 precedent) | `scenarios/e/README.md`, `evidence/i6/checklist.md`, `evidence/i6/loop-report.md`, `evidence/i6/recommendation/`, `evidence/i6/pins-snapshot.yaml` |
 | IL-T007 | Failure campaign evidence + milestone I7 | M | yes | no | Required | **Done, evidence archived** (assembled 2026-07-12 from the inferops 12-scenario Contract 6 fault campaign, commits `bfca054`/`a1e0af5`/`a07fd2f`; headline finding surfaced not buried — scenario 4 (slow client) is a real, reproducible deviation-documented finding; scenarios 1, 3, 7, 10 carry a documented structural single-backend-topology deviation; client impact measured by inferbench for scenarios 1, 2, 5, 6, 12; 3 postmortems published, exceeding the ≥2 minimum; no GPU/vLLM claim, continues I4/D-005 and I5/D-006; **acceptance review pending**, I2/I3/I5 precedent) | `evidence/i7/checklist.md`, `evidence/i7/campaign-matrix.md`, `evidence/i7/client-impact.md`, `evidence/i7/pins-snapshot.yaml`, `postmortems/pm-001.md`, `pm-002.md`, `pm-003.md` |
 | IL-T008 | Compatibility matrix upkeep | S | no | yes | Required | **Consistency pass done 2026-07-12** (I1-I7 rows all present, evidence-linked, cross-checked against pins.yaml; I1 archived for the first time as an independently cross-checked snapshot — evidence/i1/, a gap in the "ongoing" upkeep now corrected; added a "current component state" table distinguishing each component's latest tagged release/HEAD from the commit actually proven at each milestone; pins validator green, 28 entries; task remains ongoing per future release) | `evidence/i1/checklist.md`, `compatibility/matrix.md`, `pins/pins.yaml` |
-| IL-T009 | Portfolio release + milestone I8 | L | yes | no | Required | **In progress 2026-07-12** | `quickstart/`, `portfolio/`, `evidence/i8/` |
+| IL-T009 | Portfolio release + milestone I8 | L | yes | no | Required | **Assembled 2026-07-12, acceptance-review-pending** (quickstart timed 2m08s + 35s both PASS; landing page `portfolio/README.md` + 2 articles + demo script/transcript/video-script + limitations published; benchmark/capacity/loop reports linked with validity blocks; failure-campaign evidence linked; OSS evidence recorded per documented contingency, upstream comment drafted not posted, user-gated; compatibility matrix current; reproducibility audit PASS — 2 claims narrowed, 2 process gaps fixed, 0 removed) | `quickstart/README.md`, `quickstart/timing-log.md`, `portfolio/README.md`, `portfolio/articles/`, `portfolio/limitations.md`, `evidence/i8/reproducibility-audit.md` |
 | IL-T010 | OSS: score, build, first reproduction | M | no | yes | Required | **In review** (executed 2026-07-11: live scoring refresh done, user approved llm-d/llm-d-router primary; built + tested from source; local-only reproduction of issue #1625's unaddressed `fairness_id` cardinality subset complete; upstream communication drafted but **not posted** — user review pending at IL-T011, so the task's own "acknowledged upstream" stop condition is not yet met) | `oss/scoring-refresh.md`, `oss/log.md` (2026-07-11 entries), `oss/reproductions/2026-07-11-llm-d-router-1625-fairness-id-cardinality.md`, `oss/drafts/2026-07-11-llm-d-router-1625-comment.md` |
 | IL-T011 | OSS: minimal reproducer + upstream communication | M | no | yes | Required | Not started | — |
 | IL-T012 | OSS: contribution + review follow-through | M | no | yes | Required | Not started | — |
@@ -219,11 +219,37 @@ program's gateway + bench core exist.
   headline claim from pinned artifacts; claims that fail are removed or re-measured — no
   exceptions.
 - **Dependencies:** I2–I7 evidence archived; IL-T008 current; IL-T010–T012 state known.
-- **Expected files:** `portfolio/landing.md`, `portfolio/articles/{article-1,article-2}.md`
-  (+ optional third), `portfolio/demo-script.md`, `portfolio/demo-video-script.md`,
-  `portfolio/limitations.md`, `quickstart/*` finalized, release tag + audit checklist.
+- **Expected files:** `portfolio/README.md` (the landing page — chosen over a separate
+  `landing.md` so the story is what a stranger sees first when browsing the directory),
+  `portfolio/articles/{article-1,article-2}.md` (+ optional third),
+  `portfolio/demo-script.md`, `portfolio/demo-transcript.md`, `portfolio/demo-video-script.md`,
+  `portfolio/limitations.md`, `quickstart/*` finalized, release tag + audit checklist
+  (`evidence/i8/reproducibility-audit.md`).
 - **Review focus:** stranger-test dry run; audit rigor; limitations honesty.
 - **Stop condition:** I8 accepted.
+- **Status (2026-07-12):** assembled — quickstart finalized (`quickstart/README.md`) and
+  actually timed twice from a fresh clone (`git clone` → first SSE `data:` chunk): **2m08s**
+  (warm caches) and **35s** (forced image rebuild, Go caches left warm — disclosed as the
+  biggest divergence risk vs. a truly cold machine), both comfortably PASS the 15-minute
+  target (`quickstart/timing-log.md`). Demo: a scripted, runnable walkthrough
+  (`portfolio/demo-script.md`) plus a real captured terminal transcript
+  (`portfolio/demo-transcript.md`, including one honest discrepancy between the script's
+  narration and what the live capture actually landed on — disclosed, not smoothed over); no
+  video was recorded, `demo-video-script.md` is labeled as a script. Reports: `reports/`
+  archived for the first time this release (`benchmark-report-1.md`, `benchmark-report-1b.md`,
+  `capacity-report.md`), linked from the landing page alongside `evidence/i6/loop-report.md`
+  and `evidence/i7/`. OSS evidence recorded per the documented contingency (§4,
+  `09-open-source-track.md`): local build + local reproduction are real; the upstream comment
+  is drafted, **not posted** (user-gated, `oss/log.md`'s 2026-07-12 framing note) — no public
+  link claimed. Landing page (`portfolio/README.md`) + 2 articles + `portfolio/limitations.md`
+  published. Compatibility matrix brought current same release (IL-T008: `evidence/i1/`
+  archived for the first time). **Reproducibility audit PASS**
+  (`evidence/i8/reproducibility-audit.md`): 2 headline claims narrowed, not removed
+  (3-point-cancellation scope on the real llama.cpp engine; gate-G5 "pass" restated as a
+  re-framed-criterion pass after the original ≤20% ratio target was measured REFUTED twice),
+  2 process gaps fixed in this same release (`evidence/i1/`, `reports/` were both
+  empty/missing before I8), 0 claims removed outright. **I8 acceptance review by the user is
+  pending**, same precedent as every prior milestone in this program.
 
 ## IL-T010 — OSS: score, build, first reproduction
 

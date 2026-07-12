@@ -67,7 +67,7 @@ Kubernetes scheduler internals, CUDA kernels.
 | llama.cpp `tools/server/` | slot-model vs token-budget note + `-np` parallelism experiment | infergate adapter; I3 | note + experiment done | not started | — |
 | Gateway API Inference Extension + llm-d (EPP scorers) | "infergate router vs EPP" comparison + routing-signal design review | infergate routing ADR; OSS track | comparison published | not started | — |
 | SGLang scheduler + radix cache (read-only) | vLLM-vs-SGLang caching comparison 1-pager | stretch experiment design | 1-pager done | not started | — |
-| LiteLLM (product docs only) | accurate "Why not LiteLLM?" related-work section | **inference-lab portfolio (landing page §2)** | section written | not started | — |
+| LiteLLM (product docs only) | accurate "Why not LiteLLM?" related-work section | **inference-lab portfolio (landing page §2)** | section written | **done** (2026-07-12, IL-T009: `portfolio/README.md` "Why not LiteLLM / Envoy AI Gateway / GAIE?" section; LiteLLM's self-reported overhead baseline re-verified 2026-07-11 by inferbench, docs.litellm.ai/docs/benchmarks, cited for magnitude framing only) | `portfolio/README.md` |
 
 ## 5. Books (chapter-selective; never standalone summaries — only inputs to registered artifacts)
 

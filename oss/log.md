@@ -22,6 +22,22 @@ externally paced and never on the critical path.
 | 3 | One public benchmark or design artifact | not started | — |
 | 4 | Documented maintainer interaction | not started (interaction is drafted, not sent — see IL-T011) | — |
 
+**I8 framing (2026-07-12, per `09-open-source-track.md` §4 and the I8 acceptance requirement
+"OSS evidence recorded — public links, or the documented contingency"):** the minimum
+completion target above is **not met** as of this release, and this repo does not claim
+otherwise. What IS true and is what the portfolio records: (a) a real, working local build
++ test of the primary target (`llm-d-router` commit `30385f8e`, 116/121 testable packages
+green, 5 correctly requiring infra not present); (b) a real local reproduction of a genuine,
+unaddressed gap in a public upstream issue (#1625's `fairness_id` cardinality subset, not
+covered by the issue's own linked PR #1909) with a runnable Go test as evidence; (c) an
+upstream issue-comment communication **drafted and ready** at
+`oss/drafts/2026-07-11-llm-d-router-1625-comment.md`, explicitly marked DRAFT / NOT POSTED.
+**This is the documented CONTINGENCY, not the merged/acknowledged/public-interaction
+outcome**: posting requires user review and action (IL-T011's own gate — "the user reviews
+every submission before posting"), which has not happened as of this I8 release. No public
+link is claimed anywhere in this repo for this OSS thread, and none should be inferred from
+the portfolio landing page's OSS section, which states this same framing verbatim.
+
 ## Targets (selection: `docs/oss-opportunities.md`; re-scored live at IL-T010, 2026-07-11)
 
 | Role | Target | Status as of 2026-07-11 |

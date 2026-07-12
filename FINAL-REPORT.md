@@ -2,7 +2,7 @@
 
 **Status: portfolio tagged `v1.0.0` (this repo, commit `b940f5c`), 2026-07-12. I1–I3 are
 user-accepted; I4–I8 are fresh-context verified and recorded as
-acceptance-review-pending — this report does not claim user sign-off that has not
+ACCEPTED by user 2026-07-12 — this report does not claim user sign-off that has not
 happened.** Every number below is cited to a file that exists on disk in this repo (or, where
 explicitly marked, to a sibling repo's own archived evidence); none is invented for this
 document, per the I8 reproducibility audit's own rule
@@ -60,10 +60,10 @@ closing with a portfolio release that survived its own adversarial reproducibili
 | I2 | Scenario A — local request path (mock engine) | **ACCEPTED** (user review 2026-07-11; deviation D-001, no PostgreSQL usage write, recorded) | fresh-context verifier (task `a9929d1`) + user |
 | I3 | Scenario B — local inference, first real engine (llama.cpp) | **ACCEPTED** (user review 2026-07-11; one open, unreproduced cancellation-log-census observation recorded) | fresh-context verifier (task `a150717`) + user |
 | I4 | Scenario C — GPU inference | **CPU-fallback deviation recorded** (D-005) — GPU acceptance explicitly NOT claimed; llama.cpp variant + sibling-repo evidence stand in | orchestrator evidence-assembly pass, 2026-07-12 |
-| I5 | Scenario D — operational stack | **VERIFIED, acceptance-review-pending** — every number re-derived exactly; RQ-14 compose-pivot deviation honestly stated | fresh-context verifier (task `a36091f`), Opus |
-| I6 | Scenario E — capacity-feedback loop (central story) | **ACCEPTED, acceptance-review-pending** — loop causality confirmed from raw events; all 4 divergences headline-published | fresh-context verifier (task `aabbbf4`), Opus |
-| I7 | Failure campaign (12 scenarios) | **ACCEPTED, acceptance-review-pending** — postmortems traced to raw evidence; a roll-up-count bug both verifiers caught was fixed (`inference-lab@e347e92`) | fresh-context verifier (task `ad86b7c`), Opus |
-| I8 | Portfolio release | **Reproducibility audit PASS** (2 claims narrowed, 2 process gaps fixed, 0 removed); acceptance-review-pending | Opus fresh-context (audit-of-the-audit) |
+| I5 | Scenario D — operational stack | **VERIFIED, ACCEPTED by user 2026-07-12** — every number re-derived exactly; RQ-14 compose-pivot deviation honestly stated | fresh-context verifier (task `a36091f`), Opus |
+| I6 | Scenario E — capacity-feedback loop (central story) | **ACCEPTED, ACCEPTED by user 2026-07-12** — loop causality confirmed from raw events; all 4 divergences headline-published | fresh-context verifier (task `aabbbf4`), Opus |
+| I7 | Failure campaign (12 scenarios) | **ACCEPTED, ACCEPTED by user 2026-07-12** — postmortems traced to raw evidence; a roll-up-count bug both verifiers caught was fixed (`inference-lab@e347e92`) | fresh-context verifier (task `ad86b7c`), Opus |
+| I8 | Portfolio release | **Reproducibility audit PASS** (2 claims narrowed, 2 process gaps fixed, 0 removed); ACCEPTED by user 2026-07-12 | Opus fresh-context (audit-of-the-audit) |
 
 ---
 

@@ -34,6 +34,18 @@
 # end-to-end traces (mock-backed AND, newly this session, llama.cpp-backed)
 # all demonstrated. No pod scheduling, no vLLM/GPU claim anywhere — see
 # evidence/i5/checklist.md §0 for both headline deviations.
+# STATUS (2026-07-12): I7 recorded (evidence/i7/): the inferops 12-scenario
+# Contract 6 fault-injection campaign (IO-T006/T007, commits bfca054/a1e0af5/
+# a07fd2f), archived from the consumer side per IL-T007. All 12/12 scenarios
+# injected; client impact measured by inferbench for the 5 mandated
+# streaming-critical scenarios (1, 2, 5, 6, 12); 3 postmortems published
+# (pm-001..pm-003). Headline findings surfaced, not buried: scenario 4 (slow
+# client) is a real, reproducible deviation-documented finding, not a
+# topology artifact — see evidence/i7/checklist.md §0.1; scenarios 1, 3, 7,
+# 10 carry a documented structural single-backend-topology deviation — §0.2.
+# No GPU/vLLM claim anywhere — continuation of I4/D-005 and I5/D-006's
+# CPU-fallback. I7 acceptance review by the user is pending (I2/I3/I5
+# precedent).
 # Entries still expected (recorded here as comments, NOT claims):
 #   - engine-vllm             v0.24.x baseline + exact commit, as of 2026-07 —
 #                             re-verify + model/quantization/tokenizer +
@@ -58,6 +70,7 @@ milestone_evidence:
   I3: evidence/i3/  # accepted 2026-07-11 (open observation: attempt-1 cancel-log census 21-vs-20, unreproduced; follow-up filed)
   I4: evidence/i4/  # recorded 2026-07-12 as a CPU-FALLBACK DEVIATION (D-005): G6 GPU session deferred by user decision 2026-07-11, no GPU rental; the Scenario B / I3 pin set below stands in as the measured baseline, plus infergate IG-T005 + inferbench IB-T010 E1 evidence (cited, not pinned — see evidence/i4/checklist.md §4). No vLLM/GPU-specific claim is made.
   I5: evidence/i5/  # recorded 2026-07-12: inferops operational stack (owner: inferops), archived from the consumer side per IL-T005. Headline deviation: RQ-14 compose-pivot (inferops cannot schedule any Kubernetes pod in this sandbox; runtime is Docker Compose, manifests validated against a live k3s API server — no pod scheduling claimed). GPU node continues I4's CPU-fallback (D-005): no vLLM, no GPU. Deployment-from-released-images, warm-up-aware readiness, zero-error rolling update, golden dashboards, and end-to-end traces (mock- and llama.cpp-backed) all demonstrated — see evidence/i5/checklist.md. I5 acceptance review by the user is pending (I2/I3 precedent).
+  I7: evidence/i7/  # recorded 2026-07-12: inferops 12-scenario Contract 6 fault campaign (owner: inferops execution, inference-lab evidence), archived per IL-T007. 12/12 scenarios injected; 9/12 expected-semantics-matched cleanly, 3/12 (1, 3, 7, 10 minus overlap) matched with a documented structural single-backend-topology deviation, 1/12 (scenario 4, slow client) deviation-documented as a real, reproducible finding — surfaced prominently, not buried, see evidence/i7/checklist.md §0. Client impact measured by inferbench for scenarios 1, 2, 5, 6, 12 (evidence/i7/client-impact.md). 3 postmortems published (postmortems/pm-001..pm-003.md), exceeding the ≥2 minimum. No GPU/vLLM claim anywhere — continuation of I4/D-005 and I5/D-006. I7 acceptance review by the user is pending (I2/I3/I5 precedent).
 
 artifacts:
   - id: contracts-bundle
@@ -274,7 +287,7 @@ artifacts:
     digest: "sha256:af4e01186c5b4248b60cf48f908df6516576c6dbf2209064fb6c8cb645201f26"
     provenance: measured
     date: "2026-07-11"
-    proven_at: [I3, I4, I5]
+    proven_at: [I3, I4, I5, I7]
     reverify: true
     source: >-
       prebuilt llama-server at /home/user/tools/llama.cpp/build/bin
@@ -300,7 +313,10 @@ artifacts:
       the same 2-slot/8192-ctx shape), CPU-only, serving real inference
       through gateway-llamacpp behind the inferops compose stack — see
       evidence/i5/checklist.md §0.2 (CPU-fallback continuation of I4/D-005,
-      no vLLM/GPU claim).
+      no vLLM/GPU claim). Also proven_at I7 (2026-07-12): scenario 8 of the
+      inferops fault campaign (config reload under traffic) ran real
+      inference through this exact commit via gateway-llamacpp — see
+      evidence/i7/checklist.md §5.
 
   - id: model-gguf
     component: model
@@ -309,7 +325,7 @@ artifacts:
     digest: "sha256:6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e"
     provenance: measured
     date: "2026-07-11"
-    proven_at: [I3, I4, I5]
+    proven_at: [I3, I4, I5, I7]
     source: >-
       Hugging Face download 2026-07-11 (Qwen2.5-1.5B-Instruct GGUF
       distribution, Q4_K_M file), stored at
@@ -328,6 +344,9 @@ artifacts:
       (2026-07-12): sha256 re-verified live against the same host file,
       now also mounted read-only into inferops's inferops-llama-cpp
       container (evidence/i5/checklist.md §5) — same file, no re-download.
+      Also proven_at I7 (2026-07-12): same file served real inference in
+      the fault campaign's scenario 8 (config reload) via gateway-llamacpp
+      — see evidence/i7/checklist.md §5.
 
   - id: otel-genai-semconv
     component: otel-semconv
@@ -382,7 +401,7 @@ artifacts:
     digest: "sha256:1971426b393b3e00b30cac0690d38b31667b5e34ebbeb6e111a54c369fb54c7e"
     provenance: measured
     date: "2026-07-12"
-    proven_at: [I5]
+    proven_at: [I5, I7]
     source: >-
       infergate RELEASES.md, "v0.1.0 — first operational release (IG-T016)",
       annotated tag v0.1.0 on commit 49236a3; re-confirmed this session via
@@ -396,7 +415,11 @@ artifacts:
       releases. Same image serves four different roles in the compose stack
       (db-mode main gateway, two rolling-update replicas, and the
       auth-mode=none llama.cpp-backed gateway) purely via different launch
-      flags/config — one image, one digest, no rebuild per role.
+      flags/config — one image, one digest, no rebuild per role. Also
+      proven_at I7 (2026-07-12): every ad hoc fault-campaign gateway
+      instance (gateway-faults, gateway-faults-a/-b) and the main compose
+      gateway (scenario 9) ran this exact digest — inferops/faults/lib.sh's
+      GATEWAY_IMAGE constant is byte-identical — see evidence/i7/checklist.md §5.
 
   - id: inferops-mock-backend-image
     component: infergate-mock
@@ -405,7 +428,7 @@ artifacts:
     digest: "sha256:d7df3d5609daa85adef6a07e4471c8bb90f5e2472f0bf3b32deb2fa9efb547e2"
     provenance: measured
     date: "2026-07-12"
-    proven_at: [I5]
+    proven_at: [I5, I7]
     source: >-
       infergate RELEASES.md, "v0.1.0" release, same tag/commit as
       inferops-infergate-image above; re-confirmed this session via
@@ -414,7 +437,11 @@ artifacts:
       Dev-PostgreSQL-backed baseline stack's mock engine (IO-T002); not the
       engine behind the I5 acceptance evidence in checklist.md §1 (that is
       the real llama.cpp path plus the mock-backed IO-T003 observability
-      proof), but part of "deployment from released images only."
+      proof), but part of "deployment from released images only." Also
+      proven_at I7 (2026-07-12): every ad hoc mock-faults instance in the
+      fault campaign ran this exact digest — inferops/faults/lib.sh's
+      MOCK_IMAGE constant is byte-identical — backing 10 of the 12
+      scenarios; see evidence/i7/checklist.md §5.
 
   - id: inferops-llamacpp-engine-image
     component: engine-llamacpp
@@ -423,7 +450,7 @@ artifacts:
     digest: "sha256:43af71918dda78a1daaf19849e1c3cccfd7bad7c432b6c1420a45a62e99410be"
     provenance: measured
     date: "2026-07-12"
-    proven_at: [I5]
+    proven_at: [I5, I7]
     source: >-
       in-program: inferops scripts/build-llamacpp-image.sh packages the
       pinned llama.cpp commit 8f114a9b573b69035299f9b924047f53c1e22c7e (same
@@ -436,7 +463,10 @@ artifacts:
       no CUDA backend (only libggml-cpu.so) — it would not exploit a GPU
       node even if one were scheduled onto it. Served qwen2.5-1.5b-instruct
       (model-gguf pin) via `-parallel 2 -ctx-size 8192`, the same 2-slot/
-      8192-ctx shape as this repo's Scenario B engine-llamacpp flags.
+      8192-ctx shape as this repo's Scenario B engine-llamacpp flags. Also
+      proven_at I7 (2026-07-12): fault-campaign scenario 8 (config reload
+      under traffic) ran against gateway-llamacpp, backed by this exact
+      image — see evidence/i7/checklist.md §5.
 
   - id: inferops-otel-collector-image
     component: other
@@ -525,3 +555,57 @@ artifacts:
       the same dashboard renders both the mock-backed and (confirmed this
       session, evidence/i5/checklist.md §3) llama.cpp-backed series without
       any re-provisioning.
+
+  # ---- I7 / fault-campaign evidence pin set (recorded 2026-07-12 at
+  # ---- IL-T007 execution; inferops IO-T006/T007, 12-scenario Contract 6
+  # ---- fault campaign; no GPU/vLLM claim anywhere — continuation of
+  # ---- I4/D-005 and I5/D-006's CPU-fallback) -------------------
+
+  - id: inferops-fault-campaign
+    component: inferops
+    kind: git-commit
+    version: "a07fd2ff35a1c6a7d26a596fd95365bf884595bd (IO-T006 bfca054 + IO-T007 a1e0af5 + evidence-note fix a07fd2f)"
+    provenance: measured
+    date: "2026-07-12"
+    proven_at: [I7]
+    source: >-
+      in-program: inferops repo (/home/user/inferops), commit
+      a07fd2ff35a1c6a7d26a596fd95365bf884595bd; task history IO-T006
+      (bfca054f76d9ddd4728777ab56b0d3c23535d2d8, scenarios 1-6), IO-T007
+      (a1e0af58bad7fbe52d5790c8560729aea2f77e49, scenarios 7-12 +
+      noisy-neighbor), a07fd2f (evidence-note fixes for scenario 07)
+    notes: >-
+      The whole 12-scenario Contract 6 fault-injection campaign this
+      repo's evidence/i7/checklist.md cites: faults/scenario-{01..12}/
+      {hypothesis,checklist,inject.sh,verdict}.md + evidence/, plus
+      faults/campaign-matrix.md (the 12-row verdict matrix) and
+      faults/noisy-neighbor/ (a supplementary observation run, not one of
+      the 12 numbered scenarios). All 12/12 scenarios executed; 9/12
+      expected-semantics-matched cleanly, 3/12 (1, 3, 7, 10 minus overlap —
+      see evidence/i7/checklist.md §0.2) matched with a documented
+      structural single-backend-topology deviation, 1/12 (scenario 4)
+      deviation-documented (a real, reproducible finding, not a topology
+      artifact — evidence/i7/checklist.md §0.1). No GPU/vLLM claim
+      anywhere in the campaign — the CPU-fallback stack this repo already
+      carries forward from I4/D-005 and I5/D-006.
+
+  - id: inferops-fault-campaign-inferbench
+    component: inferbench
+    kind: binary
+    version: "62c2704997e6c8a2966307ee3d8dbfd16747b631 (host build, no tagged/released inferbench artifact yet)"
+    provenance: measured
+    date: "2026-07-11"
+    proven_at: [I7]
+    source: >-
+      in-program: inferops faults/campaign-matrix.md header note +
+      faults/lib.sh (INFERBENCH_BIN); inferbench repo
+      (/home/user/inferbench) confirmed live at this exact commit
+      (`git rev-parse HEAD` = 62c2704997e6c8a2966307ee3d8dbfd16747b631)
+    notes: >-
+      Client-impact measurement tool for the five inferbench-mandated
+      streaming-critical scenarios (1, 2, 5, 6, 12). No digest recorded:
+      this was a host build to a scratch path
+      (faults/lib.sh's INFERBENCH_BIN default), not independently
+      re-verified by this session — recorded honestly as commit-pinned
+      only, the same "no tagged release yet" pattern already used for
+      inferbench-binary / inferbench-binary-69a5abc above.

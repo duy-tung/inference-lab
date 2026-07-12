@@ -1,0 +1,69 @@
+# Snapshot of the pins/pins.yaml entries the I7 evidence assembly (IL-T007) added or extended
+# (recorded 2026-07-12; authoritative ledger: pins/pins.yaml at the IL-T007 commit — git
+# history is the ledger). See checklist.md §5 for the narrative; this file is the machine-
+# readable snapshot, same convention as evidence/i3/, evidence/i4/, evidence/i5/
+# pins-snapshot.yaml.
+
+snapshot_of: pins/pins.yaml
+scenario: none owned here (I7 is owned/executed by inferops; this repo is evidence archivist)
+milestone: I7
+recorded: "2026-07-12"
+
+new_artifacts:
+  - id: inferops-fault-campaign
+    version: "inferops repo @ a07fd2f (IO-T006 bfca054 + IO-T007 a1e0af5 + evidence-note fix a07fd2f)"
+    role: the whole 12-scenario Contract 6 fault-injection campaign + noisy-neighbor observation run
+    source: /home/user/inferops, commit a07fd2ff35a1c6a7d26a596fd95365bf884595bd
+
+  - id: inferops-fault-campaign-inferbench
+    version: "62c2704997e6c8a2966307ee3d8dbfd16747b631 (host build, no tagged/released inferbench artifact yet)"
+    role: client-impact measurement tool for the 5 inferbench-mandated scenarios (1, 2, 5, 6, 12)
+    note: >-
+      no digest recorded — built to a scratch path (faults/lib.sh's INFERBENCH_BIN default),
+      not independently re-verified by this session; commit confirmed live against
+      /home/user/inferbench (git rev-parse HEAD matches). Same "commit-pinned, not
+      digest-pinned" honesty pattern already used for inferbench-binary /
+      inferbench-binary-69a5abc above (no upstream release process exists yet for inferbench).
+
+extended_artifacts:
+  - id: inferops-infergate-image
+    version: "v0.1.0 (commit 49236a3)"
+    sha256: "1971426b393b3e00b30cac0690d38b31667b5e34ebbeb6e111a54c369fb54c7e"
+    proven_at_gains: [I7]
+    reason: >-
+      every ad hoc fault-campaign gateway instance (gateway-faults, gateway-faults-a/-b) and
+      the main compose gateway (scenario 9) run this exact digest — inferops/faults/lib.sh's
+      GATEWAY_IMAGE constant is byte-identical to the already-pinned I5 entry.
+  - id: inferops-mock-backend-image
+    version: "v0.1.0 (commit 49236a3)"
+    sha256: "d7df3d5609daa85adef6a07e4471c8bb90f5e2472f0bf3b32deb2fa9efb547e2"
+    proven_at_gains: [I7]
+    reason: >-
+      every ad hoc mock-faults instance runs this exact digest — inferops/faults/lib.sh's
+      MOCK_IMAGE constant is byte-identical to the already-pinned I5 entry; backs 10 of the
+      12 scenarios.
+  - id: engine-llamacpp
+    version: "8f114a9b573b69035299f9b924047f53c1e22c7e"
+    proven_at_gains: [I7]
+    reason: >-
+      scenario 8 (config reload under traffic) ran against the real gateway-llamacpp instance,
+      the same pinned llama.cpp commit already proven at I3/I4/I5.
+  - id: model-gguf
+    version: "Qwen2.5-1.5B-Instruct GGUF Q4_K_M"
+    sha256: "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e"
+    proven_at_gains: [I7]
+    reason: >-
+      scenario 8 served real inference through this exact pinned model file behind
+      gateway-llamacpp.
+
+no_new_pin_for:
+  - what: the 12 individual scenario fixtures (fs-01..fs-12) and workload files
+    reason: >-
+      contract fixtures, already covered by the existing contracts-bundle pin family; not a
+      separately-pinned artifact.
+  - what: haproxy image used for the 2-replica fleet (scenarios 5, 12)
+    reason: >-
+      not load-bearing for any I7 acceptance criterion cited in checklist.md §1 (it is a test
+      harness component, not a pinned deployment artifact); digest recorded in
+      inferops/faults/lib.sh (HAPROXY_IMAGE) for reproducibility but not claimed as a
+      "proven together" program artifact here.

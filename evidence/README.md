@@ -8,6 +8,11 @@ archivist for **all** of I1–I8; roles per milestone: `docs/integration.md`.
 executed checklist, pins snapshot, run logs, raw events, metrics scrapes, trace export.
 I2 acceptance review pending (documented deviation D-001: no PostgreSQL usage write yet).
 
+**Status (2026-07-12):** `evidence/i7/` landed (failure campaign, IL-T007): checklist,
+campaign matrix (12-row, archived from inferops by path+commit), client-impact summary, pins
+snapshot. 3 postmortems published under `postmortems/`. I7 acceptance review pending, same
+precedent as I2/I3/I5.
+
 ## Layout per milestone (convention from `docs/interfaces.md` §4)
 
 ```text

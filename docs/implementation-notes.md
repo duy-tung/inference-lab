@@ -5,6 +5,83 @@ deviations. Newest entries first within each section.
 
 ## Log
 
+### 2026-07-12 — IL-T007: Failure campaign evidence + milestone I7 archived
+
+- **Executed ahead of IL-T006/I6 in the nominal dependency order.** The program's stated
+  execution order is IL-T005 → IL-T006 → IL-T007, but I6 (the capacity-feedback loop) is
+  blocked on IO-T009 (inferops autoscaling experiments), which was itself sequenced by
+  inferops to run *after* the fault campaign (IO-T006/T007). Since the fault campaign
+  completed first and its evidence has genuine standalone value, this task ran now rather than
+  waiting on an I6 that cannot start yet. This is a scheduling reorder, not a dependency
+  violation: I7 has no prerequisite on I6 in `docs/integration.md`/`07-integration-milestones.md`
+  §I7 (its prerequisites are I5 + IO-T006/T007, both satisfied). Recorded here so the ordering
+  is traceable, not silently reshuffled.
+- **This session assembled evidence from the inferops fault-injection campaign**
+  (`/home/user/inferops`, commits `bfca054f76d9ddd4728777ab56b0d3c23535d2d8` (IO-T006,
+  scenarios 1-6), `a1e0af58bad7fbe52d5790c8560729aea2f77e49` (IO-T007, scenarios 7-12 +
+  noisy-neighbor), `a07fd2ff35a1c6a7d26a596fd95365bf884595bd` (evidence-note fixes for
+  scenario 7)), which was already complete and running. Nothing in inferops's own source was
+  read or modified; every artifact cited by path and commit, per the I1/I5/I7 archiving duty.
+- **All 12/12 Contract 6 fault scenarios injected, no scope reduction.** Per-scenario detail:
+  `inferops/faults/scenario-{01..12}/{hypothesis,checklist,inject.sh,verdict}.md` + dated
+  `evidence/` directories; the 12-row summary: `inferops/faults/campaign-matrix.md`. Archived
+  (transcribed, cited, not vendored) at `evidence/i7/campaign-matrix.md`.
+- **Headline finding surfaced prominently, not buried:** scenario 4 (slow client) is the
+  campaign's one **deviation-documented** verdict — a real, reproducible gap, not a topology
+  artifact. A raw TCP client held a stream open through an 8-second full stall (2.6x the
+  configured 3-second `-stream-write-timeout`) and the gateway never closed it; the stream
+  simply resumed once reads resumed. This corroborates rather than contradicts infergate's own
+  `internal/stream/relay.go` comment ("Full slow-client fault handling — scenario 4 — is later
+  work; the bound exists now"). Written up as `postmortems/pm-001.md`, the lead postmortem —
+  deliberately placed first, not last, among the three.
+- **Structural, non-defect deviation (scenarios 1, 3, 7, 10):** infergate's released gateway
+  CLI (`cmd/gateway/main.go:145-152`) wires exactly one backend into `route.Router` — IG-T012
+  N-backend routing exists internally but "is not yet flag-driven for N>1" (infergate's own
+  recorded scope reduction). Four scenarios whose expected semantics include a multi-backend
+  routing-shift clause cannot demonstrate that one clause; every other clause in each matched
+  cleanly. Not filed as a defect (a consumer repo cannot add CLI surface to another repo);
+  surfaced as a concrete, campaign-backed case for IG-T012 landing. Scenario 6 additionally
+  carries one expected, non-defect admission-path discrepancy (the no-auth topology required
+  so `inferbench` can drive load reaches the queue/global-budget 503 shed path, not the
+  per-tenant `rate_limited`/429 path — both real, contract-named paths).
+- **Client impact measured by `inferbench` for all 5 mandated streaming-critical scenarios**
+  (1, 2, 5, 6, 12) — `inferbench` commit `62c2704997e6c8a2966307ee3d8dbfd16747b631` (host
+  build, no tagged release exists yet upstream, recorded honestly as commit-pinned only).
+  Summarized with per-scenario numbers at `evidence/i7/client-impact.md`.
+- **3 postmortems published** (`postmortems/pm-001.md` scenario 4, `pm-002.md` scenario 2,
+  `pm-003.md` scenario 9), exceeding the ≥2 minimum — each built entirely from the cited raw
+  evidence (`transcript.log`, `events.jsonl`, `requests.csv`, metric dumps), with no invented
+  timeline entries; every timeline row cites its source artifact. Scenario selection rationale
+  (`evidence/i7/checklist.md` §4): scenario 4 for the one real defect-shaped finding; scenario
+  2 for the richest byte-level SSE evidence in the campaign (a captured raw stream showing the
+  exact standardized mid-stream error event); scenario 9 for the cleanest "nothing went wrong,
+  exactly as designed" resilience result (35/35 requests unaffected by a real ~3s PostgreSQL
+  outage).
+- **No GPU/vLLM claim anywhere** — the whole campaign ran on the same CPU-fallback stack this
+  repo's I4/D-005 and I5/D-006 already carry forward (mock backend for 10/12 scenarios; real
+  llama.cpp, same pinned commit and model as I3/I4/I5, for scenario 8's config-reload test via
+  `gateway-llamacpp`). Per 07 §I7's own acceptance text, this single already-established
+  deviation covers the whole campaign — there is no new scenario-by-scenario GPU/CPU split to
+  record.
+- **Pins:** 2 new `pins/pins.yaml` entries (`inferops-fault-campaign`,
+  `inferops-fault-campaign-inferbench`, both `proven_at: [I7]`); `engine-llamacpp`,
+  `model-gguf`, `inferops-infergate-image`, `inferops-mock-backend-image`,
+  `inferops-llamacpp-engine-image` gained `I7` in their existing `proven_at` lists (same
+  commits/digests, confirmed by direct comparison against `inferops/faults/lib.sh`'s
+  `GATEWAY_IMAGE`/`MOCK_IMAGE` constants and scenario 8's `gateway-llamacpp` citation).
+  Validator green: 24 artifact entries (`python3 pins/validate_pins.py`).
+  `milestone_evidence.I7` now points at `evidence/i7/`.
+- `compatibility/matrix.md` gained an I7 row (headline finding stated in the row itself, not
+  just in a footnote) and a re-run trigger note (scenario 4 re-run when infergate ships a fix;
+  scenarios 1/3/7/10 re-run when IG-T012 lands N-backend CLI exposure).
+- **Honesty:** I7 acceptance review by the user is pending, exactly like I2/I3/I5 before it —
+  `proven_at: [I7]` reflects that the evidence exists and supports the claim, not that the
+  milestone has been accepted. See `evidence/i7/checklist.md` §7 for the full uncertainties
+  list. The two headline findings (scenario 4's defect, scenarios 1/3/7/10's structural
+  deviation) are stated at the top of the checklist (§0), in the compatibility matrix row, in
+  this log entry, and as postmortem content — deliberately repeated rather than mentioned once
+  and left to be missed.
+
 ### 2026-07-12 — IL-T005: Scenario D / I5 evidence archived (D-006, RQ-14 compose-pivot)
 
 - **This session assembled evidence from the inferops operational stack** (`/home/user/inferops`,

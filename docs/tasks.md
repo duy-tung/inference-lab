@@ -11,7 +11,7 @@ the OSS-track execution tasks (externally paced, never on the critical path).
 | IL-T004 | Scenario C + milestone I4 (GPU) | M | yes | no | Required | **Done as CPU-fallback deviation** (assembled 2026-07-12; G6/GPU deferred by user decision 2026-07-11 — no GPU rental; I4 recorded via the llama.cpp baseline (I3) + infergate IG-T005 + inferbench IB-T010 E1, not GPU acceptance) | `evidence/i4/checklist.md`, `evidence/i4/pins-snapshot.yaml` |
 | IL-T005 | Scenario D + milestone I5 | M | yes | no | Required | **Done, evidence archived** (assembled 2026-07-12 from the inferops operational stack, commit `db30279`; headline deviation RQ-14 compose-pivot — no pod scheduling claimed, manifests validated against a live k3s API server instead; CPU-fallback llama.cpp continues I4/D-005, no vLLM/GPU; **acceptance review pending**, I2/I3 precedent) | `scenarios/d/README.md`, `evidence/i5/checklist.md`, `evidence/i5/pins-snapshot.yaml`, `evidence/i5/raw/demo-20260712T005146Z/` |
 | IL-T006 | Scenario E + milestone I6 (the central story) | L | yes | no | Required | Not started | — |
-| IL-T007 | Failure campaign evidence + milestone I7 | M | yes | no | Required | Not started | — |
+| IL-T007 | Failure campaign evidence + milestone I7 | M | yes | no | Required | **Done, evidence archived** (assembled 2026-07-12 from the inferops 12-scenario Contract 6 fault campaign, commits `bfca054`/`a1e0af5`/`a07fd2f`; headline finding surfaced not buried — scenario 4 (slow client) is a real, reproducible deviation-documented finding; scenarios 1, 3, 7, 10 carry a documented structural single-backend-topology deviation; client impact measured by inferbench for scenarios 1, 2, 5, 6, 12; 3 postmortems published, exceeding the ≥2 minimum; no GPU/vLLM claim, continues I4/D-005 and I5/D-006; **acceptance review pending**, I2/I3/I5 precedent) | `evidence/i7/checklist.md`, `evidence/i7/campaign-matrix.md`, `evidence/i7/client-impact.md`, `evidence/i7/pins-snapshot.yaml`, `postmortems/pm-001.md`, `pm-002.md`, `pm-003.md` |
 | IL-T008 | Compatibility matrix upkeep | S | no | yes | Required | Ongoing (starts with first consumed release) | — |
 | IL-T009 | Portfolio release + milestone I8 | L | yes | no | Required | Not started | — |
 | IL-T010 | OSS: score, build, first reproduction | M | no | yes | Required | **In review** (executed 2026-07-11: live scoring refresh done, user approved llm-d/llm-d-router primary; built + tested from source; local-only reproduction of issue #1625's unaddressed `fairness_id` cardinality subset complete; upstream communication drafted but **not posted** — user review pending at IL-T011, so the task's own "acknowledged upstream" stop condition is not yet met) | `oss/scoring-refresh.md`, `oss/log.md` (2026-07-11 entries), `oss/reproductions/2026-07-11-llm-d-router-1625-fairness-id-cardinality.md`, `oss/drafts/2026-07-11-llm-d-router-1625-comment.md` |
@@ -151,6 +151,23 @@ program's gateway + bench core exist.
 - **Review focus:** postmortems built from real metrics, not narrative; deviations
   (GPU-dependent scenarios run on llama.cpp/mock path) recorded.
 - **Stop condition:** I7 accepted.
+- **Status (2026-07-12):** executed — evidence assembled from the already-completed inferops
+  fault campaign (`/home/user/inferops`, commits `bfca054` IO-T006 scenarios 1-6, `a1e0af5`
+  IO-T007 scenarios 7-12 + noisy-neighbor, `a07fd2f` evidence-note fixes). All 12/12 scenarios
+  injected; client impact measured by inferbench for the 5 mandated streaming-critical
+  scenarios (1, 2, 5, 6, 12); 3 postmortems published (pm-001..pm-003), exceeding the ≥2
+  minimum. Headline findings surfaced prominently, not buried: scenario 4 (slow client) is a
+  real, reproducible **deviation-documented** finding (the write-deadline did not close an
+  8-second-stalled stream, 2.6x the configured 3s deadline) — the campaign's one result that
+  reads as a defect rather than a topology limitation, corroborating infergate's own
+  `internal/stream/relay.go` comment marking full slow-client handling as "later work";
+  scenarios 1, 3, 7, 10 carry a documented structural single-backend-topology deviation
+  (infergate `cmd/gateway/main.go` wires exactly one backend, IG-T012 not yet flag-driven for
+  N>1 — infergate's own recorded scope reduction); scenario 6 carries one expected,
+  non-defect admission-path discrepancy (no-auth topology). No GPU/vLLM claim anywhere —
+  continuation of I4/D-005 and I5/D-006's CPU-fallback. Full item-by-item mapping:
+  `evidence/i7/checklist.md`. **I7 acceptance review by the user is pending**, I2/I3/I5
+  precedent.
 
 ## IL-T008 — Compatibility matrix upkeep
 

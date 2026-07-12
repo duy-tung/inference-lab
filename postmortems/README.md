@@ -7,6 +7,12 @@ owned by inferops, evidence and postmortems live here (IL-T007).
 
 **Status (2026-07-10): empty** — no campaigns run yet. Template below is normative.
 
+**Status (2026-07-12):** 3 published (`pm-001.md` scenario 4 slow client — the campaign's one
+real defect-shaped finding; `pm-002.md` scenario 2 backend killed after first token — clean
+textbook semantics; `pm-003.md` scenario 9 usage database failure — cleanest resilience
+result), exceeding the ≥2 minimum. Built from the inferops fault campaign
+(`/home/user/inferops`, commits `bfca054`/`a1e0af5`/`a07fd2f`); see `evidence/i7/checklist.md`.
+
 ## Standard format (every postmortem, no exceptions)
 
 1. **Timeline from real metrics** — timestamps sourced from archived metrics/traces, not

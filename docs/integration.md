@@ -112,6 +112,17 @@ in this sandbox; runtime is Docker Compose, manifests validated against a live k
 no pod scheduling claimed); GPU node continues I4's CPU-fallback (D-005: no vLLM, no GPU).
 **I5 acceptance review by the user is pending**, same as I2/I3 before it.
 
+**Status (2026-07-12):** I7 evidence archived (`evidence/i7/checklist.md`): all 12 Contract 6
+fault scenarios injected against the inferops 12-scenario campaign (commits `bfca054`/`a1e0af5`/
+`a07fd2f`) — 9/12 verdicts expected-semantics-matched cleanly, 3/12 (scenarios 1, 3, 7, 10 minus
+overlap) matched with a documented structural single-backend-topology deviation, and **1/12
+(scenario 4, slow client) is a real, reproducible deviation-documented finding, surfaced
+prominently rather than buried** in the checklist and as the lead postmortem. Client impact
+measured by inferbench for all 5 mandated streaming-critical scenarios (1, 2, 5, 6, 12); 3
+postmortems published (`postmortems/pm-001..pm-003.md`), exceeding the ≥2 minimum. No GPU/vLLM
+claim anywhere — continuation of I4/D-005 and I5/D-006. **I7 acceptance review by the user is
+pending**, same as I2/I3/I5 before it.
+
 ## Re-run triggers
 
 - **Every contract release re-runs I1** (I1 is re-entrant). Contract **MAJOR** release ⇒ I1

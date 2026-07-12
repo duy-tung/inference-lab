@@ -1,0 +1,87 @@
+# Snapshot of the pins/pins.yaml entries the I5 evidence assembly (IL-T005) added or extended
+# (recorded 2026-07-12; authoritative ledger: pins/pins.yaml at the IL-T005 commit — git
+# history is the ledger). See checklist.md §5 for the narrative; this file is the machine-
+# readable snapshot, same convention as evidence/i3/pins-snapshot.yaml and
+# evidence/i4/pins-snapshot.yaml.
+
+snapshot_of: pins/pins.yaml
+scenario: d (operated stack; compose-pivot per inferops RQ-14, not a scheduled k8s cluster)
+milestone: I5
+recorded: "2026-07-12"
+
+new_artifacts:
+  - id: inferops-bundle
+    version: "inferops repo @ db30279 (IO-T002..IO-T010)"
+    role: the whole inferops compose-pivot operational stack this checklist cites
+    source: /home/user/inferops, commit db30279d... (see pins/pins.yaml for full hash)
+
+  - id: inferops-infergate-image
+    version: "infergate v0.1.0 (commit 49236a3)"
+    sha256: "1971426b393b3e00b30cac0690d38b31667b5e34ebbeb6e111a54c369fb54c7e"
+    role: gateway image running as gateway / gateway-a / gateway-b / gateway-llamacpp
+    note: >-
+      the FIRST genuine upstream-released-image pin in the program (v0.1.0, real annotated
+      tag) — earlier infergate pins (infergate-image @5d69aeb, infergate-binary @74f2372) were
+      local git-archive builds, not tagged releases.
+
+  - id: inferops-mock-backend-image
+    version: "infergate-mock v0.1.0 (commit 49236a3)"
+    sha256: "d7df3d5609daa85adef6a07e4471c8bb90f5e2472f0bf3b32deb2fa9efb547e2"
+    role: mock-backend image for the dev-PostgreSQL-backed baseline stack (IO-T002)
+
+  - id: inferops-llamacpp-engine-image
+    version: "infergate-llamacpp-engine:8f114a9 (llama.cpp commit 8f114a9b573b69035299f9b924047f53c1e22c7e)"
+    sha256: "43af71918dda78a1daaf19849e1c3cccfd7bad7c432b6c1420a45a62e99410be"
+    role: CPU-fallback engine actually serving traffic (IO-T005, GPU gate G6 not opened)
+    note: same llama.cpp commit as the existing engine-llamacpp pin (git-commit kind); this
+      entry additionally pins the container-image build inferops packaged it into.
+
+  - id: inferops-otel-collector-image
+    version: "otel/opentelemetry-collector-contrib:0.112.0"
+    sha256: "2203eea06554f892c765d6eff8069cdf64ae8d4516526d03cab4a70e82775495"
+    role: OTLP trace receiver -> Tempo exporter (IO-T003)
+
+  - id: inferops-prometheus-image
+    version: "prom/prometheus:v2.55.1"
+    sha256: "2659f4c2ebb718e7695cb9b25ffa7d6be64db013daba13e05c875451cf51b0d3"
+    role: Contract-2 metrics scrape + exemplar storage (IO-T003)
+
+  - id: inferops-grafana-image
+    version: "grafana/grafana:11.3.1"
+    sha256: "fa801ab6e1ae035135309580891e09f7eb94d1abdbd2106bdc288030b028158c"
+    role: golden dashboard rendering (IO-T003)
+
+  - id: inferops-tempo-image
+    version: "grafana/tempo:2.6.1"
+    sha256: "ef4384fce6e8ad22b95b243d8fc165628cda655376fd50e7850536ad89d71d50"
+    role: trace storage/query backend (IO-T003)
+
+  - id: inferops-dashboards
+    version: "dashboards/golden-dashboard.json, uid inferops-golden"
+    role: 11/11 Contract-2 canonical metric names, provisioned as code
+
+extended_artifacts:
+  - id: engine-llamacpp
+    version: "8f114a9b573b69035299f9b924047f53c1e22c7e"
+    proven_at_gains: [I5]
+    reason: same commit backs the inferops llama.cpp engine (inferops docs/tasks.md IO-T005)
+  - id: model-gguf
+    version: "Qwen2.5-1.5B-Instruct GGUF Q4_K_M"
+    sha256: "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e"
+    proven_at_gains: [I5]
+    reason: >-
+      re-verified live this session via sha256sum against the host file mounted read-only
+      into inferops-llama-cpp — byte-identical to the pinned digest.
+
+no_new_pin_for:
+  - what: gpu-node-profile Kubernetes manifests (clusters/gpu-node/*)
+    reason: >-
+      authored + validated against a live k3s API server but never scheduled onto real
+      hardware (no GPU node exists in this program as of this session) — nothing to pin as a
+      "proven together" GPU artifact; see checklist.md §0.2 / §4.
+  - what: dev-PostgreSQL image (postgres@sha256:57c72fd2...)
+    reason: >-
+      not load-bearing for any I5 acceptance criterion cited in checklist.md §1 (the
+      warm-up/rolling-update/dashboard/trace evidence all runs through the gateway/mock/
+      observability/llama.cpp path); can be added in a later pin-bump if a future milestone
+      needs it.

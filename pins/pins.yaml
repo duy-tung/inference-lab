@@ -23,13 +23,23 @@
 # same six entries carry proven_at: [I3, I4] below. No vLLM/GPU pins exist —
 # not claimed. See evidence/i4/checklist.md for the full acceptance mapping
 # and the deferred-GPU-evidence list.
+# STATUS (2026-07-12): I5 recorded (evidence/i5/): inferops operational stack
+# (compose-pivot per inferops' own RQ-14 deviation — this sandbox cannot
+# schedule any Kubernetes pod; Kustomize manifests authored + validated
+# against a live k3s API server instead). infergate v0.1.0 RELEASE images
+# (the program's first genuine tagged-release image pins) + the observability
+# stack (OTel/Prometheus/Grafana/Tempo, upstream digests) + the llama.cpp
+# CPU-fallback engine (same commit as engine-llamacpp) proven_at: [I5] below.
+# Warm-up-aware readiness, zero-error rolling update, golden dashboards, and
+# end-to-end traces (mock-backed AND, newly this session, llama.cpp-backed)
+# all demonstrated. No pod scheduling, no vLLM/GPU claim anywhere — see
+# evidence/i5/checklist.md §0 for both headline deviations.
 # Entries still expected (recorded here as comments, NOT claims):
 #   - engine-vllm             v0.24.x baseline + exact commit, as of 2026-07 —
 #                             re-verify + model/quantization/tokenizer +
 #                             driver/CUDA + instance type   (needed for I4 GPU
 #                             acceptance proper — CPU fallback recorded instead,
 #                             see evidence/i4/)
-#   - inferops-bundle         release + dashboard/config bundle tags (needed for I5)
 #   - fleetlab-release        released version                       (needed for I6)
 
 schema_version: 1
@@ -47,6 +57,7 @@ milestone_evidence:
   I2: evidence/i2/  # accepted 2026-07-11 (deviation D-001: no PostgreSQL usage write; re-run planned at IG-T008)
   I3: evidence/i3/  # accepted 2026-07-11 (open observation: attempt-1 cancel-log census 21-vs-20, unreproduced; follow-up filed)
   I4: evidence/i4/  # recorded 2026-07-12 as a CPU-FALLBACK DEVIATION (D-005): G6 GPU session deferred by user decision 2026-07-11, no GPU rental; the Scenario B / I3 pin set below stands in as the measured baseline, plus infergate IG-T005 + inferbench IB-T010 E1 evidence (cited, not pinned — see evidence/i4/checklist.md §4). No vLLM/GPU-specific claim is made.
+  I5: evidence/i5/  # recorded 2026-07-12: inferops operational stack (owner: inferops), archived from the consumer side per IL-T005. Headline deviation: RQ-14 compose-pivot (inferops cannot schedule any Kubernetes pod in this sandbox; runtime is Docker Compose, manifests validated against a live k3s API server — no pod scheduling claimed). GPU node continues I4's CPU-fallback (D-005): no vLLM, no GPU. Deployment-from-released-images, warm-up-aware readiness, zero-error rolling update, golden dashboards, and end-to-end traces (mock- and llama.cpp-backed) all demonstrated — see evidence/i5/checklist.md. I5 acceptance review by the user is pending (I2/I3 precedent).
 
 artifacts:
   - id: contracts-bundle
@@ -263,7 +274,7 @@ artifacts:
     digest: "sha256:af4e01186c5b4248b60cf48f908df6516576c6dbf2209064fb6c8cb645201f26"
     provenance: measured
     date: "2026-07-11"
-    proven_at: [I3, I4]
+    proven_at: [I3, I4, I5]
     reverify: true
     source: >-
       prebuilt llama-server at /home/user/tools/llama.cpp/build/bin
@@ -283,7 +294,13 @@ artifacts:
       cancellation evidence in §2.2(a) is this same commit but ran against
       an unpinned tiny random-weight test GGUF, not the model-gguf pin
       below; the IB-T010 overhead comparison in §2.3 ran this commit with
-      its own -np 1 -c 4096 single-slot flags).
+      its own -np 1 -c 4096 single-slot flags). Also proven_at I5
+      (2026-07-12): same commit packaged by inferops into the
+      inferops-llamacpp-engine-image pin below (`-parallel 2 -ctx-size 8192`,
+      the same 2-slot/8192-ctx shape), CPU-only, serving real inference
+      through gateway-llamacpp behind the inferops compose stack — see
+      evidence/i5/checklist.md §0.2 (CPU-fallback continuation of I4/D-005,
+      no vLLM/GPU claim).
 
   - id: model-gguf
     component: model
@@ -292,7 +309,7 @@ artifacts:
     digest: "sha256:6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e"
     provenance: measured
     date: "2026-07-11"
-    proven_at: [I3, I4]
+    proven_at: [I3, I4, I5]
     source: >-
       Hugging Face download 2026-07-11 (Qwen2.5-1.5B-Instruct GGUF
       distribution, Q4_K_M file), stored at
@@ -307,7 +324,10 @@ artifacts:
       Also proven_at I4 (2026-07-12, CPU-fallback baseline): same file
       served in evidence/i4/checklist.md §2.1/§2.2(b)/§2.3/§2.4 — NOT
       §2.2(a) (IG-T005), which ran an unpinned tiny random-weight test
-      GGUF (infergate deviation D2), not this model.
+      GGUF (infergate deviation D2), not this model. Also proven_at I5
+      (2026-07-12): sha256 re-verified live against the same host file,
+      now also mounted read-only into inferops's inferops-llama-cpp
+      container (evidence/i5/checklist.md §5) — same file, no re-download.
 
   - id: otel-genai-semconv
     component: otel-semconv
@@ -325,3 +345,183 @@ artifacts:
     notes: >-
       OTel GenAI semantic conventions status "Development" as of 2026-07 —
       re-verify at use time; attribute names may still move upstream.
+
+  # ---- Scenario D / I5 pin set (recorded 2026-07-12 at IL-T005 execution;
+  # ---- inferops operational stack, evidence/i5/; compose-pivot per inferops'
+  # ---- own RQ-14 deviation — NOT a scheduled Kubernetes cluster; NOT a GPU
+  # ---- claim, CPU-fallback llama.cpp continues I4/D-005) -------------------
+
+  - id: inferops-bundle
+    component: inferops
+    kind: git-commit
+    version: "db30279760dacc3f5af25595551365530f60bdac (IO-T002..IO-T010)"
+    provenance: measured
+    date: "2026-07-12"
+    proven_at: [I5]
+    source: >-
+      in-program: inferops repo (/home/user/inferops), commit
+      db30279760dacc3f5af25595551365530f60bdac; task history IO-T002
+      (135dd34, compose cluster baseline), IO-T003 (816c469, observability
+      stack), IO-T004 (326e7bf, lifecycle semantics), IO-T005 (17aee67,
+      llama.cpp CPU-fallback engine), IO-T010 (db30279, config rollout +
+      secrets + upgrade/rollback)
+    notes: >-
+      The whole operational stack this repo's evidence/i5/checklist.md cites.
+      Runtime substrate is Docker Compose (inferops' own RQ-14 deviation:
+      this sandbox cannot schedule any Kubernetes pod, on any CRI-based
+      distribution — proven at the runc/nsexec level); Kubernetes manifests
+      are authored (Kustomize) and validated against a live k3s API server
+      (clusters/{local,gpu-node}/evidence/k3s-validation-*.txt) but no pod
+      is ever scheduled. See evidence/i5/checklist.md §0.1 for the full
+      deviation text — never elided in any I5 claim.
+
+  - id: inferops-infergate-image
+    component: infergate
+    kind: container-image
+    version: "v0.1.0 (commit 49236a3)"
+    digest: "sha256:1971426b393b3e00b30cac0690d38b31667b5e34ebbeb6e111a54c369fb54c7e"
+    provenance: measured
+    date: "2026-07-12"
+    proven_at: [I5]
+    source: >-
+      infergate RELEASES.md, "v0.1.0 — first operational release (IG-T016)",
+      annotated tag v0.1.0 on commit 49236a3; re-confirmed this session via
+      `docker inspect` against the live inferops-gateway, inferops-gateway-a,
+      inferops-gateway-b, and inferops-gateway-llamacpp containers — digest
+      byte-identical to RELEASES.md in every case
+    notes: >-
+      The FIRST genuine upstream-tagged-release image pin in the program:
+      earlier infergate pins (infergate-image @5d69aeb, infergate-binary
+      @74f2372) were local git-archive builds of untagged commits, not
+      releases. Same image serves four different roles in the compose stack
+      (db-mode main gateway, two rolling-update replicas, and the
+      auth-mode=none llama.cpp-backed gateway) purely via different launch
+      flags/config — one image, one digest, no rebuild per role.
+
+  - id: inferops-mock-backend-image
+    component: infergate-mock
+    kind: container-image
+    version: "v0.1.0 (commit 49236a3)"
+    digest: "sha256:d7df3d5609daa85adef6a07e4471c8bb90f5e2472f0bf3b32deb2fa9efb547e2"
+    provenance: measured
+    date: "2026-07-12"
+    proven_at: [I5]
+    source: >-
+      infergate RELEASES.md, "v0.1.0" release, same tag/commit as
+      inferops-infergate-image above; re-confirmed this session via
+      `docker inspect` against the live inferops-mock-backend container
+    notes: >-
+      Dev-PostgreSQL-backed baseline stack's mock engine (IO-T002); not the
+      engine behind the I5 acceptance evidence in checklist.md §1 (that is
+      the real llama.cpp path plus the mock-backed IO-T003 observability
+      proof), but part of "deployment from released images only."
+
+  - id: inferops-llamacpp-engine-image
+    component: engine-llamacpp
+    kind: container-image
+    version: "infergate-llamacpp-engine:8f114a9"
+    digest: "sha256:43af71918dda78a1daaf19849e1c3cccfd7bad7c432b6c1420a45a62e99410be"
+    provenance: measured
+    date: "2026-07-12"
+    proven_at: [I5]
+    source: >-
+      in-program: inferops scripts/build-llamacpp-image.sh packages the
+      pinned llama.cpp commit 8f114a9b573b69035299f9b924047f53c1e22c7e (same
+      commit as this repo's engine-llamacpp pin) into a container image;
+      re-confirmed this session via `docker inspect` against the live
+      inferops-llama-cpp container
+    notes: >-
+      CPU-fallback engine (GPU gate G6 not opened; no vLLM). Confirmed via
+      `ldd` by inferops (docs/gpu-node-profile.md) that this exact binary has
+      no CUDA backend (only libggml-cpu.so) — it would not exploit a GPU
+      node even if one were scheduled onto it. Served qwen2.5-1.5b-instruct
+      (model-gguf pin) via `-parallel 2 -ctx-size 8192`, the same 2-slot/
+      8192-ctx shape as this repo's Scenario B engine-llamacpp flags.
+
+  - id: inferops-otel-collector-image
+    component: other
+    kind: container-image
+    version: "otel/opentelemetry-collector-contrib:0.112.0"
+    digest: "sha256:2203eea06554f892c765d6eff8069cdf64ae8d4516526d03cab4a70e82775495"
+    provenance: measured
+    date: "2026-07-12"
+    proven_at: [I5]
+    source: >-
+      inferops docs/observability.md §1 image-pins table; genuine upstream
+      Docker Hub image pulled by digest (no build step) — distinct from this
+      repo's own otel-collector-image pin (a locally ocb-built v0.156.0
+      image, deviation D-003, used only by Scenario A)
+    notes: >-
+      Receives OTLP traces from the gateway, forwards to Tempo (metrics are
+      scraped directly by Prometheus, not routed through the collector).
+
+  - id: inferops-prometheus-image
+    component: other
+    kind: container-image
+    version: "prom/prometheus:v2.55.1"
+    digest: "sha256:2659f4c2ebb718e7695cb9b25ffa7d6be64db013daba13e05c875451cf51b0d3"
+    provenance: measured
+    date: "2026-07-12"
+    proven_at: [I5]
+    source: >-
+      inferops docs/observability.md §1 image-pins table; genuine upstream
+      Docker Hub image pulled by digest, --enable-feature=exemplar-storage
+    notes: >-
+      Scrapes infergate-gateway, infergate-gateway-llamacpp, and
+      llama-cpp-engine /metrics endpoints directly (compose/prometheus.yml).
+
+  - id: inferops-grafana-image
+    component: other
+    kind: container-image
+    version: "grafana/grafana:11.3.1"
+    digest: "sha256:fa801ab6e1ae035135309580891e09f7eb94d1abdbd2106bdc288030b028158c"
+    provenance: measured
+    date: "2026-07-12"
+    proven_at: [I5]
+    source: >-
+      inferops docs/observability.md §1 image-pins table; genuine upstream
+      Docker Hub image pulled by digest
+    notes: >-
+      Hosts the golden dashboard (inferops-dashboards pin below); loopback-
+      bound (127.0.0.1:3000), never publicly exposed (docs/security.md §4).
+
+  - id: inferops-tempo-image
+    component: other
+    kind: container-image
+    version: "grafana/tempo:2.6.1"
+    digest: "sha256:ef4384fce6e8ad22b95b243d8fc165628cda655376fd50e7850536ad89d71d50"
+    provenance: measured
+    date: "2026-07-12"
+    proven_at: [I5]
+    source: >-
+      inferops docs/observability.md §1 image-pins table; genuine upstream
+      Docker Hub image pulled by digest
+    notes: >-
+      Trace storage/query backend; no host port published (reached only via
+      the compose network, e.g. by Grafana's datasource proxy or a container
+      on the same network querying its :3200 API directly, as this repo's
+      own evidence/i5/raw/demo-20260712T005146Z/ does).
+
+  - id: inferops-dashboards
+    component: inferops
+    kind: dashboard-bundle
+    version: "dashboards/golden-dashboard.json, uid inferops-golden"
+    provenance: measured
+    date: "2026-07-12"
+    proven_at: [I5]
+    source: >-
+      in-program: inferops dashboards/golden-dashboard.json, provisioned as
+      code via compose/grafana/provisioning/dashboards; verified live via
+      the Grafana API (scripts/evidence/observability-20260711T233804Z/
+      grafana-dashboard-search.json, grafana-panel-query.json)
+    notes: >-
+      All 11/11 Contract-2 canonical metric names present as panels
+      (inference_requests_total, inference_requests_in_flight,
+      inference_queue_depth, inference_queue_wait_seconds,
+      inference_ttft_seconds, inference_itl_seconds,
+      inference_e2e_duration_seconds, inference_sheds_total,
+      inference_retries_total, inference_backend_healthy,
+      inference_usage_tokens_total). Panels are backend-label-agnostic, so
+      the same dashboard renders both the mock-backed and (confirmed this
+      session, evidence/i5/checklist.md §3) llama.cpp-backed series without
+      any re-provisioning.

@@ -1,0 +1,39 @@
+== IL-T005 / I5 consumer-side demo — 2026-07-12T00:51:46+00:00 ==
+Target: gateway-llamacpp (http://127.0.0.1:8082) -> llama-cpp engine, inferops compose stack
+Purpose: fresh inference-lab-side traffic through the REAL llama.cpp path, verifying
+Prometheus metrics + Tempo trace resolution specifically for backend=llamacpp (a gap
+IO-T005's own llamacpp-smoke evidence did not check: it verified /metrics reachability
+but not Prometheus scrape + exemplar + Tempo trace resolution; IO-T003's observability
+evidence proved that pipeline only against the mock-backed main gateway).
+
+gateway-llamacpp container image: sha256:1971426b393b3e00b30cac0690d38b31667b5e34ebbeb6e111a54c369fb54c7e
+gateway-llamacpp RepoDigests: "infergate@sha256:1971426b393b3e00b30cac0690d38b31667b5e34ebbeb6e111a54c369fb54c7e"
+llama-cpp container image: sha256:43af71918dda78a1daaf19849e1c3cccfd7bad7c432b6c1420a45a62e99410be
+llama-cpp Config.Image: "infergate-llamacpp-engine@sha256:43af71918dda78a1daaf19849e1c3cccfd7bad7c432b6c1420a45a62e99410be"
+
+-- baseline: current backend=llamacpp series counts --
+{"status":"success","data":{"resultType":"vector","result":[{"metric":{},"value":[1783817514.007,"26"]}]}}
+{"status":"success","data":{"resultType":"vector","result":[{"metric":{"__name__":"inference_requests_total","app":"infergate","backend":"llamacpp","component":"gateway-llamacpp","error_class":"canceled","instance":"gateway-llamacpp:8080","job":"infergate-gateway-llamacpp","model":"qwen2.5-1.5b-instruct","status_class":"2xx","tenant_tier":"default"},"value":[1783817514.016,"6"]},{"metric":{"__name__":"inference_requests_total","app":"infergate","backend":"llamacpp","component":"gateway-llamacpp","error_class":"none","instance":"gateway-llamacpp:8080","job":"infergate-gateway-llamacpp","model":"qwen2.5-1.5b-instruct","status_class":"2xx","tenant_tier":"default"},"value":[1783817514.016,"46"]},{"metric":{"__name__":"inference_requests_total","app":"infergate","backend":"llamacpp","component":"gateway-llamacpp","error_class":"none","instance":"gateway-llamacpp:8080","job":"infergate-gateway-llamacpp","model":"unknown","status_class":"2xx","tenant_tier":"default"},"value":[1783817514.016,"1"]}]}}
+-- driving 5 non-stream + 2 stream requests through gateway-llamacpp (127.0.0.1:8082), seed 5005001/5005002 --
+  req 1: HTTP 200, 0.368691s
+  req 2: HTTP 200, 0.259347s
+  req 3: HTTP 200, 0.202685s
+  req 4: HTTP 200, 0.207135s
+  req 5: HTTP 200, 0.278593s
+  stream 1: HTTP 200, 0.544751s
+  stream 2: HTTP 200, 0.434760s
+
+-- after: backend=llamacpp request counters --
+{"status":"success","data":{"resultType":"vector","result":[{"metric":{"__name__":"inference_requests_total","app":"infergate","backend":"llamacpp","component":"gateway-llamacpp","error_class":"canceled","instance":"gateway-llamacpp:8080","job":"infergate-gateway-llamacpp","model":"qwen2.5-1.5b-instruct","status_class":"2xx","tenant_tier":"default"},"value":[1783817549.230,"6"]},{"metric":{"__name__":"inference_requests_total","app":"infergate","backend":"llamacpp","component":"gateway-llamacpp","error_class":"none","instance":"gateway-llamacpp:8080","job":"infergate-gateway-llamacpp","model":"qwen2.5-1.5b-instruct","status_class":"2xx","tenant_tier":"default"},"value":[1783817549.230,"53"]},{"metric":{"__name__":"inference_requests_total","app":"infergate","backend":"llamacpp","component":"gateway-llamacpp","error_class":"none","instance":"gateway-llamacpp:8080","job":"infergate-gateway-llamacpp","model":"unknown","status_class":"2xx","tenant_tier":"default"},"value":[1783817549.230,"1"]}]}}
+-- exemplar query: inference_ttft_seconds_bucket{backend="llamacpp"} last 5 min --
+TRACE_ID=1321511fc73589d8e766cd702c54c2a7
+
+-- resolving trace_id=1321511fc73589d8e766cd702c54c2a7 in Tempo (via gateway-llamacpp container, same inferops-net) --
+spans found: queue.wait,recv,settle,stream.relay,ttft,upstream.connect
+matches expected sequence set: True
+
+== Summary ==
+5/5 non-stream + 2/2 streaming real llama.cpp completions through gateway-llamacpp:8082, 0 errors, both streams terminated with [DONE].
+Prometheus inference_requests_total{backend=llamacpp,error_class=none} advanced 46 -> 53 (delta 7, matches the 7 requests sent).
+Exemplar trace_id 1321511fc73589d8e766cd702c54c2a7 resolved in Tempo with the full expected span sequence: recv -> queue.wait -> upstream.connect -> ttft -> stream.relay -> settle.
+This is fresh evidence generated 2026-07-12 by inference-lab (IL-T005 consumer-side verification), corroborating and extending IO-T003's observability pipeline proof (previously demonstrated only against the mock-backed main gateway) to the REAL llama.cpp engine path specifically.

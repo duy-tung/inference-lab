@@ -103,6 +103,15 @@ no exceptions.
 | I5 — Operational stack (deployment from released images only; warm-up-aware readiness; rolling update under load with zero client-visible errors; golden dashboards live; traces end-to-end) | inferops | manifests, smoke outputs, dashboard exports, rolling-update test log (IL-T005) → `evidence/i5/` |
 | I7 — Failure campaign (all 12 fault scenarios injected — GPU-dependent ones may run on llama.cpp/mock with recorded deviation; expected semantics observed or deviation documented; client impact measured for scenarios 1, 2, 5, 6, 12; ≥2 postmortems) | inferops (execution), inference-lab (evidence) | campaign matrix, postmortems, client-impact measurements (IL-T007) → `evidence/i7/` + `postmortems/` |
 
+**Status (2026-07-12):** I5 evidence archived (`evidence/i5/checklist.md`): all five acceptance
+criteria demonstrated on the inferops operational stack (commit `db30279`) — deployment from
+released images only, warm-up-aware readiness, zero-error rolling update, golden dashboards
+live, traces end-to-end (mock-backed, plus a fresh llama.cpp-backed trace generated this
+session). Headline deviation: RQ-14 compose-pivot (inferops cannot schedule any Kubernetes pod
+in this sandbox; runtime is Docker Compose, manifests validated against a live k3s API server —
+no pod scheduling claimed); GPU node continues I4's CPU-fallback (D-005: no vLLM, no GPU).
+**I5 acceptance review by the user is pending**, same as I2/I3 before it.
+
 ## Re-run triggers
 
 - **Every contract release re-runs I1** (I1 is re-entrant). Contract **MAJOR** release ⇒ I1

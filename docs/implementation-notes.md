@@ -5,6 +5,73 @@ deviations. Newest entries first within each section.
 
 ## Log
 
+### 2026-07-12 — IL-T005: Scenario D / I5 evidence archived (D-006, RQ-14 compose-pivot)
+
+- **This session assembled evidence from the inferops operational stack** (`/home/user/inferops`,
+  commit `db30279760dacc3f5af25595551365530f60bdac`), which was already built and running:
+  IO-T002 (compose cluster baseline, `135dd34`), IO-T003 (observability stack, `816c469`),
+  IO-T004 (lifecycle semantics, `326e7bf`), IO-T005 (llama.cpp CPU-fallback engine, `17aee67`),
+  IO-T010 (config rollout + upgrade/rollback, `db30279`). Nothing in inferops's own source was
+  read or modified; the stack was cited by path+commit exactly as I1/I5/I7 archiving duty
+  requires (`docs/integration.md`).
+- **Headline deviation, carried through every claim in this record (D-006 below):** inferops's
+  own RQ-14 compose-pivot — this sandbox cannot schedule any Kubernetes pod on any CRI-based
+  distribution (proven at the runc/nsexec level: containerd's CRI plugin sets
+  `oomScoreAdj: -998` on every pod sandbox; this environment's own container lacks
+  `CAP_SYS_RESOURCE`). The *runtime* stack runs on Docker Compose; Kubernetes manifests are
+  fully authored (Kustomize) and validated against a **live k3s API server** (real
+  `kubectl apply` to etcd, server-side dry-run) — everything except the final
+  kubelet→CRI→runc pod-start step. **No pod scheduling is claimed anywhere.**
+- **GPU node continues I4's CPU-fallback (D-005), not a new deviation:** gate G6 was never
+  opened for inferops either (no GPU rented, no budget session). The engine actually serving
+  traffic is real llama.cpp — the **same pinned commit** (`8f114a9b573b69035299f9b924047f53c1e22c7e`)
+  and, re-verified live this session by `sha256sum`, the **same pinned model file**
+  (`6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e`) as this repo's own I3/I4
+  Scenario B baseline. No vLLM, no GPU claim anywhere.
+- **I5's five acceptance criteria (`portfolio-planning/07-integration-milestones.md` §I5),
+  mapped item-by-item in `evidence/i5/checklist.md` §1:**
+  1. Deployment from released images only — **PASS** (RQ-14 caveat): infergate **v0.1.0**
+     (the program's first genuine tagged-release image, not a git-archive local build) at
+     digest `sha256:1971426b393b3e00b30cac0690d38b31667b5e34ebbeb6e111a54c369fb54c7e`,
+     confirmed running via live `docker inspect` this session; the observability stack
+     (OTel/Prometheus/Grafana/Tempo) are genuine upstream Docker Hub/quay.io digests; the
+     llama.cpp engine image is a pinned-upstream-commit build (same pattern as Scenario B).
+  2. Warm-up-aware readiness — **PASS** (`inferops/scripts/evidence/warmup-readiness-20260711T235223Z/`,
+     5/5: `/healthz` genuinely false during simulated warm-up, typed 503 mid-warm-up, 0
+     restarts).
+  3. Rolling update under load, zero client-visible errors — **PASS**
+     (`inferops/scripts/evidence/rolling-update-20260711T234628Z/`: 27 short + 3 stream
+     requests, 0 client-visible errors; corroborated by `drain-test-20260711T234926Z/` 3/3 and
+     the PDB `deploy/infergate/base/pdb.yaml`; further corroborated by IO-T010's
+     config-rollout-under-load, 0/24 + 0/4 dropped).
+  4. Golden dashboards live — **PASS** (`inferops/dashboards/golden-dashboard.json`, 11/11
+     Contract-2 names, Grafana-API-confirmed provisioning + live panel-query render).
+  5. Traces end-to-end — **PASS** (exemplar → Tempo, full span sequence
+     `recv → queue.wait → upstream.connect → ttft → stream.relay → settle`, proven at
+     IO-T003 against the mock backend).
+- **New evidence generated this session (not pure citation), kept light per instruction:** the
+  cited inferops evidence proved the observability pipeline end-to-end only against the
+  mock-backed main gateway (IO-T003); IO-T005's own smoke test verified real llama.cpp
+  inference + cancellation but not Prometheus/Tempo. This session sent 5 non-stream + 2
+  streaming real completions through `gateway-llamacpp` (port 8082), confirmed
+  `inference_requests_total{backend="llamacpp"}` advanced by exactly 7, pulled a fresh
+  Prometheus exemplar, and resolved it in Tempo with the full expected span sequence — closing
+  that gap. Archived at `evidence/i5/raw/demo-20260712T005146Z/` (`transcript.log` is the
+  master record).
+- **Pins:** 9 new `pins/pins.yaml` entries added (`inferops-bundle`, `inferops-infergate-image`,
+  `inferops-mock-backend-image`, `inferops-llamacpp-engine-image`,
+  `inferops-otel-collector-image`, `inferops-prometheus-image`, `inferops-grafana-image`,
+  `inferops-tempo-image`, `inferops-dashboards`), all `proven_at: [I5]`; `engine-llamacpp` and
+  `model-gguf` gained `I5` in their existing `proven_at` lists (same commit / same file,
+  re-verified live). Validator green: 22 artifact entries (`python3 pins/validate_pins.py`).
+  `milestone_evidence.I5` now points at `evidence/i5/`.
+- `compatibility/matrix.md` gained an I5 row (RQ-14 compose-pivot + CPU-fallback both stated in
+  the row itself, not just in a footnote).
+- **Honesty:** I5 acceptance review by the user is pending, exactly like I2/I3 before it —
+  `proven_at: [I5]` reflects that the evidence exists and supports the claim, not that the
+  milestone has been accepted. See `evidence/i5/checklist.md` §6 for the full uncertainties
+  list (missing dashboard screenshot, fault campaign not yet run, etc.).
+
 ### 2026-07-12 — IL-T004: Scenario C / I4 recorded as a CPU-fallback deviation (D-005)
 
 - **Not a GPU run.** Gate G6 (written hypothesis + full config manifest + auto-stop script +
@@ -266,6 +333,40 @@ deviations. Newest entries first within each section.
   supersedes this record with a **new dated evidence entry** under `evidence/i4/` (this one
   stays archived unmodified, per evidence immutability, ADR-0002) and the corresponding
   `compatibility/matrix.md` row is superseded, not rewritten.
+
+### D-006 (2026-07-12) — I5 recorded on inferops's RQ-14 compose-pivot stack; no pod scheduling claimed
+
+- **Evidence:** `inferops`'s own environment cannot schedule any Kubernetes pod, on any
+  CRI-based distribution, in this sandbox — proven at the runc/nsexec level
+  (`/home/user/tools/k8s-env-probe-report.md`, cited by `inferops/docs/implementation-notes.md`
+  Deviation D-1, user-approved as RQ-14 on 2026-07-11, *before* this repo's own IL-T005 task
+  began): containerd's CRI plugin unconditionally sets `oomScoreAdj: -998` on every pod
+  sandbox, and the sandbox's container lacks `CAP_SYS_RESOURCE`, so pod-sandbox creation fails
+  identically under kind and k3s, under both runc and crun. This is an environment limitation
+  external to both repos, not a defect in any manifest inferops authored.
+- **Decision (conservative, reversible; not this repo's decision to make or unmake — it
+  belongs to inferops, whose evidence this repo only archives per its evidence-archivist
+  role):** I5 is recorded on inferops's actual operational stack: the *runtime* substrate is
+  Docker Compose; Kubernetes manifests are fully authored (Kustomize, ADR-0001) and validated
+  against a live k3s API server (real `kubectl apply` to etcd, server-side dry-run) —
+  everything except the final kubelet→CRI→runc pod-start step. This repo's own role (IL-T005:
+  consumer-side verification + evidence archiving) is unaffected in kind — the acceptance
+  criteria (deployment from released images, warm-up-aware readiness, zero-error rolling
+  update, golden dashboards, end-to-end traces) are all still demonstrated, just against a
+  compose stack instead of a scheduled cluster, and this record says so on every claim (never
+  silently implying pod scheduling). GPU node continues I4's own D-005 CPU-fallback (no GPU
+  rented, no vLLM) — not a new deviation, the same one, carried forward.
+- **Consequences:** every "deployed"/"running"/"serving traffic" claim in `evidence/i5/`
+  refers to the compose stack, not a scheduled Kubernetes Pod; every "manifest correctness"
+  claim refers to k3s API-server validation. I5's normative language ("on the local cluster +
+  GPU node") is satisfied in spirit (deployment-contract conformance, lifecycle semantics,
+  observability, released-image discipline) but not literally (no pod, no GPU) — carried
+  forward to the I8 honest-limitations statement alongside I4's GPU deferral.
+- **Follow-up:** if this sandbox's `CAP_SYS_RESOURCE` restriction is ever lifted, inferops
+  re-runs its k3s validation scripts with a full agent (kubelet) as a strictly additive
+  confirmation — no manifest changes expected. If/when a real GPU session runs (superseding
+  I4), a corresponding I5 re-run against a real vLLM-on-GPU deployment supersedes this record
+  too, per ADR-0002 evidence immutability (this record stays archived, not deleted).
 
 <!--
 Deviation policy: when repository evidence forces a deviation from the approved plan, choose

@@ -12,7 +12,9 @@ the single source of:
   ([`pins/pins.yaml`](pins/pins.yaml)) and per-milestone compatibility matrices
   ([`compatibility/`](compatibility/matrix.md));
 - **The ≤15-minute, GPU-free quickstart** ([`quickstart/`](quickstart/README.md)) — a real
-  gateway + mock backend + PostgreSQL + OTel stack (Scenario A);
+  gateway + mock backend + OTel stack (Scenario A; PostgreSQL usage accounting is a documented
+  deviation, D-001, not yet composed here — see the quickstart doc), **timed and confirmed:
+  2m08s and 35s** across 2 runs;
 - **Five end-to-end scenarios** ([`scenarios/`](scenarios/README.md)) — from the GPU-free
   correctness spine (A) to the capacity-feedback loop (E), the central integration story;
 - **Milestone evidence I1–I8** ([`evidence/`](evidence/README.md)), archived reports
@@ -22,9 +24,13 @@ the single source of:
   ([`study/tracker.md`](study/tracker.md)), and OSS activity log
   ([`oss/log.md`](oss/log.md)).
 
-> **Status (2026-07-10):** skeleton (task IL-T001 / milestone M1). Structure, formats, and
-> scenario definitions are in place; **everything is unpinned and no evidence exists yet** —
-> no sibling repo has published a release. The quickstart becomes runnable at IL-T002.
+> **Status (2026-07-12):** portfolio release assembled (task IL-T009 / milestone I8,
+> **acceptance-review-pending**). I2 and I3 are user-accepted; I4–I7 and I6 are recorded with
+> acceptance review pending; I1 and I8 were archived/assembled this same release. Read the
+> story: [`portfolio/README.md`](portfolio/README.md) (the landing page). Read the honest
+> caveats before trusting any number: [`portfolio/limitations.md`](portfolio/limitations.md).
+> Read the audit that checked every headline claim against its pinned artifact:
+> [`evidence/i8/reproducibility-audit.md`](evidence/i8/reproducibility-audit.md).
 
 ## Start here
 

@@ -1,0 +1,62 @@
+# Snapshot of the pins/pins.yaml entries the I4 CPU-fallback evidence assembly (IL-T004)
+# used or cites (recorded 2026-07-12; authoritative ledger: pins/pins.yaml at the IL-T004
+# commit — git history is the ledger). proven_at for these six entries carries [I3, I4] as
+# of this snapshot: I4 records the CPU-fallback deviation, not GPU acceptance (see
+# checklist.md §0/§5). No new run was executed for this milestone: every artifact below is
+# already snapshotted, verified, and dated at evidence/i3/pins-snapshot.yaml; this file
+# additionally records the two sibling-repo evidence sources (infergate IG-T005, inferbench
+# IB-T010) that are cited but NOT pinned as inference-lab-composed artifacts — see
+# checklist.md §4 for the rationale.
+
+snapshot_of: pins/pins.yaml
+scenario: c (CPU-fallback baseline; scenario/README's own contingency clause)
+milestone: I4
+recorded: "2026-07-12"
+
+artifacts_used:
+  - id: contracts-bundle-v0-2-0
+    version: "v0.2.0"
+    resolved: "serving-contracts tag v0.2.0 (tag object 49d8a63, release commit 484b44904233da569d76bafe4a4acb8d71bbbe4d)"
+    role: contract validation for every §2 pillar (I3 evidence and the cited IB-T010 evidence)
+  - id: infergate-binary
+    version: "infergate@74f2372acea62645fa3c1d91689574ea9de7c589"
+    sha256: "ba79b99fb21e79ab1d10919f75ca00a19b6d9d873818e32dc3b692411cf97465"
+    role: gateway for §2.1 (streaming), §2.2(b) (cancellation, composed-stack arm), §2.4 (failover)
+    note: NOT the commit used by §2.3's overhead comparison (that ran infergate@6827d8c, cited not pinned)
+  - id: infergate-mock-binary
+    version: "infergate@74f2372acea62645fa3c1d91689574ea9de7c589"
+    sha256: "aa262948a95f5231aecb326fabd0c628f1b6aee09709091ed654bffa8ccd4b45"
+    role: failover fallback engine for §2.4
+  - id: inferbench-binary-69a5abc
+    version: "inferbench@69a5abc604a737235ea3f1721ddb6b7f64334289"
+    sha256: "82e8abf6622e566b2c704c30b927deb0ad9ae163172750885f4f6bebcdf03eb2"
+    role: load generator + analysis/report package for §2.1, §2.2(b), §2.4
+    note: NOT the commit used by §2.3's overhead comparison (that ran inferbench@6a3fb53, cited not pinned)
+  - id: engine-llamacpp
+    version: "8f114a9b573b69035299f9b924047f53c1e22c7e"
+    sha256: "af4e01186c5b4248b60cf48f908df6516576c6dbf2209064fb6c8cb645201f26"
+    role: real engine (llama-server) — same commit across every §2 pillar; flags differ per
+      pillar (Scenario B's -np 2 -c 8192 for 2.1/2.2b/2.4; IB-T010's own -np 1 -c 4096 for
+      2.3's llama.cpp arm; IG-T005's own probe flags for 2.2a, against an unpinned test model)
+  - id: model-gguf
+    version: "Qwen2.5-1.5B-Instruct GGUF Q4_K_M (qwen2.5-1.5b-instruct-q4_k_m.gguf)"
+    sha256: "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e"
+    role: served checkpoint for §2.1, §2.2(b), §2.3, §2.4
+    note: NOT used by §2.2(a) (IG-T005), which ran an unpinned tiny random-weight test GGUF (infergate D2)
+
+sibling_repo_evidence_cited_not_pinned:
+  - repo: infergate
+    commit: 74f2372acea62645fa3c1d91689574ea9de7c589
+    task: IG-T005
+    repo_head_at_citation_time: f362ceb7835c91182f19645a705de66af3017c82
+    role: cancellation evidence, checklist.md §2.2(a) — same commit as engine-llamacpp above, so no separate pin needed
+  - repo: infergate
+    commit: 6827d8c3d177464c17fae3b4dc6c2c475323333b
+    task: (IG-T011-era build used internally by inferbench's IB-T010 E1 run)
+    repo_head_at_citation_time: f362ceb7835c91182f19645a705de66af3017c82
+    role: gateway binary for checklist.md §2.3's overhead comparison — later commit than infergate-binary pin, not itself pinned here
+  - repo: inferbench
+    commit: 6a3fb5347b9e0d21fa56c63836bc242a7d7d51e2
+    task: IB-T010 E1
+    repo_head_at_citation_time: 62c2704997e6c8a2966307ee3d8dbfd16747b631
+    role: gateway-overhead comparison, checklist.md §2.3 — later commit than inferbench-binary-69a5abc pin, not itself pinned here

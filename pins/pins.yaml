@@ -17,15 +17,23 @@
 # I3 EXECUTED same day (Scenario B pin set below: contracts v0.2.0,
 # infergate/mock 74f2372 host binaries, inferbench 69a5abc, engine-llamacpp
 # 8f114a9, model-gguf Qwen2.5-1.5B-Instruct Q4_K_M); I3 ACCEPTED 2026-07-11.
+# STATUS (2026-07-12): I4 recorded as a **CPU-fallback deviation** (G6 GPU
+# session deferred by user decision 2026-07-11 — no GPU rental; evidence/i4/).
+# The Scenario B pin set above stands in as the measured baseline for I4; the
+# same six entries carry proven_at: [I3, I4] below. No vLLM/GPU pins exist —
+# not claimed. See evidence/i4/checklist.md for the full acceptance mapping
+# and the deferred-GPU-evidence list.
 # Entries still expected (recorded here as comments, NOT claims):
 #   - engine-vllm             v0.24.x baseline + exact commit, as of 2026-07 —
 #                             re-verify + model/quantization/tokenizer +
-#                             driver/CUDA + instance type            (needed for I4)
+#                             driver/CUDA + instance type   (needed for I4 GPU
+#                             acceptance proper — CPU fallback recorded instead,
+#                             see evidence/i4/)
 #   - inferops-bundle         release + dashboard/config bundle tags (needed for I5)
 #   - fleetlab-release        released version                       (needed for I6)
 
 schema_version: 1
-updated: "2026-07-11"
+updated: "2026-07-12"
 
 # Normative benchmark comparability rule (also printed in compatibility/matrix.md):
 comparability_rule: >-
@@ -38,6 +46,7 @@ comparability_rule: >-
 milestone_evidence:
   I2: evidence/i2/  # accepted 2026-07-11 (deviation D-001: no PostgreSQL usage write; re-run planned at IG-T008)
   I3: evidence/i3/  # accepted 2026-07-11 (open observation: attempt-1 cancel-log census 21-vs-20, unreproduced; follow-up filed)
+  I4: evidence/i4/  # recorded 2026-07-12 as a CPU-FALLBACK DEVIATION (D-005): G6 GPU session deferred by user decision 2026-07-11, no GPU rental; the Scenario B / I3 pin set below stands in as the measured baseline, plus infergate IG-T005 + inferbench IB-T010 E1 evidence (cited, not pinned — see evidence/i4/checklist.md §4). No vLLM/GPU-specific claim is made.
 
 artifacts:
   - id: contracts-bundle
@@ -161,7 +170,7 @@ artifacts:
     version: "v0.2.0"
     provenance: measured
     date: "2026-07-11"
-    proven_at: [I3]
+    proven_at: [I3, I4]
     source: >-
       in-program: serving-contracts annotated tag v0.2.0 (local repo
       /home/user/serving-contracts, tag object 484b44904233da569d76bafe4a4acb8d71bbbe4d);
@@ -174,7 +183,10 @@ artifacts:
       honestly: inferbench@69a5abc stamps manifests
       contracts_bundle_version "8d81492 (v0.2.0 tag pending)" because the
       tool pinned the tag candidate before the tag was cut — content
-      identical, re-stamps at the next inferbench pin bump.
+      identical, re-stamps at the next inferbench pin bump. Also proven_at
+      I4 (2026-07-12): the CPU-fallback baseline for I4 validates every
+      artifact against this same bundle, including the sibling-repo IB-T010
+      evidence cited (not pinned) in evidence/i4/checklist.md §2.3.
 
   - id: infergate-binary
     component: infergate
@@ -183,7 +195,7 @@ artifacts:
     digest: "sha256:ba79b99fb21e79ab1d10919f75ca00a19b6d9d873818e32dc3b692411cf97465"
     provenance: measured
     date: "2026-07-11"
-    proven_at: [I3]
+    proven_at: [I3, I4]
     source: >-
       in-program: infergate commit 74f2372acea62645fa3c1d91689574ea9de7c589,
       built read-only via git archive by scenarios/b/build.sh
@@ -194,7 +206,12 @@ artifacts:
       container-image, for this scenario's gateway pin. Carries the
       llama.cpp adapter, the probed capability descriptor
       (internal/backend/llamacpp/llamacpp.backend-capability.json,
-      kit-validated), and the static-priority mock fallback.
+      kit-validated), and the static-priority mock fallback. Also proven_at
+      I4 (2026-07-12, CPU-fallback baseline): backs the streaming,
+      cancellation (composed-stack arm), and failover pillars in
+      evidence/i4/checklist.md §2.1/§2.2(b)/§2.4 — NOT the gateway-overhead
+      comparison in §2.3, which ran a later infergate commit (6827d8c,
+      cited there, not pinned here).
 
   - id: infergate-mock-binary
     component: infergate-mock
@@ -203,7 +220,7 @@ artifacts:
     digest: "sha256:aa262948a95f5231aecb326fabd0c628f1b6aee09709091ed654bffa8ccd4b45"
     provenance: measured
     date: "2026-07-11"
-    proven_at: [I3]
+    proven_at: [I3, I4]
     source: >-
       in-program: infergate commit 74f2372acea62645fa3c1d91689574ea9de7c589,
       built read-only via git archive by scenarios/b/build.sh
@@ -211,7 +228,9 @@ artifacts:
     notes: >-
       Failover peer for Scenario B (mock<->llama.cpp demo); run with
       -seed 42 -ttft 300ms -itl 30ms -error-rate 0 (same profile as
-      Scenario A for continuity).
+      Scenario A for continuity). Also proven_at I4 (2026-07-12,
+      CPU-fallback baseline): failover fallback engine for
+      evidence/i4/checklist.md §2.4.
 
   - id: inferbench-binary-69a5abc
     component: inferbench
@@ -220,7 +239,7 @@ artifacts:
     digest: "sha256:82e8abf6622e566b2c704c30b927deb0ad9ae163172750885f4f6bebcdf03eb2"
     provenance: measured
     date: "2026-07-11"
-    proven_at: [I3]
+    proven_at: [I3, I4]
     source: >-
       in-program: inferbench commit 69a5abc604a737235ea3f1721ddb6b7f64334289,
       built read-only via git archive by scenarios/b/build.sh
@@ -231,7 +250,11 @@ artifacts:
       (inferbench-analysis 0.2.0, analysis/src used via PYTHONPATH from the
       git-archive extraction — not pip-installed; numpy 2.4.6 /
       jsonschema 4.26.0 recorded in evidence/i3/logs/build-info.txt).
-      Produced benchmark report #0.
+      Produced benchmark report #0. Also proven_at I4 (2026-07-12,
+      CPU-fallback baseline): load generator for evidence/i4/checklist.md
+      §2.1/§2.2(b)/§2.4 — NOT §2.3's gateway-overhead comparison, which ran
+      a later inferbench commit (6a3fb53, IB-T010, cited there not pinned
+      here).
 
   - id: engine-llamacpp
     component: engine-llamacpp
@@ -240,7 +263,7 @@ artifacts:
     digest: "sha256:af4e01186c5b4248b60cf48f908df6516576c6dbf2209064fb6c8cb645201f26"
     provenance: measured
     date: "2026-07-11"
-    proven_at: [I3]
+    proven_at: [I3, I4]
     reverify: true
     source: >-
       prebuilt llama-server at /home/user/tools/llama.cpp/build/bin
@@ -255,7 +278,12 @@ artifacts:
       --no-webui --log-timestamps => 2 slots x 4096 ctx, CPU-only; all other
       options at build defaults. reverify: local build, not a released
       upstream artifact — rebuild/re-verify when the toolchain or host
-      changes.
+      changes. Also proven_at I4 (2026-07-12, CPU-fallback baseline): same
+      commit backs every pillar in evidence/i4/checklist.md §2 (IG-T005's
+      cancellation evidence in §2.2(a) is this same commit but ran against
+      an unpinned tiny random-weight test GGUF, not the model-gguf pin
+      below; the IB-T010 overhead comparison in §2.3 ran this commit with
+      its own -np 1 -c 4096 single-slot flags).
 
   - id: model-gguf
     component: model
@@ -264,7 +292,7 @@ artifacts:
     digest: "sha256:6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e"
     provenance: measured
     date: "2026-07-11"
-    proven_at: [I3]
+    proven_at: [I3, I4]
     source: >-
       Hugging Face download 2026-07-11 (Qwen2.5-1.5B-Instruct GGUF
       distribution, Q4_K_M file), stored at
@@ -276,6 +304,10 @@ artifacts:
       template in one content hash (tokenizer identity has no separate
       upstream hash for a single-file GGUF). Served under the gateway model
       id qwen2.5-1.5b-instruct-q4_k_m (llama-server alias set to match).
+      Also proven_at I4 (2026-07-12, CPU-fallback baseline): same file
+      served in evidence/i4/checklist.md §2.1/§2.2(b)/§2.3/§2.4 — NOT
+      §2.2(a) (IG-T005), which ran an unpinned tiny random-weight test
+      GGUF (infergate deviation D2), not this model.
 
   - id: otel-genai-semconv
     component: otel-semconv

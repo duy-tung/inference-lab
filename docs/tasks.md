@@ -7,8 +7,8 @@ the OSS-track execution tasks (externally paced, never on the critical path).
 |---|---|---|---|---|---|---|---|
 | IL-T001 | Skeleton: pins, quickstart, scenarios, logs | M | yes | no | Required | **In review** (skeleton committed 2026-07-10; awaiting user plan review) | this commit; `pins/` validator output in `docs/implementation-notes.md` |
 | IL-T002 | Scenario A + milestone I2 | M | yes | no | Required | **Done** (executed 2026-07-10; I2 ACCEPTED by user 2026-07-11 with recorded deviation D-001 — PostgreSQL usage write re-runs at IG-T008) | `scenarios/a/`, `evidence/i2/checklist.md` |
-| IL-T003 | Scenario B + milestone I3 | M | yes | no | Required | **In review** (executed 2026-07-11; benchmark report #0 generated schema-valid; I3 user-acceptance review pending) | `scenarios/b/`, `evidence/i3/checklist.md`, `evidence/i3/reports/` |
-| IL-T004 | Scenario C + milestone I4 (GPU) | M | yes | no | Required | Not started | — |
+| IL-T003 | Scenario B + milestone I3 | M | yes | no | Required | **Done** (executed 2026-07-11; I3 ACCEPTED by user 2026-07-11; open observation on the cancellation log-census, not blocking) | `scenarios/b/`, `evidence/i3/checklist.md`, `evidence/i3/reports/` |
+| IL-T004 | Scenario C + milestone I4 (GPU) | M | yes | no | Required | **Done as CPU-fallback deviation** (assembled 2026-07-12; G6/GPU deferred by user decision 2026-07-11 — no GPU rental; I4 recorded via the llama.cpp baseline (I3) + infergate IG-T005 + inferbench IB-T010 E1, not GPU acceptance) | `evidence/i4/checklist.md`, `evidence/i4/pins-snapshot.yaml` |
 | IL-T005 | Scenario D + milestone I5 | M | yes | no | Required | Not started | — |
 | IL-T006 | Scenario E + milestone I6 (the central story) | L | yes | no | Required | Not started | — |
 | IL-T007 | Failure campaign evidence + milestone I7 | M | yes | no | Required | Not started | — |
@@ -88,6 +88,21 @@ program's gateway + bench core exist.
 - **Review focus:** GPU session plan pre-approved; manifest completeness; fallback honesty.
 - **Stop condition:** I4 accepted, **or** CPU-fallback deviation recorded (llama.cpp becomes
   the measured baseline).
+- **Status (2026-07-12):** **CPU-fallback deviation recorded, GPU acceptance NOT claimed.**
+  Gate G6 (GPU session) deferred by user decision 2026-07-11 (no GPU rental this program
+  wave); `IG-T014` (vLLM adapter, infergate) and `IB-T011` (GPU experiment set, inferbench)
+  remain not started/not executed as of this date — verified live against both sibling repos
+  before writing this record. Per `scenarios/c/README.md`'s own contingency clause, the
+  llama.cpp variant proven at I3 stands in as the measured baseline, assembled (not
+  re-measured) from three already-published evidence sources: `evidence/i3/` (streaming,
+  composed-stack cancellation, failover), infergate `docs/implementation-notes.md`
+  (`IG-T005` log entry — adapter-level 3-point cancellation vs. real `llama-server`, mid-stream
+  slot release 1.25–5.24 ms), and inferbench `docs/evidence/ib-t010/` (`IB-T010` E1 —
+  gateway-overhead comparison: mock arm CONFIRMED paired p95 +2.21 ms, llama.cpp arm
+  INCONCLUSIVE at the ms scale, reported honestly). Full item-by-item mapping, the
+  deferred-GPU-evidence list, and the pins used: `evidence/i4/checklist.md`. `pins/pins.yaml`
+  `proven_at` extended to `[I3, I4]` for the six Scenario B pin-set entries this evidence
+  draws on; no vLLM/GPU-specific pin exists or is claimed.
 
 ## IL-T005 — Scenario D + milestone I5
 

@@ -41,6 +41,9 @@ demonstrated.
 **Failure handling:** llama.cpp behavioral surprises → capability descriptor updated, adapter
 fixed (in infergate); invalid report → G4 review before proceeding.
 **Evidence:** benchmark report #0 (methodology shakedown), campaign logs → `evidence/i3/`.
+**Status (2026-07-11):** **ACCEPTED** by user review; `evidence/i3/checklist.md` all
+executed criteria PASS, one open (unreproduced) observation on the cancellation log-census
+check, not blocking acceptance.
 
 ## I4 — GPU inference (owner: inference-lab)
 
@@ -56,6 +59,16 @@ trip → stop, record, fall back.
 **CPU fallback:** documented deviation; the llama.cpp variant becomes the measured baseline.
 **Evidence:** session log, GPU benchmark report, cancellation-verification metrics export →
 `evidence/i4/`.
+**Status (2026-07-12):** **CPU-fallback deviation recorded (D-005); GPU acceptance NOT
+claimed.** Gate G6 deferred by user decision 2026-07-11 (no GPU rental); infergate `IG-T014`
+and inferbench `IB-T011` remain not started/not executed as verified this session. The
+llama.cpp baseline proven at I3 stands in, supplemented by infergate IG-T005 (adapter-level
+cancellation vs. a real `llama-server`) and inferbench IB-T010 E1 (gateway-overhead
+comparison — mock arm CONFIRMED, llama.cpp arm INCONCLUSIVE at the ms scale, reported
+honestly) — assembled from already-published evidence, not newly measured. Deferred and NOT
+claimed: vLLM engine-metrics-verified cancellation, GPU-scale overhead comparison,
+vLLM-specific behaviors, GPU session manifest/auto-stop/budget. Full mapping:
+`evidence/i4/checklist.md`.
 
 ## I6 — Capacity feedback, the central story (owner: inference-lab for the loop; fleetlab for the recommendation)
 

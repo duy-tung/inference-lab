@@ -5,6 +5,55 @@ deviations. Newest entries first within each section.
 
 ## Log
 
+### 2026-07-12 — IL-T004: Scenario C / I4 recorded as a CPU-fallback deviation (D-005)
+
+- **Not a GPU run.** Gate G6 (written hypothesis + full config manifest + auto-stop script +
+  budget alert, pre-approved by the user, mandatory before any GPU spend) was **deferred by
+  user decision on 2026-07-11** — no GPU rental this program wave. Verified live before
+  writing this entry that the GPU-path prerequisites genuinely do not exist yet: infergate
+  `IG-T014` (vLLM adapter) is **not started** (infergate `docs/tasks.md`, repo at commit
+  `f362ceb7835c91182f19645a705de66af3017c82`); inferbench `IB-T011` (GPU experiment set 2)
+  has **not been executed** (inferbench `docs/tasks.md`, repo at commit
+  `62c2704997e6c8a2966307ee3d8dbfd16747b631`); `pins/pins.yaml`'s header still lists
+  `engine-vllm` as an unpinned "entry still expected."
+- **This session assembled evidence; it did not measure anything new**, per the scenario C
+  README's own contingency clause ("if GPU access is blocked, the llama.cpp variant (Scenario
+  B) becomes the measured baseline") and program charter §7
+  (`portfolio-planning/00-program-charter.md`, "Budget and hardware assumptions": "if GPU
+  access fails, llama.cpp becomes the primary measured engine ... GPU experiments compress
+  into one scripted final session"). Three already-published sources were cited by path and
+  commit (never copied):
+  1. `evidence/i3/` (this repo, I3 accepted 2026-07-11, commit `61132b2`) — llama.cpp
+     streaming (`chat-short`/`shared-prefix` via gateway), the composed-stack cancellation
+     arm, and mock↔llama.cpp failover.
+  2. infergate `docs/implementation-notes.md`, log entry "2026-07-10 — IG-T005: llama.cpp
+     adapter (M4)" (commit `74f2372acea62645fa3c1d91689574ea9de7c589`, same commit as this
+     repo's pinned `engine-llamacpp`) — adapter-level 3-point cancellation against a real
+     `llama-server`: queued 2.6 µs–645 µs, pre-first-token 0.77 s–2.19 s (decode-batch
+     abort-detection granularity), mid-stream **1.25 ms–5.24 ms**. Caveat carried forward
+     honestly: this measurement used an unpinned tiny random-weight test GGUF (infergate
+     deviation D2), not the pinned Qwen2.5-1.5B-Instruct model.
+  3. inferbench `docs/evidence/ib-t010/benchmark-report-1.md` (`IB-T010` E1, commit
+     `6a3fb5347b9e0d21fa56c63836bc242a7d7d51e2`) — gateway-overhead comparison (direct vs
+     via-gateway, ≥3 runs/point): mock arm **CONFIRMED** (paired p95 +2.21 ms, p99 +2.81 ms,
+     both under the <10 ms/<20 ms target); llama.cpp arm **INCONCLUSIVE at the ms scale**,
+     reported honestly (engine run-to-run variance 2–3 orders of magnitude above the bound
+     under test). Noted that this experiment's own infergate pin (`6827d8c`) and llama.cpp
+     flags (`-np 1 -c 4096`, single slot) differ from this repo's Scenario B pins — cited as
+     sibling-repo evidence, not re-pinned here (see the deviation entry below).
+- Full item-by-item mapping against `scenarios/c/README.md`'s acceptance checklist, the
+  explicit deferred-GPU-evidence list, and the pins rationale: `evidence/i4/checklist.md`
+  (+ `evidence/i4/pins-snapshot.yaml`, `evidence/i4/notes.md`).
+- `pins/pins.yaml`: `proven_at` extended to `[I3, I4]` for the six Scenario B pin-set entries
+  this evidence draws on (`contracts-bundle-v0-2-0`, `infergate-binary`,
+  `infergate-mock-binary`, `inferbench-binary-69a5abc`, `engine-llamacpp`, `model-gguf`);
+  `milestone_evidence.I4` now points at `evidence/i4/`. Validator green (still 13 artifact
+  entries — no new pins.yaml artifacts were added; see the deviation entry for why). No
+  vLLM/GPU-specific `proven_at` claim was made anywhere.
+- `compatibility/matrix.md` gained an I4 row (CPU-fallback, explicitly marked as such) and its
+  stale "I3 acceptance review pending" status line was corrected to "ACCEPTED" (I3 was in fact
+  accepted 2026-07-11; the matrix file had not been updated to say so until now).
+
 ### 2026-07-11 — IL-T003: Scenario B executed, I3 evidence recorded
 
 - Composed stack: `inferbench (host) → infergate gateway → llama.cpp` (real engine, CPU),
@@ -178,6 +227,45 @@ deviations. Newest entries first within each section.
   remains proven at I2, and full operational rigor (released images, k8s) is I5's job.
 - **Follow-up:** when registry hosting exists (RQ-4), Scenario B can be re-composed from
   pushed images; the pins gain image entries in a new dated set.
+
+### D-005 (2026-07-12) — I4 recorded as a CPU-fallback deviation; GPU acceptance not claimed
+
+- **Evidence:** gate G6 (GPU session discipline: written hypothesis, full config manifest,
+  auto-stop script, budget alert, pre-approved by the user) requires a GPU rental that the
+  user decided against on 2026-07-11 for this program wave. Independently confirmed this
+  session that the GPU-path prerequisites do not yet exist: infergate `IG-T014` (vLLM
+  adapter) is not started; inferbench `IB-T011` (GPU experiment set) has not run;
+  `pins/pins.yaml` carries no `engine-vllm`/model-checkpoint/driver-CUDA/instance-type pins.
+- **Decision (conservative, reversible, per `scenarios/c/README.md`'s own contingency clause
+  and program charter §7):** I4 is recorded via the llama.cpp CPU-fallback baseline already
+  proven at I3, supplemented by two sibling-repo evidence sources cited by path+commit —
+  infergate IG-T005 (adapter-level cancellation vs. a real `llama-server`) and inferbench
+  IB-T010 E1 (gateway-overhead comparison, direct vs via-gateway) — assembled, not
+  re-measured, this session. No new `pins/pins.yaml` artifact entries were created for the
+  two sibling-repo commits behind the IB-T010 comparison (infergate@`6827d8c`,
+  inferbench@`6a3fb53`) or for IG-T005's commit (same commit as the already-pinned
+  `engine-llamacpp`, so nothing new to add there either): those commits were built and
+  verified by their own repos' tooling, not this repo's `scenarios/*/build.sh`, so they are
+  cited under this repo's evidence-archivist role (the same pattern as the I1/I5/I7 archiving
+  duties) rather than pinned as inference-lab-composed artifacts. `proven_at` was extended to
+  include `I4` only for the six Scenario B pin-set entries that genuinely back this evidence
+  (`contracts-bundle-v0-2-0`, `infergate-binary`, `infergate-mock-binary`,
+  `inferbench-binary-69a5abc`, `engine-llamacpp`, `model-gguf`) — see each entry's notes in
+  `pins/pins.yaml` for exactly which §2 evidence pillar(s) each one backs (not all six back
+  all four pillars; the gateway-overhead comparison in particular used different
+  infergate/inferbench commits than this repo's own I3 pins).
+- **Consequences:** I4's normative acceptance criteria (streaming + cancellation verified via
+  **vLLM engine metrics** on a **rented GPU**; gateway-overhead comparison **at GPU scale**;
+  GPU session auto-stop/budget) are **not demonstrated and not claimed**. The portfolio's
+  final-narrative sentence "I measured the gateway and engine independently and together"
+  (`docs/charter.md`) is, for now, evidenced at CPU scale only. The I8 honest-limitations
+  statement must carry this forward. Full acceptance-item mapping and the explicit
+  deferred-GPU-evidence list: `evidence/i4/checklist.md`.
+- **Follow-up:** when GPU budget is approved and `IG-T014` + `IB-T011` land, re-run Scenario C
+  for real against vLLM per `scenarios/c/README.md` and its full G6 discipline; that run
+  supersedes this record with a **new dated evidence entry** under `evidence/i4/` (this one
+  stays archived unmodified, per evidence immutability, ADR-0002) and the corresponding
+  `compatibility/matrix.md` row is superseded, not rewritten.
 
 <!--
 Deviation policy: when repository evidence forces a deviation from the approved plan, choose

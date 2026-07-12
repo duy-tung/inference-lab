@@ -5,6 +5,101 @@ deviations. Newest entries first within each section.
 
 ## Log
 
+### 2026-07-12 — IL-T006: Scenario E + milestone I6 (the central story) — capacity feedback loop closed
+
+- **The headline deliverable of the program.** Assembled from three already-existing evidence
+  sources, each cited by path+commit, per this repo's evidence-archivist/loop-owner role: the
+  fleetlab FL-T009 recommendation (`/home/user/fleetlab`, commit
+  `dd05e7decca5a998afdf496d1c439141caba5a29`), the inferops IO-T009 applied-change +
+  re-measurement (`/home/user/inferops`, commit
+  `89871a64d35bab9450481ff1afdd19ad8310a9d9`, IO-T009 itself at
+  `f5fdd86ae670b1a1b0d6412f3c530f6e939ebd74`), and the inferbench IB-T010 benchmark corpus the
+  recommendation was fitted from (`ib-t010-e2-baseline-1x-sane` /
+  `ib-t010-e2-overload-5x-sane`, already cited by I4's own evidence). Nothing in any sibling
+  repo's source was read or modified; the recommendation file itself was archived as a byte-
+  identical copy (the one deliberate exception to the cite-don't-copy convention used for
+  inferops manifests at I5/I7 — a small, self-contained data artifact the acceptance criterion
+  names explicitly).
+- **Independent Contract 7 re-validation performed this session** (not just relying on
+  fleetlab's own claim): ran `kit/contracts-validate.py validate --schema
+  capacity-recommendation` against the FL-T009 recommendation file twice — once against
+  fleetlab's own vendored v0.2.0 bundle, once against a live checkout of serving-contracts at
+  the newly-frozen **v1.0.0** tag (commit `507208b25737470b9eb2f9553a5c55f8f535f1d5`) — **PASS
+  both**. Also independently confirmed `schemas/capacity-recommendation.schema.json` is
+  byte-identical between the v0.2.0 and v1.0.0 tags (`git diff`, no output) — Contract 7 is
+  not one of the three contracts (1-3) the v1.0.0 freeze touches, so this was expected, not
+  luck. The serving-contracts working tree was restored to `main` immediately after (`git
+  checkout main -- .`; verified clean).
+- **Headline honesty item 1 — the applied change was 1→2 replicas, not the recommended 1→6.**
+  fleetlab recommended scaling `gateway-mock-admission-sane-v1` from 1 to 6 replicas to serve
+  a 189.0362 rps demand. inferops's IO-T009 applied and re-measured only a 1→2 scale-out — a
+  disclosed compose-substrate resource/time-budget scope reduction, compounded by the
+  already-established RQ-14 deviation (no Kubernetes pod scheduling exists in this environment
+  at all, so there is no real scheduler to enact 6 replicas as pods regardless). **The
+  6-replica prediction itself was never tested** — only extrapolated from 1- and 2-replica
+  data, and every appearance of that extrapolated number in this evidence set says so
+  explicitly (`evidence/i6/loop-report.md` §4.3). This is the single most important item this
+  task's brief asked to be surfaced plainly, and it is surfaced first, in the checklist's own
+  §0, not buried in a caveats section.
+- **Headline honesty item 2 — predicted vs measured, including where the prediction
+  diverged.** fleetlab's fitted per-replica capacity (33.159 rps, from
+  `ib-t010-e2-baseline-1x-sane`) is confirmed within **+1.3%** when re-measured at the exact
+  rate it was fitted from — a strong independent, cross-environment replication. At every
+  higher offered rate this evidence covers (50 rps, 189 rps, and a genuine 2-replica-scale
+  80 rps saturation check), the measurement instead tracks 1–5% from inferbench's own
+  **unpublished** "overload-empirical" alternative estimate (37.925 rps) and 9–13% from the
+  published fit — leaning toward 37.925, not 33.159. This resolves (does not contradict) the
+  open question fleetlab's own G8 holdout report already flagged as unresolved
+  (`fleetlab/reports/holdout-validation.md` §2a/§3, a documented MISS at 12.6% error) — three
+  new independent points all point the same direction. Published in full in
+  `evidence/i6/loop-report.md` §4.1/§4.2, not cherry-picked to the favorable fitted-point number
+  alone.
+- **Headline honesty item 3 — a comparability-rule audit this session performed, not just
+  cited.** Directly diff'd fleetlab's own training-data run manifests
+  (`inferbench/docs/evidence/ib-t010/e2-baseline/rep-1/manifest.json`) against IO-T009's
+  re-measurement manifests. The admission and mock-timing flags match byte-for-byte; the
+  gateway build (a dev commit vs. a later v0.1.0 tagged release), host, warm-up policy
+  (50-request discard vs. none), repetition count (3 vs. 1), and workload seed identity
+  (fleetlab's own `re_measurement` plan named seed `10010201`; IO-T009 used freshly authored
+  workloads with different seeds embedding the same declared rates) all differ. Recorded as an
+  explicit finding (`evidence/i6/loop-report.md` §3.1, checklist §0.4): this evidence is best
+  read as an **independent replication**, not a byte-identical single-variable re-run — a
+  distinction IO-T009's own report did not spell out in this much detail (it disclosed "a
+  different host" but not the build/warm-up/repetition/seed differences).
+- **A measured autoscaling-signal refinement, fed back but not yet filed upstream.**
+  `inference_requests_in_flight` fired 6.1s after the workload's true capacity knee with zero
+  false triggers; fleetlab's recommended `inference_queue_depth` signal fired 64.4s late for
+  this shallow-queue (cap 3) admission config — sharpening FL-T009's own disclosed caveat from
+  a magnitude problem into a stability problem. Recorded as profile-refinement feedback
+  (`evidence/i6/loop-report.md` §5) per the acceptance criterion's own wording ("recorded, or
+  filed upstream to fleetlab") — not yet filed as an actual fleetlab commit/issue (fleetlab's
+  repo state is unchanged since before IO-T009 ran); this is stated as an open follow-up, not
+  silently treated as already actioned.
+- **A Contract 7 plumbing-precision gap found while applying the recommendation.**
+  `recommended_topology.replica_groups[0].engine_config.flags` in the FL-T009 recommendation
+  file is an empty object — the admission-sane-v1 flags that define "the recommended
+  configuration" live only in the file's prose `baseline`/`change_summary` fields, not
+  structurally in `engine_config`. inferops reproduced the flags correctly by reading
+  fleetlab's evidence directly, not by mechanically applying a structured field. Recorded as
+  loop-mechanics feedback (`scenarios/e/README.md`'s own failure-handling clause), not filed as
+  a defect.
+- **Not attempted, recorded as an open gap rather than a silent omission:** running fleetlab's
+  own `fleetlab/emit/dry_run_validate.py` (the Contract-7 consumption-side checker) against
+  real IO-T009 data. It exists and is tested against a synthetic fixture, but constructing a
+  real Contract-3 `benchmark-result.json` from IO-T009's raw events to feed it was judged out
+  of this task's loop-assembly scope — recorded as a genuine follow-up in
+  `evidence/i6/loop-report.md` §6, not attempted and then hidden if it didn't work.
+- **Pins added** (`pins/pins.yaml`, all `proven_at: [I6]`): `contracts-bundle-v1-0-0`,
+  `fleetlab-bundle`, `fleetlab-recommendation-e2-admission-sane-v1-5x-scaleout`,
+  `inferops-autoscaling-experiments`. No existing pin's `proven_at` was extended to I6 (the
+  loop runs entirely on the mock backend, a different pin family from the llama.cpp/model pins
+  I3-I5/I7 carry forward; `inferops-infergate-image`/`inferops-mock-backend-image` were not
+  independently re-verified against the I6 containers specifically this session, so their
+  `proven_at` was deliberately left unextended rather than claimed without a matching
+  verification step — `evidence/i6/pins-snapshot.yaml`). `python3 pins/validate_pins.py` →
+  green, 28 artifact entries.
+- **I6 acceptance review by the user is pending**, same as I2/I3/I5/I7 before it.
+
 ### 2026-07-12 — IL-T007: Failure campaign evidence + milestone I7 archived
 
 - **Executed ahead of IL-T006/I6 in the nominal dependency order.** The program's stated

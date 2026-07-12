@@ -46,13 +46,33 @@
 # No GPU/vLLM claim anywhere — continuation of I4/D-005 and I5/D-006's
 # CPU-fallback. I7 acceptance review by the user is pending (I2/I3/I5
 # precedent).
+# STATUS (2026-07-12): I6 recorded (evidence/i6/): the capacity-feedback loop
+# (Scenario E, IL-T006) — fleetlab's FL-T009 recommendation (6 replicas of
+# gateway-mock-admission-sane-v1, fitted per-replica capacity 33.159±1.105
+# rps, predicted goodput [165.279, 189.036] rps) archived before any change,
+# schema-valid against Contract 7 (independently re-validated this session
+# against both the v0.2.0 and the newly-frozen v1.0.0 bundles — PASS both);
+# inferops's IO-T009 applied and re-measured a 1->2 replica change (NOT the
+# recommended 1->6 — a disclosed compose-substrate scope reduction, RQ-14
+# continuation); predicted-vs-measured published honestly: the fitted 33.159
+# rps/replica figure confirmed within +1.3% AT its own fitted rate, but at
+# every higher rate measured the result tracks 1-5% from inferbench's own
+# unpublished "overload-empirical" 37.925 rps/replica estimate and 9-13%
+# from the published fit — leaning toward 37.925, not 33.159, on the open
+# question fleetlab's own G8 holdout report already flagged unresolved. The
+# 6-replica recommendation itself was NEVER measured (extrapolation only,
+# stated as such). A measured autoscaling-signal refinement: in_flight beat
+# fleetlab's recommended queue_depth signal for this shallow-queue config.
+# Contracts v1.0.0 (SC-T010) also pinned here as the I6 prerequisite: freeze
+# of Contracts 1-3, I1 re-run GREEN across all four consumers 2026-07-12.
+# I6 acceptance review by the user is pending (I2/I3/I5/I7 precedent). See
+# evidence/i6/checklist.md §0 for the full honesty accounting.
 # Entries still expected (recorded here as comments, NOT claims):
 #   - engine-vllm             v0.24.x baseline + exact commit, as of 2026-07 —
 #                             re-verify + model/quantization/tokenizer +
 #                             driver/CUDA + instance type   (needed for I4 GPU
 #                             acceptance proper — CPU fallback recorded instead,
 #                             see evidence/i4/)
-#   - fleetlab-release        released version                       (needed for I6)
 
 schema_version: 1
 updated: "2026-07-12"
@@ -71,6 +91,7 @@ milestone_evidence:
   I4: evidence/i4/  # recorded 2026-07-12 as a CPU-FALLBACK DEVIATION (D-005): G6 GPU session deferred by user decision 2026-07-11, no GPU rental; the Scenario B / I3 pin set below stands in as the measured baseline, plus infergate IG-T005 + inferbench IB-T010 E1 evidence (cited, not pinned — see evidence/i4/checklist.md §4). No vLLM/GPU-specific claim is made.
   I5: evidence/i5/  # recorded 2026-07-12: inferops operational stack (owner: inferops), archived from the consumer side per IL-T005. Headline deviation: RQ-14 compose-pivot (inferops cannot schedule any Kubernetes pod in this sandbox; runtime is Docker Compose, manifests validated against a live k3s API server — no pod scheduling claimed). GPU node continues I4's CPU-fallback (D-005): no vLLM, no GPU. Deployment-from-released-images, warm-up-aware readiness, zero-error rolling update, golden dashboards, and end-to-end traces (mock- and llama.cpp-backed) all demonstrated — see evidence/i5/checklist.md. I5 acceptance review by the user is pending (I2/I3 precedent).
   I7: evidence/i7/  # recorded 2026-07-12: inferops 12-scenario Contract 6 fault campaign (owner: inferops execution, inference-lab evidence), archived per IL-T007. 12/12 scenarios injected; 11/12 matched expected semantics (6 fully clean; 5 matched-with-documented-deviation: 1/3/7/10 structural single-backend, 6 expected non-defect discrepancy), 1/12 (scenario 4, slow client) deviation-documented not-matched as a real, reproducible finding — surfaced prominently, not buried, see evidence/i7/checklist.md §0. Client impact measured by inferbench for scenarios 1, 2, 5, 6, 12 (evidence/i7/client-impact.md). 3 postmortems published (postmortems/pm-001..pm-003.md), exceeding the ≥2 minimum. No GPU/vLLM claim anywhere — continuation of I4/D-005 and I5/D-006. I7 acceptance review by the user is pending (I2/I3/I5 precedent).
+  I6: evidence/i6/  # recorded 2026-07-12: the capacity-feedback loop (owner: inference-lab for the loop, fleetlab for the recommendation), archived per IL-T006. fleetlab's FL-T009 recommendation (6 replicas, fitted 33.159±1.105 rps/replica, predicted goodput [165.279,189.036] rps) archived before any change, schema-valid against Contract 7 (re-validated this session against both v0.2.0 and v1.0.0 — PASS both). inferops's IO-T009 applied a 1->2 replica change (NOT the recommended 1->6 — disclosed scope reduction) and re-measured. Predicted-vs-measured published honestly: 33.159 rps/replica CONFIRMED within +1.3% at its own fitted rate; at higher rates the measurement leans toward inferbench's own unpublished 37.925 rps/replica estimate (1-5% off) over the published fit (9-13% off) — resolving, not contradicting, the open question fleetlab's own G8 holdout report already flagged. The 6-replica recommendation itself was NEVER measured (extrapolation only). in_flight measured to beat fleetlab's recommended queue_depth signal for this config — a real refinement. Contracts v1.0.0 (SC-T010) pinned as the I6 prerequisite, I1 re-run GREEN 2026-07-12. See evidence/i6/checklist.md §0 for the full honesty accounting. I6 acceptance review by the user is pending (I2/I3/I5/I7 precedent).
 
 artifacts:
   - id: contracts-bundle
@@ -609,3 +630,125 @@ artifacts:
       re-verified by this session — recorded honestly as commit-pinned
       only, the same "no tagged release yet" pattern already used for
       inferbench-binary / inferbench-binary-69a5abc above.
+
+  # ---- I6 / capacity-feedback-loop pin set (recorded 2026-07-12 at
+  # ---- IL-T006 execution; Scenario E, the central integration story;
+  # ---- fleetlab FL-T009 recommendation + inferops IO-T009 applied-change
+  # ---- and re-measurement; entirely mock-backend scale, per fleetlab's own
+  # ---- FL-T004 loop-mechanics scope decision — no vLLM/GPU/llama.cpp
+  # ---- involvement in this pin set) -------------------
+
+  - id: contracts-bundle-v1-0-0
+    component: serving-contracts
+    kind: contract-bundle
+    version: "v1.0.0"
+    provenance: measured
+    date: "2026-07-12"
+    proven_at: [I6]
+    source: >-
+      in-program: serving-contracts annotated tag v1.0.0 (local repo
+      /home/user/serving-contracts, tag object
+      64c3205bff4acc63c6ce3cffbeba8e32a1031c1d, commit
+      507208b25737470b9eb2f9553a5c55f8f535f1d5); SC-T010 freeze release;
+      I1 re-run GREEN across all four consumers (infergate, inferbench,
+      fleetlab, inferops) 2026-07-12, RELEASES.md "I1 re-run on the frozen
+      bundle"
+    notes: >-
+      The I6 contracts prerequisite. Freezes Contracts 1-3 shapes (MAJOR
+      classification is the 1.0.0-crossing itself, per compatibility-policy
+      §8 — the actual content diff from v0.2.0 is two description-only
+      wording clarifications, zero shape/validation-outcome changes).
+      Contract 7 (capacity-recommendation, the schema this milestone's
+      recommendation file validates against) is explicitly NOT one of the
+      three contracts this release freezes and is unchanged by it —
+      independently confirmed this session:
+      `schemas/capacity-recommendation.schema.json` is byte-identical
+      between the v0.2.0 and v1.0.0 tags (`git diff v0.2.0 v1.0.0 --
+      schemas/capacity-recommendation.schema.json` produced no output), and
+      the fleetlab FL-T009 recommendation file was independently
+      re-validated this session against a live checkout of this exact tag
+      (PASS) as well as against fleetlab's own vendored v0.2.0 bundle
+      (PASS) — see evidence/i6/recommendation/README.md. All four
+      consumers' own recorded pin strings still read v0.2.0/484b449 as of
+      this date (RELEASES.md: "their own CI/pin-bump work to move the
+      recorded pin string to v1.0.0 is each repo's own follow-up") — not
+      required for I6 since Contract 7 content is unchanged.
+
+  - id: fleetlab-bundle
+    component: fleetlab
+    kind: git-commit
+    version: "dd05e7decca5a998afdf496d1c439141caba5a29 (FL-T001..T009)"
+    provenance: measured
+    date: "2026-07-11"
+    proven_at: [I6]
+    source: >-
+      in-program: fleetlab repo (/home/user/fleetlab), commit
+      dd05e7decca5a998afdf496d1c439141caba5a29; task history through FL-T009
+      (recommendation emitter + limitations report); fleetlab docs/tasks.md
+      FL-T009 status line
+    notes: >-
+      The recommendation-emission machinery (fleetlab/emit/*), the fitted
+      capacity profiles (fleetlab/fitting/*, G8 holdout-validated,
+      reports/holdout-validation.md), and the recommendation file this I6
+      loop closes on (fleetlab-recommendation-e2-admission-sane-v1-5x-scaleout
+      below) all live at this commit. No fleetlab release tag exists yet
+      (same "no tagged release yet" pattern as inferbench-binary /
+      inferops-fault-campaign-inferbench above) — pinned by commit.
+
+  - id: fleetlab-recommendation-e2-admission-sane-v1-5x-scaleout
+    component: fleetlab
+    kind: config-bundle
+    version: "rec-2026-07-11-e2-admission-sane-v1-5x-scaleout-001"
+    provenance: measured
+    date: "2026-07-11"
+    proven_at: [I6]
+    source: >-
+      in-program: fleetlab commit dd05e7d (FL-T009),
+      examples/recommendations/e2-admission-sane-v1-5x-scaleout.capacity-recommendation.json,
+      created_at 2026-07-11T00:00:00Z; archived copy at
+      evidence/i6/recommendation/, sha256
+      85e5d9727775d89f96437daf8a3087690d45ec3f0500850adbd660e595c1ec9f
+    notes: >-
+      The specific Contract 7 capacity recommendation the I6 loop closes
+      on: 6 replicas of gateway-mock-admission-sane-v1, fitted per-replica
+      capacity 33.159±1.105 rps, predicted goodput [165.279, 189.036] rps
+      at 189.0362 rps demand, autoscaling signal inference_queue_depth.
+      Independently re-validated this session (not just fleetlab's own
+      claim) against both the v0.2.0 vendored bundle and the live
+      v1.0.0-tagged bundle — PASS, PASS (see
+      evidence/i6/recommendation/README.md). One plumbing-precision gap
+      found and recorded as loop-mechanics feedback, not a defect:
+      recommended_topology.replica_groups[0].engine_config.flags is an
+      empty object — the admission-sane-v1 flags live only in this file's
+      prose fields, not structurally in engine_config (evidence/i6/loop-report.md §2).
+
+  - id: inferops-autoscaling-experiments
+    component: inferops
+    kind: git-commit
+    version: "89871a64d35bab9450481ff1afdd19ad8310a9d9 (IO-T009 f5fdd86ae670b1a1b0d6412f3c530f6e939ebd74)"
+    provenance: measured
+    date: "2026-07-12"
+    proven_at: [I6]
+    source: >-
+      in-program: inferops repo (/home/user/inferops), commit
+      89871a64d35bab9450481ff1afdd19ad8310a9d9 (repo HEAD at time of
+      archiving; a later, unrelated fault-campaign-matrix-count fix);
+      IO-T009 itself landed at f5fdd86ae670b1a1b0d6412f3c530f6e939ebd74;
+      experiments/autoscaling/results.md
+    notes: >-
+      The I6 verification arm: applied and re-measured a 1->2 replica
+      scale-out of the exact admission-sane-v1 config fleetlab's
+      recommendation was fitted from (NOT the recommended 1->6 — a
+      disclosed compose-substrate resource/time-budget scope reduction,
+      RQ-14 continuation, evidence/i6/loop-report.md §2). Also ran the
+      signal-comparison experiment that found inference_requests_in_flight
+      beats fleetlab's recommended inference_queue_depth signal for this
+      shallow-queue config, and the HPA baseline (CPU-based, a different
+      signal, authored + k3s-validated but never evaluated — no controller
+      exists in this environment, RQ-14). Runs the released infergate
+      v0.1.0 image (same digest already pinned at I5/I7 as
+      inferops-infergate-image / inferops-mock-backend-image; this session
+      did not independently re-run docker inspect against the I6
+      containers specifically, so those two pins' proven_at is NOT
+      extended to I6 — see evidence/i6/pins-snapshot.yaml). Entirely
+      mock-backend scale (no llama.cpp/vLLM/GPU involvement in this pin).

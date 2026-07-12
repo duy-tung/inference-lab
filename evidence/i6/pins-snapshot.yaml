@@ -1,0 +1,68 @@
+# Snapshot of the pins/pins.yaml entries the I6 loop assembly (IL-T006) added
+# (recorded 2026-07-12; authoritative ledger: pins/pins.yaml at the IL-T006 commit — git
+# history is the ledger). See checklist.md §3 for the narrative; this file is the machine-
+# readable snapshot, same convention as evidence/i5/pins-snapshot.yaml and
+# evidence/i7/pins-snapshot.yaml.
+
+snapshot_of: pins/pins.yaml
+scenario: e (capacity feedback loop — the central integration story)
+milestone: I6
+recorded: "2026-07-12"
+
+new_artifacts:
+  - id: contracts-bundle-v1-0-0
+    version: "v1.0.0"
+    sha_tag_object: "64c3205bff4acc63c6ce3cffbeba8e32a1031c1d"
+    sha_commit: "507208b25737470b9eb2f9553a5c55f8f535f1d5"
+    role: the I6 contracts prerequisite (SC-T010 freeze of Contracts 1-3); Contract 7
+      (capacity-recommendation, used by this milestone) is unchanged by the freeze
+    source: /home/user/serving-contracts, tag v1.0.0; I1 re-run GREEN across all four
+      consumers 2026-07-12 (RELEASES.md "I1 re-run on the frozen bundle")
+
+  - id: fleetlab-bundle
+    version: "fleetlab repo @ dd05e7d (FL-T001..T009)"
+    sha_commit: "dd05e7decca5a998afdf496d1c439141caba5a29"
+    role: the recommendation-emission machinery (fleetlab/emit/*) and the fitted capacity
+      profiles (fleetlab/fitting/*) that produced the recommendation this loop closes on
+    source: /home/user/fleetlab, commit dd05e7d... (see pins/pins.yaml for full hash)
+
+  - id: fleetlab-recommendation-e2-admission-sane-v1-5x-scaleout
+    version: "rec-2026-07-11-e2-admission-sane-v1-5x-scaleout-001"
+    sha256: "85e5d9727775d89f96437daf8a3087690d45ec3f0500850adbd660e595c1ec9f"
+    role: the specific Contract 7 capacity-recommendation file this loop closes on
+    note: >-
+      archived copy at evidence/i6/recommendation/ (the one exception to the usual
+      cite-don't-copy convention — a small, self-contained data artifact the acceptance
+      criterion names explicitly); independently re-validated this session against both the
+      v0.2.0 and v1.0.0 contract bundles (PASS, PASS).
+
+  - id: inferops-autoscaling-experiments
+    version: "inferops repo @ 89871a6 (IO-T009 f5fdd86 — signal-comparison, scaling-demo, 2-replica-capacity-check)"
+    sha_commit_head: "89871a64d35bab9450481ff1afdd19ad8310a9d9"
+    sha_commit_io_t009: "f5fdd86ae670b1a1b0d6412f3c530f6e939ebd74"
+    role: the I6 verification arm — applied the 1->2 replica change and re-measured
+    source: /home/user/inferops, experiments/autoscaling/results.md
+
+extended_artifacts: []
+# No existing pin gained I6 in proven_at: the I6 loop runs entirely on the mock backend
+# (fleetlab's own FL-T004 loop-mechanics scope decision), a different pin family from the
+# llama.cpp/model pins I3-I5/I7 carry forward. The infergate v0.1.0 release image and mock
+# image ARE the images IO-T009 ran (same digests already pinned at I5/I7 as
+# inferops-infergate-image / inferops-mock-backend-image) but this session did not
+# independently re-verify their digests against the I6 containers specifically (IO-T009's own
+# results.md does not re-run docker inspect the way the I5/I7 sessions did) -- recorded here as
+# an honest scope note rather than silently extending proven_at without a matching
+# verification step.
+
+no_new_pin_for:
+  - what: the compose scaling artifacts (haproxy-signals.cfg, gateway-signals-2/mock-signals-2
+      container definitions, the HPA manifest deploy/infergate/base/hpa.yaml)
+    reason: >-
+      cited by path+commit in checklist.md/loop-report.md per the no-duplication rule already
+      used for inferops manifests at I5/I7 -- not a separate pinned artifact, part of the
+      inferops-autoscaling-experiments commit above.
+  - what: fleetlab/emit/dry_run_validate.py (the Contract-7 consumption-side checker)
+    reason: >-
+      exists and is tested against a synthetic fixture, but was never run against real
+      post-change data by this or any session -- nothing to pin as "proven together"; see
+      checklist.md sec.6/loop-report.md sec.6.

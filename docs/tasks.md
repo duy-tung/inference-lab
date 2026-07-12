@@ -10,7 +10,7 @@ the OSS-track execution tasks (externally paced, never on the critical path).
 | IL-T003 | Scenario B + milestone I3 | M | yes | no | Required | **Done** (executed 2026-07-11; I3 ACCEPTED by user 2026-07-11; open observation on the cancellation log-census, not blocking) | `scenarios/b/`, `evidence/i3/checklist.md`, `evidence/i3/reports/` |
 | IL-T004 | Scenario C + milestone I4 (GPU) | M | yes | no | Required | **Done as CPU-fallback deviation** (assembled 2026-07-12; G6/GPU deferred by user decision 2026-07-11 — no GPU rental; I4 recorded via the llama.cpp baseline (I3) + infergate IG-T005 + inferbench IB-T010 E1, not GPU acceptance) | `evidence/i4/checklist.md`, `evidence/i4/pins-snapshot.yaml` |
 | IL-T005 | Scenario D + milestone I5 | M | yes | no | Required | **Done, evidence archived** (assembled 2026-07-12 from the inferops operational stack, commit `db30279`; headline deviation RQ-14 compose-pivot — no pod scheduling claimed, manifests validated against a live k3s API server instead; CPU-fallback llama.cpp continues I4/D-005, no vLLM/GPU; **acceptance review pending**, I2/I3 precedent) | `scenarios/d/README.md`, `evidence/i5/checklist.md`, `evidence/i5/pins-snapshot.yaml`, `evidence/i5/raw/demo-20260712T005146Z/` |
-| IL-T006 | Scenario E + milestone I6 (the central story) | L | yes | no | Required | Not started | — |
+| IL-T006 | Scenario E + milestone I6 (the central story) | L | yes | no | Required | **Done, evidence archived** (assembled 2026-07-12: fleetlab FL-T009 recommendation archived + independently re-validated against Contract 7 in both v0.2.0 and the newly-frozen v1.0.0 bundles; inferops IO-T009 applied a 1→2 replica change — **not** the recommended 1→6, a disclosed compose-substrate scope reduction; predicted-vs-measured published honestly — 33.159 rps/replica confirmed within +1.3% at its own fitted rate, leaning toward inferbench's unpublished 37.925 rps/replica estimate at higher rates; 6-replica figure never measured, extrapolation only; `in_flight` measured to beat the recommended `queue_depth` signal; **acceptance review pending**, I2/I3/I5/I7 precedent) | `scenarios/e/README.md`, `evidence/i6/checklist.md`, `evidence/i6/loop-report.md`, `evidence/i6/recommendation/`, `evidence/i6/pins-snapshot.yaml` |
 | IL-T007 | Failure campaign evidence + milestone I7 | M | yes | no | Required | **Done, evidence archived** (assembled 2026-07-12 from the inferops 12-scenario Contract 6 fault campaign, commits `bfca054`/`a1e0af5`/`a07fd2f`; headline finding surfaced not buried — scenario 4 (slow client) is a real, reproducible deviation-documented finding; scenarios 1, 3, 7, 10 carry a documented structural single-backend-topology deviation; client impact measured by inferbench for scenarios 1, 2, 5, 6, 12; 3 postmortems published, exceeding the ≥2 minimum; no GPU/vLLM claim, continues I4/D-005 and I5/D-006; **acceptance review pending**, I2/I3/I5 precedent) | `evidence/i7/checklist.md`, `evidence/i7/campaign-matrix.md`, `evidence/i7/client-impact.md`, `evidence/i7/pins-snapshot.yaml`, `postmortems/pm-001.md`, `pm-002.md`, `pm-003.md` |
 | IL-T008 | Compatibility matrix upkeep | S | no | yes | Required | Ongoing (starts with first consumed release) | — |
 | IL-T009 | Portfolio release + milestone I8 | L | yes | no | Required | Not started | — |
@@ -136,6 +136,33 @@ program's gateway + bench core exist.
   through; no cherry-picking.
 - **Stop condition:** I6 accepted. (Never-cut: the loop may shrink to mock/llama.cpp scale but
   must close.)
+- **Status (2026-07-12):** **evidence assembled from the already-completed fleetlab (FL-T009,
+  commit `dd05e7d`) recommendation and inferops (IO-T009, commit `89871a6`) applied-change +
+  re-measurement — the loop closes.** fleetlab's recommendation (6 replicas of
+  `gateway-mock-admission-sane-v1`, fitted per-replica capacity 33.159±1.105 rps, predicted
+  goodput `[165.279, 189.036]` rps at 189.0362 rps demand) was archived and independently
+  re-validated this session against Contract 7 in **both** the v0.2.0 bundle (fleetlab's own
+  pin) and a live checkout of the newly-frozen **v1.0.0** bundle — PASS both (Contract 7 is
+  unchanged by the freeze). inferops applied and re-measured a **1→2** replica scale-out — a
+  disclosed, compose-substrate resource/time-budget scope reduction from the literally
+  recommended 1→6 (RQ-14 continuation: no real Kubernetes scheduler exists in this environment
+  to enact 6 replicas as pods regardless). **Predicted vs measured, published honestly:** the
+  fitted 33.159 rps/replica figure is confirmed within **+1.3%** when re-measured at its own
+  fitted rate; at every higher offered rate measured (50, 189, and a genuine 2-replica-scale
+  80 rps saturation check), the result tracks 1–5% from inferbench's own **unpublished**
+  "overload-empirical" 37.925 rps/replica estimate and 9–13% from the published fit — resolving
+  (leaning toward 37.925), not contradicting, the open question fleetlab's own G8 holdout
+  report already flagged as unresolved. **The 6-replica recommendation itself was never
+  measured** — only extrapolated from 1- and 2-replica data, stated as extrapolation
+  throughout, never as a result. A measured autoscaling-signal refinement:
+  `inference_requests_in_flight` beat fleetlab's recommended `inference_queue_depth` signal for
+  this shallow-queue admission config (a real refinement, not a contradiction of FL-T006).
+  Contracts **v1.0.0** (SC-T010) pinned as the I6 prerequisite: freeze of Contracts 1-3, I1
+  re-run GREEN across all four consumers 2026-07-12. Full honesty accounting (including a
+  comparability-rule audit finding this is an independent replication, not a byte-identical
+  re-run of fleetlab's own training data): `evidence/i6/checklist.md` §0,
+  `evidence/i6/loop-report.md`. **I6 acceptance review by the user is pending**, I2/I3/I5/I7
+  precedent.
 
 ## IL-T007 — Failure campaign evidence + milestone I7
 

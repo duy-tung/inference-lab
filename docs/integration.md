@@ -83,6 +83,21 @@ error analysis and refine profiles; loop mechanics broken → fix Contract 7 plu
 **Evidence:** the loop report (recommendation file, applied manifests, before/after benchmark
 results, error analysis) → `evidence/i6/`.
 
+**Status (2026-07-12):** I6 evidence archived (`evidence/i6/checklist.md`): the loop closes.
+fleetlab's FL-T009 recommendation (commit `dd05e7d`) archived before any change and
+independently re-validated this session against Contract 7 in both the v0.2.0 bundle and the
+newly-frozen **v1.0.0** bundle (PASS both — Contract 7 is unchanged by the freeze). inferops's
+IO-T009 (commit `89871a6`) applied a **1→2** replica change — **not** the recommended 1→6, a
+disclosed compose-substrate scope reduction (RQ-14 continuation) — and re-measured.
+Predicted-vs-measured published honestly: the fitted 33.159 rps/replica figure confirmed
+within +1.3% at its own fitted rate; at higher rates the measurement leans toward inferbench's
+own unpublished 37.925 rps/replica estimate over the published fit, resolving the open question
+fleetlab's own G8 holdout report already flagged unresolved; **the 6-replica recommendation
+itself was never measured** (extrapolation only, stated as such); a measured refinement
+(`in_flight` beats the recommended `queue_depth` signal for this config) recorded and fed back.
+Contracts v1.0.0 (SC-T010) pinned as the I6 prerequisite, I1 re-run GREEN across all four
+consumers. **I6 acceptance review by the user is pending**, same as I2/I3/I5/I7 before it.
+
 ## I8 — Portfolio release (owner: inference-lab)
 
 **Prereqs:** I1–I7 accepted; OSS minimum target met or contingency documented; IL-T009.

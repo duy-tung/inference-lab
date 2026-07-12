@@ -13,6 +13,16 @@ campaign matrix (12-row, archived from inferops by path+commit), client-impact s
 snapshot. 3 postmortems published under `postmortems/`. I7 acceptance review pending, same
 precedent as I2/I3/I5.
 
+**Status (2026-07-12):** `evidence/i6/` landed (capacity feedback loop, IL-T006 — the central
+integration story): checklist, loop report (predicted-vs-measured, honest divergences
+surfaced), an archived copy of fleetlab's recommendation file (independently re-validated
+against Contract 7 in both the v0.2.0 and newly-frozen v1.0.0 bundles), pins snapshot. The
+fitted 33.159 rps/replica capacity figure is confirmed within +1.3% at its own fitted rate but
+diverges — leaning toward inferbench's own unpublished 37.925 rps/replica estimate — at higher
+rates; the recommended 1→6 replica scale-out was applied and re-measured only as far as 1→2
+(disclosed scope reduction); the 6-replica prediction itself was never measured. I6 acceptance
+review pending, same precedent as I2/I3/I5/I7.
+
 ## Layout per milestone (convention from `docs/interfaces.md` §4)
 
 ```text

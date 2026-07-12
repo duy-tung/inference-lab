@@ -11,7 +11,15 @@ against another `.md` file's restatement of a number.
 Audit method: a background research pass first gathered candidate evidence pointers across all
 six repos; every non-trivial number quoted below was then independently re-read from the
 underlying raw file by the auditor (not taken on the research pass's word) — see the
-"independently re-checked" column.
+"independently re-checked" column. **Honesty note on `docs/testing.md` §d's literal wording**
+("a fresh session with no context from the original run"): the auditor here is the same
+session that assembled the I8 release itself, not a separately-started, zero-context session —
+the research pass and the independent re-reads mitigate but do not fully satisfy the letter of
+§d. A genuinely separate fresh-context verifier subagent was additionally run against this same
+release (program working-style requirement: "at each milestone gate, use a separate
+fresh-context verifier subagent... self-review alone is not acceptance evidence"); its findings
+are folded into this document (see "Fresh-context verifier findings" below) rather than kept
+as a separate, unintegrated report.
 
 ## Headline claims
 

@@ -9,7 +9,9 @@ claims.
 - **H1 — Quickstart time.** Scenario A quickstart completes in **≤15 minutes from fresh clone
   on a GPU-free machine**. Verified by timed runs (protocol in `docs/testing.md` §c); the
   number is measured, never assumed. ≥2 timed runs before I8, recorded in
-  `quickstart/timing-log.md`.
+  `quickstart/timing-log.md`. **CONFIRMED 2026-07-12**: 2 runs, 2m08s and 35s (both far under
+  target) — see the timing log's honesty notes on cache-warmth caveats before treating either
+  number as a guarantee on every machine.
 - **H2 — Reproducibility.** Every headline portfolio claim is re-derivable from pinned
   artifacts by a fresh session. The I8 reproducibility audit is the test (procedure in
   `docs/testing.md` §d).
